@@ -1,0 +1,1 @@
+{"job": "forecast", "extra_args": "--tier B --period pilot --models chronos2-uni,tirex2-uni,tfm3-c2016"}

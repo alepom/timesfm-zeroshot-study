@@ -1,0 +1,25 @@
+{
+ "created_utc": "2026-10-28T17:59:46+00:00",
+ "code_sha256": "d0fc5194d6dd",
+ "note": "state of derived data and manifests at the protocol freeze; no 2026 test-window data exist yet (main Tier B/W data are downloaded after the tag)",
+ "files": {
+  "data/processed/pilot/series.parquet": "97c3c45bedb146d63f317734fb95ede304dee9f44006e7697367dc43b24f8c8c",
+  "data/processed/pilot/tasks.parquet": "1fa36139717bc25a25bc3a8fd93a72082a42de102a385d79cb231d35e31b76cd",
+  "data/processed/pilot/wiki_series.parquet": "68490f4250df6ccfcbe99f2293d0f0fcf1d86bc06748eac03f1c65ab580cd40e",
+  "data/processed/pilot/wiki_tasks.parquet": "c8319767a4c52581a40871def4f3fac79fc3773916af399f12b609745183e3f4",
+  "data/processed/synthetic/arrays.parquet": "d39764c409525631676e64ed03db7da7d2e88eb0c140956162e240d4430e45f1",
+  "data/processed/synthetic/tasks.parquet": "167a399048accdbcb60d3fb45ef4c383a0437db5fb1e04f54ab830cb66708816",
+  "data/processed/synthetic_pilot/arrays.parquet": "a22ce18ad20bdd8b97e7559e6eba1fab4a74197979157f3aafbaf6ea1c925a3d",
+  "data/processed/synthetic_pilot/tasks.parquet": "5c8ceda1b3959ce7b63fb838095ce045c850080916ad6c7f26cf40254b4f233f",
+  "data/manifests/ablation_series.csv": "196ea33ad46cf252915467cc0ac3fe4380fae50c77f78c17dcf983b4d74effab",
+  "data/manifests/google_fev_bench_results.csv": "0ff232e46df6a7bc504ea288053ddae09aebcfcba9b72d90768615a6ebebcc46",
+  "data/manifests/tierA_fev.csv": "eb6fecac2e2ebdf576f23a23d34c3dcd2cc1a71cbb25d03369a9c5af4591c843",
+  "data/manifests/tierA_sources.json": "07867b7f28f8a1a3dcf1db0c15456a673f949784b425ac3975d268056cf080ac",
+  "data/manifests/tierB_selection_stats.json": "dc29db6ad0656d68dc5b02db9ad1fdfa28ab3396fe6c297a63d27c62ee7ed168",
+  "data/manifests/tierB_series.csv": "59c900455bedf338f8419c322bfded6df7ab25a44cda75672a94c8796f30dc16",
+  "data/manifests/tierW_pages.csv": "285c5d8232cad7f6df5db3630106d56b63fd045bb059f000c97554e7c3a375bf",
+  "data/manifests/tierW_redirects_2026-10-28.csv": "e3d5766c084a9b9c559c12c4ba833193e5a39680d5578397694e2c314fed2b9d",
+  "data/manifests/tierW_selection_stats.json": "0a0994b3dae2e47a7dbb17c19eaaf3bd960ea130f8319e53a375941f4b9c2b74",
+  "data/manifests/tirex2_provenance.json": "9f6c479bf8e0785fd294ed51c93ae34208404aa011b262eff1e75df8d2060dce"
+ }
+}

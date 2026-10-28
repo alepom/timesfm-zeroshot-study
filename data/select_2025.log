@@ -1,0 +1,9 @@
+usgs 03611500 no daily discharge for USGS site 03611500
+domain
+fx         10
+load       12
+price      12
+rates      10
+river      20
+weather    40
+dtype: int64

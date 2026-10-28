@@ -1,0 +1,611 @@
+{
+ "retrieved_utc": "2026-10-28T15:45:19+00:00",
+ "source": "Hugging Face Hub API (api/models/<repo>/commits/main and tree/<commit>)",
+ "repos": {
+  "NX-AI/TiRex-2": [
+   {
+    "commit": "e2ca13c3611f8928c81733721fc19c5a57c55f5e",
+    "date_utc": "2026-06-16T09:05:04.000Z",
+    "title": "initial commit",
+    "files": {}
+   },
+   {
+    "commit": "49b3f7e14acbbfb8ef2fe0a6f91f761aaa5c0e57",
+    "date_utc": "2026-06-16T09:13:54.000Z",
+    "title": "Preliminary model checkpoint",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "1ab4b01a5a3d27eaeab19cc931f1627c8a5a7378279ae1b9957d7c73c2e32d64"
+     }
+    }
+   },
+   {
+    "commit": "fba6f9fc161e7b6b8a46e317a5dd31a86e56adaa",
+    "date_utc": "2026-06-26T06:40:07.000Z",
+    "title": "Add README.md",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "1ab4b01a5a3d27eaeab19cc931f1627c8a5a7378279ae1b9957d7c73c2e32d64"
+     }
+    }
+   },
+   {
+    "commit": "431ca7cbe844abca22d739ae4e728610bf315afb",
+    "date_utc": "2026-06-26T06:40:38.000Z",
+    "title": "Create tirex.svg",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "1ab4b01a5a3d27eaeab19cc931f1627c8a5a7378279ae1b9957d7c73c2e32d64"
+     }
+    }
+   },
+   {
+    "commit": "48f7a612fde0a0e1d91aa88fddbf919d70d4d887",
+    "date_utc": "2026-06-26T06:44:04.000Z",
+    "title": "Update tirex.svg",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "1ab4b01a5a3d27eaeab19cc931f1627c8a5a7378279ae1b9957d7c73c2e32d64"
+     }
+    }
+   },
+   {
+    "commit": "260357339ffec4de2c1cb8d5d77d0e343e74c7d2",
+    "date_utc": "2026-06-26T06:44:42.000Z",
+    "title": "Update README.md",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "1ab4b01a5a3d27eaeab19cc931f1627c8a5a7378279ae1b9957d7c73c2e32d64"
+     }
+    }
+   },
+   {
+    "commit": "5accd7c47f7b45545b9be3e8c2aef10648c62a2a",
+    "date_utc": "2026-06-26T06:48:25.000Z",
+    "title": "Update tirex.svg",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "1ab4b01a5a3d27eaeab19cc931f1627c8a5a7378279ae1b9957d7c73c2e32d64"
+     }
+    }
+   },
+   {
+    "commit": "e03b1fa4f5f9e2e382eda870c919c1b53e170df5",
+    "date_utc": "2026-06-26T06:48:48.000Z",
+    "title": "Update README.md",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "1ab4b01a5a3d27eaeab19cc931f1627c8a5a7378279ae1b9957d7c73c2e32d64"
+     }
+    }
+   },
+   {
+    "commit": "bff862a25ddf80d8c014c76f1ea738bf71b4d29a",
+    "date_utc": "2026-06-26T06:50:18.000Z",
+    "title": "Update README.md",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "1ab4b01a5a3d27eaeab19cc931f1627c8a5a7378279ae1b9957d7c73c2e32d64"
+     }
+    }
+   },
+   {
+    "commit": "371710551c13525b77b556be3717f76422e319f5",
+    "date_utc": "2026-06-26T06:53:20.000Z",
+    "title": "Update README.md",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "1ab4b01a5a3d27eaeab19cc931f1627c8a5a7378279ae1b9957d7c73c2e32d64"
+     }
+    }
+   },
+   {
+    "commit": "7e4002ed481b2e4a80aaeecd354d1d62caec4b96",
+    "date_utc": "2026-06-30T15:08:34.000Z",
+    "title": "Add license",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "1ab4b01a5a3d27eaeab19cc931f1627c8a5a7378279ae1b9957d7c73c2e32d64"
+     }
+    }
+   },
+   {
+    "commit": "35bde0d64edb193c9b7eb13b6b503c7e91ba69d7",
+    "date_utc": "2026-07-01T10:47:54.000Z",
+    "title": "Update readme with license and correct datasets",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "1ab4b01a5a3d27eaeab19cc931f1627c8a5a7378279ae1b9957d7c73c2e32d64"
+     }
+    }
+   },
+   {
+    "commit": "f500c26e895ab64283fa38477e073c3088e50ceb",
+    "date_utc": "2026-07-02T04:48:46.000Z",
+    "title": "Upload folder using huggingface_hub",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 380613375,
+      "lfs_sha256": "184b160ffbe4c01a26beeba14015ff3507c7497e1f3577114187bbc1d19fcac1"
+     }
+    }
+   },
+   {
+    "commit": "45b9cfa8e67b4bee274526943b0cb5e1d8fd527f",
+    "date_utc": "2026-07-02T05:06:15.000Z",
+    "title": "Add arxiv link and citation bibtex",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 380613375,
+      "lfs_sha256": "184b160ffbe4c01a26beeba14015ff3507c7497e1f3577114187bbc1d19fcac1"
+     }
+    }
+   },
+   {
+    "commit": "282c69299c33cbd180925e29a5333204294c400b",
+    "date_utc": "2026-07-03T05:53:52.000Z",
+    "title": "Update README.md (#1)",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 380613375,
+      "lfs_sha256": "184b160ffbe4c01a26beeba14015ff3507c7497e1f3577114187bbc1d19fcac1"
+     }
+    }
+   },
+   {
+    "commit": "2a5249aa32d7e7ca232d1305c42219c715a102ca",
+    "date_utc": "2026-07-09T08:59:52.000Z",
+    "title": "Update README.md",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 380613375,
+      "lfs_sha256": "184b160ffbe4c01a26beeba14015ff3507c7497e1f3577114187bbc1d19fcac1"
+     }
+    }
+   },
+   {
+    "commit": "05e5b26db52bfb256f1ae1bdf785589850482de3",
+    "date_utc": "2026-07-21T03:36:34.000Z",
+    "title": "Update README.md",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 380613375,
+      "lfs_sha256": "184b160ffbe4c01a26beeba14015ff3507c7497e1f3577114187bbc1d19fcac1"
+     }
+    }
+   },
+   {
+    "commit": "f874018d127a6c42ee270df9603d860e299a6345",
+    "date_utc": "2026-10-06T11:28:34.000Z",
+    "title": "Upload 2 files (#2)",
+    "files": {
+     "config.json": {
+      "size": 1639,
+      "lfs_sha256": null
+     },
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 380613375,
+      "lfs_sha256": "184b160ffbe4c01a26beeba14015ff3507c7497e1f3577114187bbc1d19fcac1"
+     },
+     "model.safetensors": {
+      "size": 330038664,
+      "lfs_sha256": "17760e4eee4c14e0d8bad8b9d9ce6f5076aaeeb9d956a88b8e95cf1493a1c176"
+     }
+    }
+   },
+   {
+    "commit": "30788a311699acba7e6393ad9700ea7b7cb9bb2d",
+    "date_utc": "2026-10-07T09:52:34.000Z",
+    "title": "ONNX model (#3)",
+    "files": {
+     "config.json": {
+      "size": 1639,
+      "lfs_sha256": null
+     },
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 380613375,
+      "lfs_sha256": "184b160ffbe4c01a26beeba14015ff3507c7497e1f3577114187bbc1d19fcac1"
+     },
+     "model.safetensors": {
+      "size": 330038664,
+      "lfs_sha256": "17760e4eee4c14e0d8bad8b9d9ce6f5076aaeeb9d956a88b8e95cf1493a1c176"
+     }
+    }
+   }
+  ],
+  "NX-AI/TiRex-2-fevbench": [
+   {
+    "commit": "7cc16aef4df2a4d3a2368215ce0f9599134a45f0",
+    "date_utc": "2026-06-25T06:33:14.000Z",
+    "title": "initial commit",
+    "files": {}
+   },
+   {
+    "commit": "5e930162230015a2ca80f02765edc808608dfcfc",
+    "date_utc": "2026-06-26T07:50:34.000Z",
+    "title": "Create README.md",
+    "files": {}
+   },
+   {
+    "commit": "5cc2c9e2fd952712c051f6c07f7f2764e655f036",
+    "date_utc": "2026-06-30T15:03:54.000Z",
+    "title": "add license",
+    "files": {}
+   },
+   {
+    "commit": "4bcfb6ee7b4cf9780d907aa637a1e78eebeccf95",
+    "date_utc": "2026-07-01T10:43:50.000Z",
+    "title": "Add license to readme",
+    "files": {}
+   },
+   {
+    "commit": "0a0b5c2e94ecac49129dab1ee7dd15e521b1a204",
+    "date_utc": "2026-07-01T10:48:44.000Z",
+    "title": "Correct datasets used for training",
+    "files": {}
+   },
+   {
+    "commit": "ef53c180bb89740ea75193c370a88fbd0993baf3",
+    "date_utc": "2026-07-01T10:50:10.000Z",
+    "title": "update readme.md",
+    "files": {}
+   },
+   {
+    "commit": "2ab379b2e8532bee76eea74391c8eb90b12f1d9c",
+    "date_utc": "2026-07-02T04:48:15.000Z",
+    "title": "Upload folder using huggingface_hub",
+    "files": {
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 380613375,
+      "lfs_sha256": "184b160ffbe4c01a26beeba14015ff3507c7497e1f3577114187bbc1d19fcac1"
+     }
+    }
+   },
+   {
+    "commit": "acd6153b8ee2179f38cfd3cc4fd64a3c045a424f",
+    "date_utc": "2026-10-12T10:00:29.000Z",
+    "title": "Upload 2 files (#1)",
+    "files": {
+     "config.json": {
+      "size": 1639,
+      "lfs_sha256": null
+     },
+     "model-config.yaml": {
+      "size": 1204,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 380613375,
+      "lfs_sha256": "184b160ffbe4c01a26beeba14015ff3507c7497e1f3577114187bbc1d19fcac1"
+     },
+     "model.safetensors": {
+      "size": 330038640,
+      "lfs_sha256": "18c177e40b8d5d8e6ff487cb9be3e3ff2880412dec12a46da0b3261b83825c77"
+     }
+    }
+   }
+  ],
+  "NX-AI/TiRex-2-gifteval-zs": [
+   {
+    "commit": "a34349a0906d6ae0bfb80b680be8602ab4404901",
+    "date_utc": "2026-06-24T14:50:16.000Z",
+    "title": "initial commit",
+    "files": {}
+   },
+   {
+    "commit": "f0c93d6ff54e5bb74dfc8b9b9615cc8758db6451",
+    "date_utc": "2026-06-25T08:17:53.000Z",
+    "title": "Added zero shot model checkpoint (#1)",
+    "files": {
+     "model-config.yaml": {
+      "size": 1228,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "af3ad35645a34df9499d53af11dd5e15a4ac860823769583b428322730757a47"
+     }
+    }
+   },
+   {
+    "commit": "9a73979d726e732a9d3a2f9ca2ad77088a441261",
+    "date_utc": "2026-06-26T07:48:17.000Z",
+    "title": "Create README.md",
+    "files": {
+     "model-config.yaml": {
+      "size": 1228,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "af3ad35645a34df9499d53af11dd5e15a4ac860823769583b428322730757a47"
+     }
+    }
+   },
+   {
+    "commit": "bdc2ad63dbee70a6e781a164695237824589f8dd",
+    "date_utc": "2026-06-30T15:14:04.000Z",
+    "title": "Add license",
+    "files": {
+     "model-config.yaml": {
+      "size": 1228,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "af3ad35645a34df9499d53af11dd5e15a4ac860823769583b428322730757a47"
+     }
+    }
+   },
+   {
+    "commit": "d24951682cff5f054bc4bf07c381d6692709d290",
+    "date_utc": "2026-07-01T10:41:53.000Z",
+    "title": "Add license to readme metadata",
+    "files": {
+     "model-config.yaml": {
+      "size": 1228,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "af3ad35645a34df9499d53af11dd5e15a4ac860823769583b428322730757a47"
+     }
+    }
+   },
+   {
+    "commit": "09eff05fbb998a673519f1d59e7203c7304c77d8",
+    "date_utc": "2026-07-01T10:50:39.000Z",
+    "title": "Update readme",
+    "files": {
+     "model-config.yaml": {
+      "size": 1228,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "af3ad35645a34df9499d53af11dd5e15a4ac860823769583b428322730757a47"
+     }
+    }
+   },
+   {
+    "commit": "c94872d1c8caacbe7755cbfa01bc5c4c5c5ddb7f",
+    "date_utc": "2026-10-12T10:00:20.000Z",
+    "title": "Upload 2 files (#2)",
+    "files": {
+     "config.json": {
+      "size": 1668,
+      "lfs_sha256": null
+     },
+     "model-config.yaml": {
+      "size": 1228,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "af3ad35645a34df9499d53af11dd5e15a4ac860823769583b428322730757a47"
+     },
+     "model.safetensors": {
+      "size": 330038640,
+      "lfs_sha256": "fe452780212fcd27bb5c822c88eac97334200a35dd5f74fc0e4317fb31a37ccb"
+     }
+    }
+   }
+  ],
+  "NX-AI/TiRex-2-gifteval-pretrain": [
+   {
+    "commit": "42f7813221b905e5b973cd2702177ac0dbe96622",
+    "date_utc": "2026-06-24T14:50:47.000Z",
+    "title": "initial commit",
+    "files": {}
+   },
+   {
+    "commit": "a17454388eba40a5843517e171e1efbba58da34e",
+    "date_utc": "2026-06-25T08:17:43.000Z",
+    "title": "Added GIFTEval Pretrained checkpoints with config. (#1)",
+    "files": {
+     "model-config.yaml": {
+      "size": 1228,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "187b4ab4eed60b6c3bfb0870b3dc1c83991ca55ea795f8ab38013f59950d663e"
+     }
+    }
+   },
+   {
+    "commit": "7cb5c8dcb74eccbcb999a4e97de4336fd90dcfc9",
+    "date_utc": "2026-06-26T07:49:38.000Z",
+    "title": "Create README.md",
+    "files": {
+     "model-config.yaml": {
+      "size": 1228,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "187b4ab4eed60b6c3bfb0870b3dc1c83991ca55ea795f8ab38013f59950d663e"
+     }
+    }
+   },
+   {
+    "commit": "2ee3596bb55528107b5997c0af73e89e1e3bf84b",
+    "date_utc": "2026-06-30T15:14:48.000Z",
+    "title": "Add license",
+    "files": {
+     "model-config.yaml": {
+      "size": 1228,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "187b4ab4eed60b6c3bfb0870b3dc1c83991ca55ea795f8ab38013f59950d663e"
+     }
+    }
+   },
+   {
+    "commit": "29a41987e94bc40af14664c9af28912b1066706b",
+    "date_utc": "2026-07-01T10:42:42.000Z",
+    "title": "add license to readme metadata",
+    "files": {
+     "model-config.yaml": {
+      "size": 1228,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "187b4ab4eed60b6c3bfb0870b3dc1c83991ca55ea795f8ab38013f59950d663e"
+     }
+    }
+   },
+   {
+    "commit": "6f0fe5ec3247d55b53ddf78911e3bd52d8d7a4c3",
+    "date_utc": "2026-07-01T10:49:41.000Z",
+    "title": "Correct datasets used for training",
+    "files": {
+     "model-config.yaml": {
+      "size": 1228,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "187b4ab4eed60b6c3bfb0870b3dc1c83991ca55ea795f8ab38013f59950d663e"
+     }
+    }
+   },
+   {
+    "commit": "54f88ac06ccfba9fe3e727aa8856b39775481f0f",
+    "date_utc": "2026-10-07T13:22:30.000Z",
+    "title": "Upload 2 files (#2)",
+    "files": {
+     "config.json": {
+      "size": 1668,
+      "lfs_sha256": null
+     },
+     "model-config.yaml": {
+      "size": 1228,
+      "lfs_sha256": null
+     },
+     "model.ckpt": {
+      "size": 330093831,
+      "lfs_sha256": "187b4ab4eed60b6c3bfb0870b3dc1c83991ca55ea795f8ab38013f59950d663e"
+     },
+     "model.safetensors": {
+      "size": 330038640,
+      "lfs_sha256": "b184d7ea3847a7cd769b24fedeb8daaae95094cb06aa58470ac6003da8410371"
+     }
+    }
+   }
+  ]
+ },
+ "tensor_comparison": {
+  "method": "model.safetensors at main of each repo downloaded; local sha256 equal to the LFS oid; header parsed, raw bytes of each tensor compared by name",
+  "TiRex-2 vs TiRex-2-fevbench": {
+   "tensors": 283,
+   "identical": 283,
+   "tensor_data_sha256": "e8a11de57b84b176\u2026"
+  },
+  "TiRex-2 vs TiRex-2-gifteval-zs": {
+   "tensors": 283,
+   "identical": 0
+  },
+  "safetensors_metadata": {
+   "TiRex-2": {
+    "source": "NX-AI/TiRex-2",
+    "source_sha256": "184b160f\u2026fcac1"
+   },
+   "TiRex-2-fevbench": {
+    "source_sha256": "184b160f\u2026fcac1"
+   }
+  },
+  "config.json and model-config.yaml": "identical between TiRex-2 and TiRex-2-fevbench"
+ },
+ "forecast_check": "Colab T4, tirex-2 0.4.0, tfmstudy 0.3.3, 2026-10-28: fev tasks ETT_1D and epf_de, TiRex-2 (rev 30788a31) and TiRex-2-fevbench (rev acd6153b) quantile forecasts bit-identical"
+}

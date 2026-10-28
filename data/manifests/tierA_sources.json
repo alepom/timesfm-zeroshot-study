@@ -1,0 +1,121 @@
+{
+ "fev_version": "0.9.0",
+ "sources": {
+  "tasks.yaml": {
+   "url": "https://raw.githubusercontent.com/autogluon/fev/bb3c0ff87465cad18188264458ffa5ad08b3cbf1/benchmarks/fev_bench/tasks.yaml",
+   "sha256": "c7160f61a5e1ded66a3954ef1c514d55d13be18534b34fca817356312a6520a9"
+  },
+  "task_groups.py": {
+   "url": "https://huggingface.co/spaces/autogluon/fev-leaderboard/raw/88036ff47ab3ccc6c03e0ddd21a892a515394f6a/src/task_groups.py",
+   "sha256": "cfd5b14a4a1c596c069bef85c87c701389e6d8e32205cab45917e9c2ca22ba25"
+  },
+  "fev_datasets_README.md": {
+   "url": "https://huggingface.co/datasets/autogluon/fev_datasets/raw/d3e7e720f4158eab03ebcb021f1cce779cd92acc/README.md",
+   "sha256": "b0b86c1c1dfd87d704c21cb158de0da06dd46122debd3a083c7c5c5d08d03834"
+  },
+  "seasonal_naive.csv": {
+   "url": "https://raw.githubusercontent.com/autogluon/fev/bb3c0ff87465cad18188264458ffa5ad08b3cbf1/benchmarks/fev_bench/results/seasonal_naive.csv",
+   "sha256": "3eebae4bff636b3e75734f5db17c9b3541185375278ed0a6302f5c5fc1aab5b6"
+  }
+ },
+ "google_csv": {
+  "repo": "https://github.com/google-research/timesfm",
+  "commit": "e51928e27119cb17bebc005be2696b75e0a9e688",
+  "path": "timesfm3-usage/benchmarks/fev_bench/fev_bench_results.csv",
+  "local_source": "/tmp/claude-1000/-home-alepom-progetti-lab-test-AP-timesFM-google/8793d451-47c9-4afd-a2e5-a1fb6540f9e7/scratchpad/dl_tfm/timesfm-HEAD/timesfm3-usage/benchmarks/fev_bench/fev_bench_results.csv",
+  "sha256": "0ff232e46df6a7bc504ea288053ddae09aebcfcba9b72d90768615a6ebebcc46",
+  "copied_to": "data/manifests/google_fev_bench_results.csv"
+ },
+ "seed": 17,
+ "sample_size": 30,
+ "tasks": 100,
+ "eligible": 97,
+ "excluded": {
+  "favorita_stores_1D": "string covariates hashed by Google's runner: holiday",
+  "favorita_transactions_1D": "string covariates hashed by Google's runner: holiday",
+  "rossmann_1D": "string covariates hashed by Google's runner: StateHoliday"
+ },
+ "strata": {
+  "Cloud|Hourly": {
+   "eligible": 5,
+   "selected": 1
+  },
+  "Cloud|Sub-hourly": {
+   "eligible": 15,
+   "selected": 4
+  },
+  "Econ|Monthly+": {
+   "eligible": 12,
+   "selected": 3
+  },
+  "Energy|Daily": {
+   "eligible": 4,
+   "selected": 1
+  },
+  "Energy|Hourly": {
+   "eligible": 12,
+   "selected": 3
+  },
+  "Energy|Monthly+": {
+   "eligible": 1,
+   "selected": 1
+  },
+  "Energy|Sub-hourly": {
+   "eligible": 6,
+   "selected": 2
+  },
+  "Energy|Weekly": {
+   "eligible": 3,
+   "selected": 1
+  },
+  "Health|Daily": {
+   "eligible": 4,
+   "selected": 1
+  },
+  "Health|Monthly+": {
+   "eligible": 1,
+   "selected": 1
+  },
+  "Health|Weekly": {
+   "eligible": 5,
+   "selected": 1
+  },
+  "Mobility|Daily": {
+   "eligible": 2,
+   "selected": 1
+  },
+  "Mobility|Hourly": {
+   "eligible": 3,
+   "selected": 1
+  },
+  "Mobility|Sub-hourly": {
+   "eligible": 2,
+   "selected": 1
+  },
+  "Nature|Daily": {
+   "eligible": 2,
+   "selected": 1
+  },
+  "Nature|Hourly": {
+   "eligible": 2,
+   "selected": 1
+  },
+  "Nature|Sub-hourly": {
+   "eligible": 1,
+   "selected": 1
+  },
+  "Retail|Daily": {
+   "eligible": 5,
+   "selected": 1
+  },
+  "Retail|Monthly+": {
+   "eligible": 3,
+   "selected": 1
+  },
+  "Retail|Weekly": {
+   "eligible": 9,
+   "selected": 3
+  }
+ },
+ "selected_download_mb": 122.0
+}

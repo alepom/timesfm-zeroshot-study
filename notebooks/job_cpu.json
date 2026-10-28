@@ -1,0 +1,1 @@
+{"job": "forecast", "extra_args": "--tier W,B --period pilot --models mstl,theta,arima,ets,mean,snaive,naive --device cpu"}

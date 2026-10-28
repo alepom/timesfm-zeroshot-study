@@ -1,0 +1,9 @@
+# Pinned on 2026-10-28; installed on top of the Colab GPU runtime (torch + CUDA come with Colab).
+timesfm[torch]==3.0.2
+chronos-forecasting==2.3.2
+tirex-2==0.4.0
+statsforecast==2.1.1
+fev==0.9.0
+pandas
+requests
+pyyaml

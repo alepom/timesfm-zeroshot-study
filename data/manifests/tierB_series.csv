@@ -1,0 +1,105 @@
+series_id,domain,source,key,covariate,lat,lon,rule,name,lineage
+load:de,load,energy-charts,de,temp:berlin,52.52,13.41,"2025 missing 0.0001, total load rank 1",,L1
+price:DE-LU,price,energy-charts,DE-LU,,,,zone of selected country de; 2025 missing 0.0001,,L1
+load:fr,load,energy-charts,fr,temp:paris,48.86,2.35,"2025 missing 0.0006, total load rank 2",,L1
+price:FR,price,energy-charts,FR,,,,zone of selected country fr; 2025 missing 0.0001,,L1
+load:it,load,energy-charts,it,temp:rome,41.9,12.5,"2025 missing 0.0001, total load rank 3",,L1
+price:IT-North,price,energy-charts,IT-North,,,,zone of selected country it; 2025 missing 0.0001,,L1
+load:es,load,energy-charts,es,temp:madrid,40.42,-3.7,"2025 missing 0.0041, total load rank 4",,L1
+price:ES,price,energy-charts,ES,,,,zone of selected country es; 2025 missing 0.0001,,L1
+load:pl,load,energy-charts,pl,temp:warsaw,52.23,21.01,"2025 missing 0.0001, total load rank 5",,L1
+price:PL,price,energy-charts,PL,,,,zone of selected country pl; 2025 missing 0.0001,,L1
+load:no,load,energy-charts,no,temp:oslo,59.91,10.75,"2025 missing 0.0001, total load rank 6",,L1
+price:NO1,price,energy-charts,NO1,,,,zone of selected country no; 2025 missing 0.0001,,L1
+load:se,load,energy-charts,se,temp:stockholm,59.33,18.07,"2025 missing 0.0001, total load rank 7",,L1
+price:SE3,price,energy-charts,SE3,,,,zone of selected country se; 2025 missing 0.0001,,L1
+load:nl,load,energy-charts,nl,temp:amsterdam,52.37,4.9,"2025 missing 0.0001, total load rank 8",,L1
+price:NL,price,energy-charts,NL,,,,zone of selected country nl; 2025 missing 0.0001,,L1
+load:fi,load,energy-charts,fi,temp:helsinki,60.17,24.94,"2025 missing 0.0002, total load rank 9",,L1
+price:FI,price,energy-charts,FI,,,,zone of selected country fi; 2025 missing 0.0002,,L1
+load:be,load,energy-charts,be,temp:brussels,50.85,4.35,"2025 missing 0.0001, total load rank 10",,L1
+price:BE,price,energy-charts,BE,,,,zone of selected country be; 2025 missing 0.0001,,L1
+load:ch,load,energy-charts,ch,temp:bern,46.95,7.45,"2025 missing 0.0001, total load rank 11",,L1
+price:CH,price,energy-charts,CH,,,,zone of selected country ch; 2025 missing 0.0001,,L1
+load:cz,load,energy-charts,cz,temp:prague,50.08,14.44,"2025 missing 0.0001, total load rank 12",,L1
+price:CZ,price,energy-charts,CZ,,,,zone of selected country cz; 2025 missing 0.0001,,L1
+weather:berlin:temperature_2m,weather,open-meteo,temperature_2m,,52.52,13.41,fixed list,,L1
+weather:berlin:wind_speed_10m,weather,open-meteo,wind_speed_10m,,52.52,13.41,fixed list,,L1
+weather:paris:temperature_2m,weather,open-meteo,temperature_2m,,48.86,2.35,fixed list,,L1
+weather:paris:wind_speed_10m,weather,open-meteo,wind_speed_10m,,48.86,2.35,fixed list,,L1
+weather:rome:temperature_2m,weather,open-meteo,temperature_2m,,41.9,12.5,fixed list,,L1
+weather:rome:wind_speed_10m,weather,open-meteo,wind_speed_10m,,41.9,12.5,fixed list,,L1
+weather:madrid:temperature_2m,weather,open-meteo,temperature_2m,,40.42,-3.7,fixed list,,L1
+weather:madrid:wind_speed_10m,weather,open-meteo,wind_speed_10m,,40.42,-3.7,fixed list,,L1
+weather:warsaw:temperature_2m,weather,open-meteo,temperature_2m,,52.23,21.01,fixed list,,L1
+weather:warsaw:wind_speed_10m,weather,open-meteo,wind_speed_10m,,52.23,21.01,fixed list,,L1
+weather:amsterdam:temperature_2m,weather,open-meteo,temperature_2m,,52.37,4.9,fixed list,,L1
+weather:amsterdam:wind_speed_10m,weather,open-meteo,wind_speed_10m,,52.37,4.9,fixed list,,L1
+weather:vienna:temperature_2m,weather,open-meteo,temperature_2m,,48.21,16.37,fixed list,,L1
+weather:vienna:wind_speed_10m,weather,open-meteo,wind_speed_10m,,48.21,16.37,fixed list,,L1
+weather:stockholm:temperature_2m,weather,open-meteo,temperature_2m,,59.33,18.07,fixed list,,L1
+weather:stockholm:wind_speed_10m,weather,open-meteo,wind_speed_10m,,59.33,18.07,fixed list,,L1
+weather:lisbon:temperature_2m,weather,open-meteo,temperature_2m,,38.72,-9.14,fixed list,,L1
+weather:lisbon:wind_speed_10m,weather,open-meteo,wind_speed_10m,,38.72,-9.14,fixed list,,L1
+weather:athens:temperature_2m,weather,open-meteo,temperature_2m,,37.98,23.73,fixed list,,L1
+weather:athens:wind_speed_10m,weather,open-meteo,wind_speed_10m,,37.98,23.73,fixed list,,L1
+weather:london:temperature_2m,weather,open-meteo,temperature_2m,,51.51,-0.13,fixed list,,L1
+weather:london:wind_speed_10m,weather,open-meteo,wind_speed_10m,,51.51,-0.13,fixed list,,L1
+weather:dublin:temperature_2m,weather,open-meteo,temperature_2m,,53.35,-6.26,fixed list,,L1
+weather:dublin:wind_speed_10m,weather,open-meteo,wind_speed_10m,,53.35,-6.26,fixed list,,L1
+weather:new_york:temperature_2m,weather,open-meteo,temperature_2m,,40.71,-74.01,fixed list,,L1
+weather:new_york:wind_speed_10m,weather,open-meteo,wind_speed_10m,,40.71,-74.01,fixed list,,L1
+weather:chicago:temperature_2m,weather,open-meteo,temperature_2m,,41.88,-87.63,fixed list,,L1
+weather:chicago:wind_speed_10m,weather,open-meteo,wind_speed_10m,,41.88,-87.63,fixed list,,L1
+weather:los_angeles:temperature_2m,weather,open-meteo,temperature_2m,,34.05,-118.24,fixed list,,L1
+weather:los_angeles:wind_speed_10m,weather,open-meteo,wind_speed_10m,,34.05,-118.24,fixed list,,L1
+weather:tokyo:temperature_2m,weather,open-meteo,temperature_2m,,35.68,139.69,fixed list,,L1
+weather:tokyo:wind_speed_10m,weather,open-meteo,wind_speed_10m,,35.68,139.69,fixed list,,L1
+weather:sydney:temperature_2m,weather,open-meteo,temperature_2m,,-33.87,151.21,fixed list,,L1
+weather:sydney:wind_speed_10m,weather,open-meteo,wind_speed_10m,,-33.87,151.21,fixed list,,L1
+weather:sao_paulo:temperature_2m,weather,open-meteo,temperature_2m,,-23.55,-46.63,fixed list,,L1
+weather:sao_paulo:wind_speed_10m,weather,open-meteo,wind_speed_10m,,-23.55,-46.63,fixed list,,L1
+weather:mumbai:temperature_2m,weather,open-meteo,temperature_2m,,19.08,72.88,fixed list,,L1
+weather:mumbai:wind_speed_10m,weather,open-meteo,wind_speed_10m,,19.08,72.88,fixed list,,L1
+weather:cairo:temperature_2m,weather,open-meteo,temperature_2m,,30.04,31.24,fixed list,,L1
+weather:cairo:wind_speed_10m,weather,open-meteo,wind_speed_10m,,30.04,31.24,fixed list,,L1
+river:07010000,river,usgs,07010000,precip:07010000,38.629,-90.1797778,"complete 2025 daily record, list order","Mississippi River at St. Louis, MO",L0
+river:07289000,river,usgs,07289000,precip:07289000,32.315,-90.9058333,"complete 2025 daily record, list order","MISSISSIPPI RIVER AT VICKSBURG, MS",L0
+river:06934500,river,usgs,06934500,precip:06934500,38.70980556,-91.4385,"complete 2025 daily record, list order","Missouri River at Hermann, MO",L0
+river:06610000,river,usgs,06610000,precip:06610000,41.25905556,-95.92325,"complete 2025 daily record, list order","Missouri River at Omaha, NE",L0
+river:14105700,river,usgs,14105700,precip:14105700,45.60827778,-121.1899167,"complete 2025 daily record, list order","COLUMBIA RIVER AT THE DALLES, OR",L0
+river:12472800,river,usgs,12472800,precip:12472800,46.6287084,-119.8647355,"complete 2025 daily record, list order","COLUMBIA RIVER BELOW PRIEST RAPIDS DAM, WA",L0
+river:09380000,river,usgs,09380000,precip:09380000,36.86433333,-111.58787222,"complete 2025 daily record, list order","COLORADO RIVER AT LEES FERRY, AZ",L0
+river:08330000,river,usgs,08330000,precip:08330000,35.08916667,-106.6806944,"complete 2025 daily record, list order","RIO GRANDE AT ALBUQUERQUE, NM",L0
+river:01646500,river,usgs,01646500,precip:01646500,38.94977778,-77.12763889,"complete 2025 daily record, list order","POTOMAC RIVER NEAR WASH, DC LITTLE FALLS PUMP STA",L0
+river:01570500,river,usgs,01570500,precip:01570500,40.25473717,-76.8860538,"complete 2025 daily record, list order","Susquehanna River at Harrisburg, PA",L0
+river:01463500,river,usgs,01463500,precip:01463500,40.22166667,-74.77805556,"complete 2025 daily record, list order",Delaware River at Trenton NJ,L0
+river:01358000,river,usgs,01358000,precip:01358000,42.75225,-73.68908333,"complete 2025 daily record, list order",HUDSON RIVER AT GREEN ISLAND NY,L0
+river:02489500,river,usgs,02489500,precip:02489500,30.7932614,-89.8209117,"complete 2025 daily record, list order","Pearl River near Bogalusa, LA",L0
+river:07374000,river,usgs,07374000,precip:07374000,30.44566667,-91.1915556,"complete 2025 daily record, list order","Mississippi River at Baton Rouge, LA",L0
+river:03377500,river,usgs,03377500,precip:03377500,38.3983333,-87.75638889,"complete 2025 daily record, list order","WABASH RIVER AT MT. CARMEL, IL",L0
+river:05331000,river,usgs,05331000,precip:05331000,44.9444444,-93.0881111,"complete 2025 daily record, list order","MISSISSIPPI RIVER AT ST. PAUL, MN",L0
+river:11377100,river,usgs,11377100,precip:11377100,40.2884596,-122.1866312,"complete 2025 daily record, list order",SACRAMENTO R AB BEND BRIDGE NR RED BLUFF CA,L0
+river:13317000,river,usgs,13317000,precip:13317000,45.75027778,-116.3238889,"complete 2025 daily record, list order",SALMON RIVER AT WHITE BIRD ID,L0
+river:06191500,river,usgs,06191500,precip:06191500,45.1121194,-110.7936667,"complete 2025 daily record, list order",Yellowstone River at Corwin Springs MT,L0
+river:02226000,river,usgs,02226000,precip:02226000,31.65466667,-81.8275,"complete 2025 daily record, list order","ALTAMAHA RIVER AT DOCTORTOWN, GA",L0
+fx:USD,fx,ecb,USD,,,,fixed list,,L0
+fx:JPY,fx,ecb,JPY,,,,fixed list,,L0
+fx:GBP,fx,ecb,GBP,,,,fixed list,,L0
+fx:CHF,fx,ecb,CHF,,,,fixed list,,L0
+fx:CNY,fx,ecb,CNY,,,,fixed list,,L0
+fx:SEK,fx,ecb,SEK,,,,fixed list,,L0
+fx:NOK,fx,ecb,NOK,,,,fixed list,,L0
+fx:PLN,fx,ecb,PLN,,,,fixed list,,L0
+fx:CZK,fx,ecb,CZK,,,,fixed list,,L0
+fx:AUD,fx,ecb,AUD,,,,fixed list,,L0
+rates:DGS3MO,rates,fred,DGS3MO,,,,fixed list,,L1
+rates:DGS6MO,rates,fred,DGS6MO,,,,fixed list,,L1
+rates:DGS1,rates,fred,DGS1,,,,fixed list,,L1
+rates:DGS2,rates,fred,DGS2,,,,fixed list,,L1
+rates:DGS5,rates,fred,DGS5,,,,fixed list,,L1
+rates:DGS10,rates,fred,DGS10,,,,fixed list,,L1
+rates:DGS20,rates,fred,DGS20,,,,fixed list,,L1
+rates:DGS30,rates,fred,DGS30,,,,fixed list,,L1
+rates:DCOILWTICO,rates,fred,DCOILWTICO,,,,fixed list,,L1
+rates:DCOILBRENTEU,rates,fred,DCOILBRENTEU,,,,fixed list,,L1

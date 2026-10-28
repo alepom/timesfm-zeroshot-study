@@ -1,0 +1,1 @@
+{"job": "tiera", "extra_args": "--out /content/drive/MyDrive/timesfm-zeroshot-study/results/tiera_pilot --models tfm3-eval,tfm3,chronos2,tirex2,tirex2-f,snaive --tasks ETT_1D,epf_de"}

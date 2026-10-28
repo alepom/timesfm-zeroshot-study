@@ -1,0 +1,17 @@
+{
+ "seen_pool": 1061,
+ "seen_after_zero_screen": 1056,
+ "new_pool_created_in_range": 881,
+ "new_after_zero_screen": 735,
+ "new_after_no_prior_views_screen": 603,
+ "new_selected": 136,
+ "quintile_edges": [
+  2213.1000000000004,
+  4670.900000000001,
+  6954.799999999999,
+  8840.300000000001
+ ],
+ "missing_top_months": [
+  "2022-04"
+ ]
+}

@@ -1,0 +1,33 @@
+/home/alepom/progetti/lab-test-AP/timesFM-google/tfmstudy/data/build.py:107: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instead.
+  energy_end = (pd.Timestamp(end) + pd.Timedelta(days=2)).strftime("%Y-%m-%d")
+count      136.000000
+mean      9287.176471
+std       7744.970246
+min        458.000000
+25%        672.000000
+50%      16128.000000
+75%      16128.000000
+max      16176.000000
+dtype: float64
+/home/alepom/progetti/lab-test-AP/timesFM-google/tfmstudy/data/build.py:158: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instead.
+  test_end = pd.Timestamp(cfg["test_end"], tz="UTC") + pd.Timedelta(hours=23)  # last hour of the last test day
+                          n  excluded
+domain  mode  horizon                
+fx      group 5           9         0
+              20          2         0
+        uni   5          90         0
+              20         20         0
+load    uni   24        756         0
+              168       108         0
+price   group 24         63         0
+              168         9         0
+        uni   24        756         0
+              168       108         0
+rates   group 5           8         0
+              20          2         0
+        uni   5          81         0
+              20         20         0
+river   uni   7         180         0
+              28         40         0
+weather uni   24       2520         0
+              168       360         0
