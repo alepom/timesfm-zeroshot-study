@@ -1,0 +1,13 @@
+{
+ "downloaded_utc_window": [
+  "2026-10-28T18:23:06Z",
+  "2026-10-28T19:05:03Z"
+ ],
+ "files": {
+  "data/processed/main/series.parquet": "f24477a8d7ce6554028837cfa4266a238c7a591542179f0ffbf60b11b0a03ee8",
+  "data/processed/main/tasks.parquet": "7a81a8b82bd6a512a7656dadeb1eced0b7d49dd977391a97b61dcee7f1d24b03",
+  "data/processed/main/wiki_series.parquet": "0cd78d18ce3d0b3e59fdf2fc2d0c92db9d8c65ba134bac402db4d79d9bdb49b8",
+  "data/processed/main/wiki_tasks.parquet": "f379ecd634e2fa076366d032aa9212ecf27922dbbbd3c8134391de736c4e01ea"
+ },
+ "redirect_check": "data/manifests/tierW_redirects_2026-10-28.csv"
+}
