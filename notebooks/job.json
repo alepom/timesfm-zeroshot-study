@@ -1,11 +1,6 @@
 {
  "jobs": [
   {
-   "name": "B-primary",
-   "job": "forecast",
-   "extra_args": "--tier B --period main --models tfm3-uni,chronos2-uni,tfm25,tfm3-eval,tfm3"
-  },
-  {
    "name": "W",
    "job": "forecast",
    "extra_args": "--tier W --period main --models tfm3,chronos2,tirex2,tfm25,tfm3-eval"
@@ -14,6 +9,11 @@
    "name": "C",
    "job": "forecast",
    "extra_args": "--tier synthetic --period main --models tfm3,tfm3-uni,tfm3-eval,tfm25,chronos2,tirex2,tfm3-nodetrend,tfm3-nocpmrevin,tfm3-novarattn,tfm3-nostitch,tfm3-sym,tfm3-pos,tfm3-znorm,tfm3-edge"
+  },
+  {
+   "name": "B-primary",
+   "job": "forecast",
+   "extra_args": "--tier B --period main --models tfm3-uni,chronos2-uni,tfm25,tfm3-eval,tfm3"
   },
   {
    "name": "B-secondary",
