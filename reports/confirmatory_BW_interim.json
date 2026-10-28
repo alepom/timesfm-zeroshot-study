@@ -1,0 +1,1070 @@
+{
+ "period": "main",
+ "reps": 10000,
+ "family_P": [
+  {
+   "test": "P1:mase",
+   "a": "tfm3-uni",
+   "b": "stat-ens",
+   "metric": "mase",
+   "n": 3855,
+   "clusters": 64,
+   "weeks": 8,
+   "empty_cell_share": 0.0035,
+   "estimate": -0.17940298289797046,
+   "ratio": 0.8357690308993668,
+   "ci95": [
+    0.7855743013218635,
+    0.882016789258666
+   ],
+   "p": 0.0001,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.8041913869050372,
+    0.8672822617961254
+   ],
+   "p_holm": 0.001,
+   "resolved": true
+  },
+  {
+   "test": "P1:sql",
+   "a": "tfm3-uni",
+   "b": "stat-ens",
+   "metric": "sql",
+   "n": 3855,
+   "clusters": 64,
+   "weeks": 8,
+   "empty_cell_share": 0.0035,
+   "estimate": -0.347269168875981,
+   "ratio": 0.7066151038643965,
+   "ci95": [
+    0.6494261053911463,
+    0.7637497336168944
+   ],
+   "p": 0.0001,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.654575180022438,
+    0.7574591151871409
+   ],
+   "p_holm": 0.001,
+   "resolved": true
+  },
+  {
+   "test": "P2:mase",
+   "a": "tfm3-uni",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "n": 3855,
+   "clusters": 64,
+   "weeks": 8,
+   "empty_cell_share": 0.0035,
+   "estimate": -0.048334703680652624,
+   "ratio": 0.9528148230730064,
+   "ci95": [
+    0.9238048462898292,
+    0.9807700180472255
+   ],
+   "p": 0.0024,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9367049620543205,
+    0.9689890157213363
+   ],
+   "p_holm": 0.0144,
+   "resolved": true
+  },
+  {
+   "test": "P2:sql",
+   "a": "tfm3-uni",
+   "b": "chronos2-uni",
+   "metric": "sql",
+   "n": 3855,
+   "clusters": 64,
+   "weeks": 8,
+   "empty_cell_share": 0.0035,
+   "estimate": -0.04490243440944701,
+   "ratio": 0.9560907588422214,
+   "ci95": [
+    0.9334913994766784,
+    0.978500284048222
+   ],
+   "p": 0.0004,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9421536792605406,
+    0.9705707705597184
+   ],
+   "p_holm": 0.0028,
+   "resolved": true
+  },
+  {
+   "test": "P3:mase",
+   "a": "tfm3-uni",
+   "b": "tfm25",
+   "metric": "mase",
+   "n": 3855,
+   "clusters": 64,
+   "weeks": 8,
+   "empty_cell_share": 0.0035,
+   "estimate": -0.05037524918792315,
+   "ratio": 0.9508725433955018,
+   "ci95": [
+    0.9174898712790079,
+    0.9881221382289782
+   ],
+   "p": 0.0164,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9244448640462339,
+    0.9808036532469584
+   ],
+   "p_holm": 0.0656,
+   "resolved": false
+  },
+  {
+   "test": "P3:sql",
+   "a": "tfm3-uni",
+   "b": "tfm25",
+   "metric": "sql",
+   "n": 3855,
+   "clusters": 64,
+   "weeks": 8,
+   "empty_cell_share": 0.0035,
+   "estimate": -0.06303321700085208,
+   "ratio": 0.9389122853209625,
+   "ci95": [
+    0.9140558205010655,
+    0.9648524552261816
+   ],
+   "p": 0.0001,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9160010216440051,
+    0.9633895617337265
+   ],
+   "p_holm": 0.001,
+   "resolved": true
+  },
+  {
+   "test": "P4a:mase",
+   "a": "tfm3",
+   "b": "tfm3-uni",
+   "metric": "mase",
+   "n": 884,
+   "clusters": 32,
+   "weeks": 8,
+   "empty_cell_share": 0.0225,
+   "estimate": -0.03383672964993666,
+   "ratio": 0.9667293299891797,
+   "ci95": [
+    0.9400949477576352,
+    0.9967038948859877
+   ],
+   "p": 0.035,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9473581746693089,
+    0.9860942436159498
+   ],
+   "p_holm": 0.10500000000000001,
+   "resolved": false
+  },
+  {
+   "test": "P4a:sql",
+   "a": "tfm3",
+   "b": "tfm3-uni",
+   "metric": "sql",
+   "n": 884,
+   "clusters": 32,
+   "weeks": 8,
+   "empty_cell_share": 0.0225,
+   "estimate": -0.034185374608703384,
+   "ratio": 0.9663923434295331,
+   "ci95": [
+    0.9467957726964378,
+    0.9878602586697149
+   ],
+   "p": 0.005,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9500972237626749,
+    0.9817580181302376
+   ],
+   "p_holm": 0.025,
+   "resolved": true
+  },
+  {
+   "test": "P5:mase",
+   "a": "tfm3-eval",
+   "b": "tfm3",
+   "metric": "mase",
+   "n": 3855,
+   "clusters": 64,
+   "weeks": 8,
+   "empty_cell_share": 0.0035,
+   "estimate": -0.010655281054615348,
+   "ratio": 0.9894012853639289,
+   "ci95": [
+    0.9760913250877166,
+    1.0018887006313857
+   ],
+   "p": 0.096,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9831940198356132,
+    0.9953705275471553
+   ],
+   "p_holm": 0.106,
+   "resolved": false
+  },
+  {
+   "test": "P5:sql",
+   "a": "tfm3-eval",
+   "b": "tfm3",
+   "metric": "sql",
+   "n": 3855,
+   "clusters": 64,
+   "weeks": 8,
+   "empty_cell_share": 0.0035,
+   "estimate": -0.008807018100425418,
+   "ratio": 0.9912316500830911,
+   "ci95": [
+    0.9818840717548268,
+    1.0000866747710122
+   ],
+   "p": 0.053,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9857013372371874,
+    0.996387490921526
+   ],
+   "p_holm": 0.106,
+   "resolved": false
+  }
+ ],
+ "family_H": [
+  {
+   "test": "H2",
+   "direction": "negative",
+   "estimate": -0.02027164210404382,
+   "ratio": 0.979932446237635,
+   "ci95": [
+    0.9361679593047989,
+    1.0206999544260371
+   ],
+   "p": 0.3568,
+   "reps": 10000,
+   "a": "tfm3",
+   "ref": "chronos2",
+   "metric": "mase",
+   "first": "W-seen",
+   "second": "W-post",
+   "n": 4180,
+   "empty_cell_share": 0.0043,
+   "advantage": {
+    "W-seen": 0.9394082823935485,
+    "W-post": 0.9586459617704511
+   },
+   "p_family": 0.3568,
+   "sign_ok": true,
+   "p_family_holm": 1.0,
+   "resolved": false,
+   "supported": false
+  },
+  {
+   "test": "H3",
+   "missing": true,
+   "p": 1.0,
+   "p_tost": 1.0,
+   "estimate": NaN,
+   "direction": "negative",
+   "p_family": 1.0,
+   "sign_ok": "False",
+   "p_family_holm": 1.0,
+   "resolved": false,
+   "supported": false
+  },
+  {
+   "test": "H4a",
+   "missing": true,
+   "p": 1.0,
+   "p_tost": 1.0,
+   "estimate": NaN,
+   "direction": "negative",
+   "p_family": 1.0,
+   "sign_ok": "False",
+   "p_family_holm": 1.0,
+   "resolved": false,
+   "supported": false
+  },
+  {
+   "test": "H4b",
+   "missing": true,
+   "p": 1.0,
+   "p_tost": 1.0,
+   "estimate": NaN,
+   "direction": "negative",
+   "p_family": 1.0,
+   "sign_ok": "False",
+   "p_family_holm": 1.0,
+   "resolved": false,
+   "supported": false
+  },
+  {
+   "test": "H4c",
+   "missing": true,
+   "p": 1.0,
+   "p_tost": 1.0,
+   "estimate": NaN,
+   "direction": "equivalence",
+   "p_family": 1.0,
+   "sign_ok": true,
+   "p_family_holm": 1.0,
+   "resolved": false,
+   "supported": false
+  },
+  {
+   "test": "H4d",
+   "missing": true,
+   "p": 1.0,
+   "p_tost": 1.0,
+   "estimate": NaN,
+   "direction": "equivalence",
+   "p_family": 1.0,
+   "sign_ok": true,
+   "p_family_holm": 1.0,
+   "resolved": false,
+   "supported": false
+  },
+  {
+   "test": "H5",
+   "direction": "nonsuperiority",
+   "a": "tfm3-uni",
+   "b": "naive",
+   "metric": "mase",
+   "n": 204,
+   "clusters": 20,
+   "weeks": 7,
+   "empty_cell_share": 0.0041,
+   "estimate": 0.10404217868307969,
+   "ratio": 1.1096472573885419,
+   "ci95": [
+    1.0488773444647277,
+    1.1784306196185954
+   ],
+   "p": 0.0012,
+   "reps": 10000,
+   "floor": 0.9,
+   "p_nonsup": 0.0001,
+   "lower95": 1.059570133430882,
+   "ci95_oneway": [
+    1.06352029488979,
+    1.162731117732499
+   ],
+   "p_family": 0.0001,
+   "sign_ok": true,
+   "p_family_holm": 0.0007,
+   "resolved": true,
+   "supported": true
+  }
+ ],
+ "family_S1": [
+  {
+   "test": "P1:load",
+   "a": "tfm3-uni",
+   "b": "stat-ens",
+   "metric": "mase",
+   "n": 684,
+   "clusters": 12,
+   "weeks": 8,
+   "empty_cell_share": 0.0,
+   "estimate": -0.11435792528945225,
+   "ratio": 0.8919386513422769,
+   "ci95": [
+    0.8235490995454215,
+    0.9497975396606797
+   ],
+   "p": 0.0004,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.8524791457818749,
+    0.9298323173360852
+   ],
+   "p_holm": 0.0044,
+   "resolved": true
+  },
+  {
+   "test": "P2:load",
+   "a": "tfm3-uni",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "n": 684,
+   "clusters": 12,
+   "weeks": 8,
+   "empty_cell_share": 0.0,
+   "estimate": -0.04082250547876287,
+   "ratio": 0.9599995094799579,
+   "ci95": [
+    0.9091234810604731,
+    1.0049274232723717
+   ],
+   "p": 0.0816,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9320625837075031,
+    0.9890472542137889
+   ],
+   "p_holm": 0.24480000000000002,
+   "resolved": false
+  },
+  {
+   "test": "P3:load",
+   "a": "tfm3-uni",
+   "b": "tfm25",
+   "metric": "mase",
+   "n": 684,
+   "clusters": 12,
+   "weeks": 8,
+   "empty_cell_share": 0.0,
+   "estimate": -0.07785896349166452,
+   "ratio": 0.925094889496397,
+   "ci95": [
+    0.881705374033677,
+    0.9647320097294106
+   ],
+   "p": 0.0008,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.8956251611511118,
+    0.9543008418724923
+   ],
+   "p_holm": 0.008,
+   "resolved": true
+  },
+  {
+   "test": "P1:price",
+   "a": "tfm3-uni",
+   "b": "stat-ens",
+   "metric": "mase",
+   "n": 684,
+   "clusters": 12,
+   "weeks": 8,
+   "empty_cell_share": 0.0,
+   "estimate": -0.1367520409632562,
+   "ratio": 0.872186465837637,
+   "ci95": [
+    0.7813344227492285,
+    0.9517803851245611
+   ],
+   "p": 0.0008,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.8169975129354161,
+    0.9206363641835323
+   ],
+   "p_holm": 0.008,
+   "resolved": true
+  },
+  {
+   "test": "P2:price",
+   "a": "tfm3-uni",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "n": 684,
+   "clusters": 12,
+   "weeks": 8,
+   "empty_cell_share": 0.0,
+   "estimate": -0.020857179413635712,
+   "ratio": 0.9793588271835509,
+   "ci95": [
+    0.9304949121067675,
+    1.0288723818493244
+   ],
+   "p": 0.4086,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.959997568456574,
+    1.0001726641048785
+   ],
+   "p_holm": 0.8172,
+   "resolved": false
+  },
+  {
+   "test": "P3:price",
+   "a": "tfm3-uni",
+   "b": "tfm25",
+   "metric": "mase",
+   "n": 684,
+   "clusters": 12,
+   "weeks": 8,
+   "empty_cell_share": 0.0,
+   "estimate": -0.037704520419196134,
+   "ratio": 0.9629974449379067,
+   "ci95": [
+    0.9331274580249493,
+    0.9920016264966522
+   ],
+   "p": 0.0138,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9481712518577832,
+    0.9803271182180238
+   ],
+   "p_holm": 0.069,
+   "resolved": false
+  },
+  {
+   "test": "P1:weather",
+   "a": "tfm3-uni",
+   "b": "stat-ens",
+   "metric": "mase",
+   "n": 2280,
+   "clusters": 20,
+   "weeks": 8,
+   "empty_cell_share": 0.0,
+   "estimate": -0.21297854157115592,
+   "ratio": 0.8081734791635186,
+   "ci95": [
+    0.7632679680150443,
+    0.8496433311013272
+   ],
+   "p": 0.0001,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.7841028528210855,
+    0.8331131417942363
+   ],
+   "p_holm": 0.0012000000000000001,
+   "resolved": true
+  },
+  {
+   "test": "P2:weather",
+   "a": "tfm3-uni",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "n": 2280,
+   "clusters": 20,
+   "weeks": 8,
+   "empty_cell_share": 0.0,
+   "estimate": -0.044643890927741,
+   "ratio": 0.9563379818334087,
+   "ci95": [
+    0.9294229617405377,
+    0.9834948667116249
+   ],
+   "p": 0.0044,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9437308265772593,
+    0.9687191990440932
+   ],
+   "p_holm": 0.0264,
+   "resolved": true
+  },
+  {
+   "test": "P3:weather",
+   "a": "tfm3-uni",
+   "b": "tfm25",
+   "metric": "mase",
+   "n": 2280,
+   "clusters": 20,
+   "weeks": 8,
+   "empty_cell_share": 0.0,
+   "estimate": -0.03991366188023417,
+   "ratio": 0.9608723954870859,
+   "ci95": [
+    0.9385313490327502,
+    0.9823262063390078
+   ],
+   "p": 0.0014,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9461511424839423,
+    0.9755441633089711
+   ],
+   "p_holm": 0.0112,
+   "resolved": true
+  },
+  {
+   "test": "P1:river",
+   "a": "tfm3-uni",
+   "b": "stat-ens",
+   "metric": "mase",
+   "n": 207,
+   "clusters": 20,
+   "weeks": 7,
+   "empty_cell_share": 0.0028,
+   "estimate": -0.25352342376801723,
+   "ratio": 0.7760615664261341,
+   "ci95": [
+    0.6276180754204563,
+    0.9230032507898965
+   ],
+   "p": 0.0022,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.6772797558875129,
+    0.8765845921930685
+   ],
+   "p_holm": 0.0154,
+   "resolved": true
+  },
+  {
+   "test": "P2:river",
+   "a": "tfm3-uni",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "n": 207,
+   "clusters": 20,
+   "weeks": 7,
+   "empty_cell_share": 0.0028,
+   "estimate": -0.08701523890247098,
+   "ratio": 0.9166631265867313,
+   "ci95": [
+    0.8337983563543983,
+    1.0000294751727625
+   ],
+   "p": 0.0502,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.8683763388549717,
+    0.968830639346043
+   ],
+   "p_holm": 0.2008,
+   "resolved": false
+  },
+  {
+   "test": "P3:river",
+   "a": "tfm3-uni",
+   "b": "tfm25",
+   "metric": "mase",
+   "n": 207,
+   "clusters": 20,
+   "weeks": 7,
+   "empty_cell_share": 0.0028,
+   "estimate": -0.04602385096059776,
+   "ratio": 0.9550191837941496,
+   "ci95": [
+    0.8352679492180725,
+    1.106747205043008
+   ],
+   "p": 0.4918,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.861432993935574,
+    1.0733839905543003
+   ],
+   "p_holm": 0.8172,
+   "resolved": false
+  }
+ ],
+ "family_S3": [
+  {
+   "test": "P4b",
+   "a": "tfm3",
+   "b": "tfm3-uni",
+   "metric": "mase",
+   "n": 891,
+   "clusters": 32,
+   "weeks": 8,
+   "empty_cell_share": 0.0037,
+   "estimate": -0.02687742917175374,
+   "ratio": 0.9734805545298908,
+   "ci95": [
+    0.9037764808923615,
+    1.0604124512528113
+   ],
+   "p": 0.4666,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9116962101381095,
+    1.046188091334568
+   ],
+   "p_holm": 0.4666,
+   "resolved": false
+  },
+  {
+   "test": "chronos2-cov",
+   "a": "chronos2",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "n": 891,
+   "clusters": 32,
+   "weeks": 8,
+   "empty_cell_share": 0.0037,
+   "estimate": -0.031647879681561325,
+   "ratio": 0.9688476729742823,
+   "ci95": [
+    0.9299136681718474,
+    1.0075096299352564
+   ],
+   "p": 0.1084,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9446703793925867,
+    0.9947929742215261
+   ],
+   "p_holm": 0.2168,
+   "resolved": false
+  }
+ ],
+ "family_S4": [
+  {
+   "test": "c2016",
+   "a": "tfm3-c2016",
+   "b": "tfm3-uni",
+   "metric": "mase",
+   "n": 3648,
+   "clusters": 44,
+   "weeks": 8,
+   "empty_cell_share": 0.0,
+   "estimate": 0.03935274944448112,
+   "ratio": 1.0401373268087095,
+   "ci95": [
+    1.0113513828528229,
+    1.072430920827402
+   ],
+   "p": 0.0044,
+   "reps": 10000,
+   "ci95_oneway": [
+    1.0266068567747637,
+    1.0529832140126127
+   ],
+   "p_holm": 0.0044,
+   "resolved": true
+  }
+ ],
+ "family_S2": [
+  {
+   "test": "DiD:tfm3-vs-stat-ens",
+   "estimate": 0.008728985592830751,
+   "ratio": 1.0087671942810166,
+   "ci95": [
+    0.9152996511539452,
+    1.1076399422191237
+   ],
+   "p": 0.8484,
+   "reps": 10000,
+   "a": "tfm3",
+   "ref": "stat-ens",
+   "metric": "mase",
+   "first": "W-seen",
+   "second": "W-post",
+   "n": 4180,
+   "empty_cell_share": 0.0043,
+   "advantage": {
+    "W-seen": 0.7469831685014376,
+    "W-post": 0.7404911388239965
+   },
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "DiD:tfm3-vs-tirex2",
+   "estimate": -0.013799586252390354,
+   "ratio": 0.9862951915721737,
+   "ci95": [
+    0.9514777367293871,
+    1.0239319348776048
+   ],
+   "p": 0.4616,
+   "reps": 10000,
+   "a": "tfm3",
+   "ref": "tirex2",
+   "metric": "mase",
+   "first": "W-seen",
+   "second": "W-post",
+   "n": 4180,
+   "empty_cell_share": 0.0043,
+   "advantage": {
+    "W-seen": 0.9629448876699566,
+    "W-post": 0.9763252380202763
+   },
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "DiD:tfm25-vs-chronos2",
+   "estimate": -0.02048926555873086,
+   "ratio": 0.9797192131564263,
+   "ci95": [
+    0.9362873821803702,
+    1.021287050500326
+   ],
+   "p": 0.3476,
+   "reps": 10000,
+   "a": "tfm25",
+   "ref": "chronos2",
+   "metric": "mase",
+   "first": "W-seen",
+   "second": "W-post",
+   "n": 4180,
+   "empty_cell_share": 0.0043,
+   "advantage": {
+    "W-seen": 0.9428943962708628,
+    "W-post": 0.9624128868852919
+   },
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "post-vs-new",
+   "estimate": -0.025898732919931923,
+   "ratio": 0.9744337626743642,
+   "ci95": [
+    0.9410636806743443,
+    1.0091478755029328
+   ],
+   "p": 0.1474,
+   "reps": 10000,
+   "a": "tfm3",
+   "ref": "chronos2",
+   "metric": "mase",
+   "first": "W-post",
+   "second": "W-new",
+   "n": 3498,
+   "empty_cell_share": 0.0024,
+   "advantage": {
+    "W-post": 0.9586459617704511,
+    "W-new": 0.9837979742608847
+   },
+   "p_holm": 0.737,
+   "resolved": false
+  },
+  {
+   "test": "adjusted:W-seen-vs-W-post",
+   "estimate": 0.01321024127672726,
+   "ratio": 1.013297882007207,
+   "ci95": [
+    0.9709034592340177,
+    1.0560970048030147
+   ],
+   "p": 0.6094,
+   "reps": 10000,
+   "a": "tfm3",
+   "ref": "chronos2",
+   "metric": "mase",
+   "first": "W-seen",
+   "second": "W-post",
+   "n": 4180,
+   "adjusted": true,
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "adjusted:W-post-vs-W-new",
+   "estimate": -0.06014483835350077,
+   "ratio": 0.9416281398375802,
+   "ci95": [
+    0.8971755305994416,
+    0.996378240426172
+   ],
+   "p": 0.0366,
+   "reps": 10000,
+   "a": "tfm3",
+   "ref": "chronos2",
+   "metric": "mase",
+   "first": "W-post",
+   "second": "W-new",
+   "n": 3498,
+   "adjusted": true,
+   "p_holm": 0.21960000000000002,
+   "resolved": false
+  }
+ ],
+ "family_S5": [
+  {
+   "test": "B:tfm3-edge",
+   "a": "tfm3-edge",
+   "b": "tfm3",
+   "metric": "mase",
+   "n": 147,
+   "clusters": 5,
+   "weeks": 8,
+   "empty_cell_share": 0.0048,
+   "estimate": -0.03497565167279015,
+   "ratio": 0.9656289274204247,
+   "ci95": [
+    0.8950920688484241,
+    1.0380301276461827
+   ],
+   "p": 0.2666,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9258282802591733,
+    0.9876842143505175
+   ],
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "B:tfm3-nocpmrevin",
+   "a": "tfm3-nocpmrevin",
+   "b": "tfm3",
+   "metric": "mase",
+   "n": 70,
+   "clusters": 10,
+   "weeks": 7,
+   "empty_cell_share": 0.0,
+   "estimate": -0.0012709328132386227,
+   "ratio": 0.998729874479828,
+   "ci95": [
+    0.9945726638280955,
+    1.0020484996406671
+   ],
+   "p": 0.417,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9980085136290485,
+    0.9994483096719246
+   ],
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "B:tfm3-nodetrend",
+   "a": "tfm3-nodetrend",
+   "b": "tfm3",
+   "metric": "mase",
+   "n": 683,
+   "clusters": 21,
+   "weeks": 8,
+   "empty_cell_share": 0.0241,
+   "estimate": -0.011555012226722595,
+   "ratio": 0.988511490533862,
+   "ci95": [
+    0.9686538604254865,
+    1.0000855796405188
+   ],
+   "p": 0.0994,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9726012537692451,
+    1.0000262267901179
+   ],
+   "p_holm": 0.7952,
+   "resolved": false
+  },
+  {
+   "test": "B:tfm3-nostitch",
+   "a": "tfm3-nostitch",
+   "b": "tfm3",
+   "metric": "mase",
+   "n": 70,
+   "clusters": 10,
+   "weeks": 7,
+   "empty_cell_share": 0.0,
+   "estimate": 0.00623146573493253,
+   "ratio": 1.0062509217096205,
+   "ci95": [
+    0.9962481368401533,
+    1.015972432718812
+   ],
+   "p": 0.2182,
+   "reps": 10000,
+   "ci95_oneway": [
+    1.0036390153000967,
+    1.0090055567252174
+   ],
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "B:tfm3-novarattn",
+   "a": "tfm3-novarattn",
+   "b": "tfm3",
+   "metric": "mase",
+   "n": 1031,
+   "clusters": 37,
+   "weeks": 8,
+   "empty_cell_share": 0.0218,
+   "estimate": -0.000448643550189873,
+   "ratio": 0.9995514570752788,
+   "ci95": [
+    0.996569953409683,
+    1.001398607665072
+   ],
+   "p": 0.7278,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9975220668691173,
+    1.0011277464215391
+   ],
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "B:tfm3-pos",
+   "a": "tfm3-pos",
+   "b": "tfm3",
+   "metric": "mase",
+   "n": 683,
+   "clusters": 21,
+   "weeks": 8,
+   "empty_cell_share": 0.0241,
+   "estimate": 2.5810072183973786e-05,
+   "ratio": 1.0000258104052668,
+   "ci95": [
+    0.999861653949295,
+    1.000194315460948
+   ],
+   "p": 0.7714,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.999967940757544,
+    1.000091081593066
+   ],
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "B:tfm3-sym",
+   "a": "tfm3-sym",
+   "b": "tfm3",
+   "metric": "mase",
+   "n": 683,
+   "clusters": 21,
+   "weeks": 8,
+   "empty_cell_share": 0.0241,
+   "estimate": -0.0005108145837790409,
+   "ratio": 0.9994893158597787,
+   "ci95": [
+    0.9708204153146504,
+    1.0300044333293699
+   ],
+   "p": 0.9514,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9876563743347304,
+    1.0103947441124572
+   ],
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "B:tfm3-znorm",
+   "a": "tfm3-znorm",
+   "b": "tfm3",
+   "metric": "mase",
+   "n": 683,
+   "clusters": 21,
+   "weeks": 8,
+   "empty_cell_share": 0.0241,
+   "estimate": 0.0005983461173924713,
+   "ratio": 1.000598525162139,
+   "ci95": [
+    0.999461026552317,
+    1.0026813323119221
+   ],
+   "p": 0.5202,
+   "reps": 10000,
+   "ci95_oneway": [
+    0.9999431632845273,
+    1.0010261089129209
+   ],
+   "p_holm": 1.0,
+   "resolved": false
+  }
+ ]
+}
