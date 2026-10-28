@@ -294,4 +294,8 @@ The smoke test and the pilot used synthetic data and pre-release data only; they
 
 ## 11. Deviations
 
-None yet.
+1. **2026-10-28, download date.** The main Tier B and W data were downloaded on 2026-10-28 from about 18:10 UTC, instead of "on or
+   after 2026-10-29" (§3.2), because the author was unavailable on 2026-10-29 and the GPU runs had to start the same evening. The
+   freeze (commit 9f15b38, 17:59:59 UTC) precedes the download; ERA5 already covered the test windows (last ERA5 value available
+   2026-10-22 23:00 UTC, test windows end 2026-10-20); nothing else changed. The earliest-download guard in `catalog.py` was moved
+   accordingly in the commit that records this deviation.

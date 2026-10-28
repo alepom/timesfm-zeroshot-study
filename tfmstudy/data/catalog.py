@@ -107,6 +107,6 @@ PERIODS = {
     "pilot": {"history_start": "2024-01-01", "test_start": "2025-09-01", "test_end": "2025-11-02",
               "weather_model": "best_match"},
     "main":  {"history_start": "2025-01-01", "test_start": "2026-09-01", "test_end": "2026-10-20",
-              "weather_model": "era5", "download_not_before": "2026-10-29", "origin_step": "week"},
+              "weather_model": "era5", "download_not_before": "2026-10-28 18:00", "origin_step": "week"},
 }
 SELECTION_YEAR = "2025"  # pre-release year whose data drive the selection rules
