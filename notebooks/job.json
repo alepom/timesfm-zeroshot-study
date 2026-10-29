@@ -29,6 +29,11 @@
    "name": "B-ablations",
    "job": "forecast",
    "extra_args": "--tier B --period main --models tfm3-nodetrend,tfm3-nocpmrevin,tfm3-novarattn,tfm3-nostitch,tfm3-sym,tfm3-pos,tfm3-znorm,tfm3-edge"
+  },
+  {
+   "name": "A-retry",
+   "job": "tiera",
+   "extra_args": "--models tfm3-eval,tfm3 --tasks boomlet_619,boomlet_1487,boomlet_1209,jena_weather_10T"
   }
  ]
 }
