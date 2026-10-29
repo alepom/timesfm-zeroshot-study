@@ -1,0 +1,113 @@
+{
+ "tfm3-eval": {
+  "controls_passed": {
+   "tasks": 10,
+   "reproduced_share": 0.9,
+   "median_SQL_dev": 9.401129960617816e-06,
+   "range_SQL_dev": [
+    -0.004495005571970245,
+    0.06105973396224318
+   ],
+   "sign_test_p": 0.34375,
+   "skill_ours": 1.0038437266707674,
+   "skill_published": 0.9968542951709832,
+   "skill_tasks": 10
+  },
+  "all_tasks": {
+   "tasks": 28,
+   "reproduced_share": 0.8214285714285714,
+   "median_SQL_dev": -2.1635322212110175e-06,
+   "range_SQL_dev": [
+    -0.10614585743682126,
+    0.06105973396224318
+   ],
+   "sign_test_p": 0.8505540192127228,
+   "skill_ours": 0.9541091009193275,
+   "skill_published": 0.9726870488149778,
+   "skill_tasks": 28
+  },
+  "control_failures": [
+   "australian_tourism",
+   "gvar",
+   "fred_md_2025/macro",
+   "ercot_1D",
+   "proenfo_gfc17",
+   "entsoe_1H",
+   "kdd_cup_2022_10T",
+   "ercot_1W",
+   "uk_covid_nation_1D/new",
+   "hospital",
+   "ecdc_ili",
+   "SZ_TAXI_1H",
+   "uci_air_quality_1D",
+   "uci_air_quality_1H",
+   "restaurant",
+   "rohlik_sales_1W",
+   "m5_1W",
+   "rossmann_1W"
+  ],
+  "vs_stat_ensemble_geo": {
+   "SQL": 0.6856444849518233,
+   "MASE": 0.7544695837040492
+  },
+  "vs_stat_ensemble_wins_SQL": 0.8571428571428571,
+  "not_scored": [
+   "boomlet_1209",
+   "boomlet_619"
+  ]
+ },
+ "tfm3": {
+  "controls_passed": {
+   "tasks": 12,
+   "reproduced_share": 0.75,
+   "median_SQL_dev": 0.005459889858897671,
+   "range_SQL_dev": [
+    -0.003212507548695842,
+    0.29937719467506385
+   ],
+   "sign_test_p": 0.03857421875,
+   "skill_ours": 1.0274939703920485,
+   "skill_published": 0.9900613743390236,
+   "skill_tasks": 12
+  },
+  "all_tasks": {
+   "tasks": 30,
+   "reproduced_share": 0.7666666666666667,
+   "median_SQL_dev": 0.0024381356371507845,
+   "range_SQL_dev": [
+    -0.0894887893523808,
+    0.29937719467506385
+   ],
+   "sign_test_p": 0.20048842206597334,
+   "skill_ours": 0.9695633252282345,
+   "skill_published": 0.9716187266338897,
+   "skill_tasks": 30
+  },
+  "control_failures": [
+   "australian_tourism",
+   "gvar",
+   "fred_md_2025/macro",
+   "ercot_1D",
+   "proenfo_gfc17",
+   "entsoe_1H",
+   "kdd_cup_2022_10T",
+   "ercot_1W",
+   "uk_covid_nation_1D/new",
+   "hospital",
+   "ecdc_ili",
+   "SZ_TAXI_1H",
+   "uci_air_quality_1D",
+   "uci_air_quality_1H",
+   "restaurant",
+   "rohlik_sales_1W",
+   "m5_1W",
+   "rossmann_1W"
+  ],
+  "vs_stat_ensemble_geo": {
+   "SQL": 0.6608285181498339,
+   "MASE": 0.7475136044548253
+  },
+  "vs_stat_ensemble_wins_SQL": 0.8333333333333334,
+  "not_scored": []
+ }
+}
