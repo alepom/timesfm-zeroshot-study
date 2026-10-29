@@ -39,6 +39,11 @@
    "name": "diag-chronos",
    "job": "diag_chronos",
    "extra_args": ""
+  },
+  {
+   "name": "diag-chronos-fev",
+   "job": "diag_chronos",
+   "extra_args": "--fev"
   }
  ]
 }

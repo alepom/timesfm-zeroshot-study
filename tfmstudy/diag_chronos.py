@@ -116,13 +116,43 @@ def run(out: Path, tasks: list[str], device: str) -> pd.DataFrame:
     return df
 
 
+def run_fev(out: Path, tasks: list[str], device: str) -> pd.DataFrame:
+    """fev's own Chronos-2 script (examples/chronos-2/evaluate_model.py at fev commit f323f6c): `predict_fev` with
+    batch_size=100, float32, seed 123, with cross_learning=True (the script's default) and False."""
+    import torch
+    from chronos import BaseChronosPipeline
+
+    pipeline = BaseChronosPipeline.from_pretrained("amazon/chronos-2", device_map=device, torch_dtype=torch.float32)
+    table = pd.read_csv(MANIFEST)
+    published = pd.read_csv(_fetch("chronos-2.csv")).set_index("task_name")
+    rows_out = []
+    for name in tasks:
+        task = Inputs(next(table[table.task_name == name].itertuples())).task
+        for cross_learning in (True, False):
+            torch.manual_seed(123)
+            t0 = time.perf_counter()
+            preds, _ = pipeline.predict_fev(task, batch_size=100, as_univariate=False, cross_learning=cross_learning)
+            summary = task.evaluation_summary(preds, model_name="chronos2-fev", trained_on_this_dataset=False)
+            rec = {"task_name": name, "variant": f"fev-cross_learning={cross_learning}", "SQL": summary["SQL"],
+                   "MASE": summary["MASE"], "SQL_published": published.loc[name, "SQL"],
+                   "seconds": round(time.perf_counter() - t0, 1)}
+            rec["SQL_vs_published"] = rec["SQL"] / rec["SQL_published"] - 1
+            rows_out.append(rec)
+            print(json.dumps(rec), flush=True)
+    df = pd.DataFrame(rows_out)
+    out.mkdir(parents=True, exist_ok=True)
+    df.to_csv(out / "summary_fev.csv", index=False)
+    return df
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", required=True)
     parser.add_argument("--tasks", default=",".join(TASKS))
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--fev", action="store_true", help="run fev's own Chronos-2 script (predict_fev) instead")
     args = parser.parse_args()
-    run(Path(args.out), args.tasks.split(","), args.device)
+    (run_fev if args.fev else run)(Path(args.out), args.tasks.split(","), args.device)
 
 
 if __name__ == "__main__":
