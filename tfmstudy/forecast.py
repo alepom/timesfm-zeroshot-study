@@ -16,6 +16,7 @@ Duplicate forecasts of a task are identical; readers keep one.
 from __future__ import annotations
 
 import argparse
+import gc
 import json
 import random
 import secrets
@@ -204,6 +205,16 @@ def _predict(adapter, classical: bool, tasks: list[Task], seasons: list[int]) ->
     return adapter.predict(tasks, seasons=seasons) if classical else adapter.predict(tasks)
 
 
+def _free_gpu() -> None:
+    """Releases cached CUDA memory after a failed call (an out-of-memory batch leaves the cache fragmented, and the
+    one-task retries then fail too). Does not change any forecast."""
+    gc.collect()
+    import sys
+    torch = sys.modules.get("torch")
+    if torch is not None and torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
+
 # ------------------------------------------------------------------ output
 
 def _done(model_dir: Path) -> set[str]:
@@ -269,12 +280,14 @@ def run_model(key: str, tasks: pd.DataFrame, make, out_dir: Path, device: str, l
             flat_fb = [0] * len(flat)
             # Fall back to one task at a time so a single bad task does not lose the batch.
             flat_preds = []
+            _free_gpu()
             for task, season in zip(flat, seasons):
                 try:
                     flat_preds.append(_predict(adapter, classical, [task], [season])[0])
                 except Exception:
                     failures.append({"task_id": task.task_id, "error": traceback.format_exc(limit=3)[-600:]})
                     flat_preds.append(None)
+                    _free_gpu()
         preds, fbs, k = [], [], 0
         for ps in pieces:
             part = flat_preds[k:k + len(ps)]
