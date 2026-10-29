@@ -34,6 +34,11 @@
    "name": "A-retry",
    "job": "tiera",
    "extra_args": "--models tfm3-eval,tfm3 --tasks boomlet_619,boomlet_1487,boomlet_1209,jena_weather_10T"
+  },
+  {
+   "name": "diag-chronos",
+   "job": "diag_chronos",
+   "extra_args": ""
   }
  ]
 }
