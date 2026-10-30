@@ -44,6 +44,16 @@
    "name": "diag-chronos-fev",
    "job": "diag_chronos",
    "extra_args": "--fev"
+  },
+  {
+   "name": "P1-primary",
+   "job": "forecast",
+   "extra_args": "--tier P --period prospective-2026-10-30 --models tfm3-uni,chronos2-uni,tfm25,tfm3,tfm3-eval"
+  },
+  {
+   "name": "P1-secondary",
+   "job": "forecast",
+   "extra_args": "--tier P --period prospective-2026-10-30 --models chronos2,tirex2-uni,tirex2"
   }
  ]
 }
