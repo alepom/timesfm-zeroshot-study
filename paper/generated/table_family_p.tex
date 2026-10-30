@@ -1,0 +1,16 @@
+\begin{tabular}{lllrllll}
+\toprule
+Test & Contrast (A vs B) & Metric & Ratio & 95\% CI (two-way) & 95\% CI (series) & $p_{\mathrm{Holm}}$ & Decision \\
+\midrule
+P1 & TimesFM-3 uni vs Stat.\ ensemble & MASE & 0.836 & [0.786, 0.882] & [0.804, 0.867] & 0.001 & resolved \\
+P1 & TimesFM-3 uni vs Stat.\ ensemble & SQL & 0.707 & [0.649, 0.764] & [0.655, 0.757] & 0.001 & resolved \\
+P2 & TimesFM-3 uni vs Chronos-2 uni & MASE & 0.953 & [0.924, 0.981] & [0.937, 0.969] & 0.014 & resolved \\
+P2 & TimesFM-3 uni vs Chronos-2 uni & SQL & 0.956 & [0.933, 0.979] & [0.942, 0.971] & 0.003 & resolved \\
+P3 & TimesFM-3 uni vs TimesFM-2.5 & MASE & 0.951 & [0.917, 0.988] & [0.924, 0.981] & 0.066 & not resolved \\
+P3 & TimesFM-3 uni vs TimesFM-2.5 & SQL & 0.939 & [0.914, 0.965] & [0.916, 0.963] & 0.001 & resolved \\
+P4a & TimesFM-3 vs TimesFM-3 uni & MASE & 0.967 & [0.940, 0.997] & [0.947, 0.986] & 0.105 & not resolved \\
+P4a & TimesFM-3 vs TimesFM-3 uni & SQL & 0.966 & [0.947, 0.988] & [0.950, 0.982] & 0.025 & resolved \\
+P5 & TimesFM-3 eval vs TimesFM-3 & MASE & 0.989 & [0.976, 1.002] & [0.983, 0.995] & 0.106 & not resolved \\
+P5 & TimesFM-3 eval vs TimesFM-3 & SQL & 0.991 & [0.982, 1.000] & [0.986, 0.996] & 0.106 & not resolved \\
+\bottomrule
+\end{tabular}

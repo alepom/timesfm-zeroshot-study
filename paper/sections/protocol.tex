@@ -1,0 +1,49 @@
+\section{Protocol}
+\label{sec:protocol}
+
+\input{sections/fig_design}
+
+\paragraph{Freeze.} Research questions, hypotheses, series lists, metrics, contrasts, families and decision rules were written in a
+protocol and frozen by the git tag \texttt{protocol-frozen-v1} (commit \texttt{9f15b38}, 2026-10-28 17:59 UTC) before any data of
+the post-release test windows were downloaded; the download code refuses earlier dates. The protocol incorporates an independent
+adversarial review of its draft and a pilot on pre-release data (one year earlier) and on a separate synthetic set; the pilot is not
+part of the results. One deviation occurred: the post-release data were downloaded on the evening of the freeze day instead of the
+next day (Appendix~\ref{app:deviations}). Results that the protocol did not specify are labelled \emph{exploratory} or
+\emph{descriptive} wherever they appear.
+
+\paragraph{Research questions.} RQ1: do the published per-task TimesFM~3 results, and the claim they support, reproduce with the
+public code and weights? RQ2: does TimesFM~3's advantage hold on data that post-date its release, and is there a trace of
+memorisation? RQ3: under which controlled conditions does zero-shot forecasting fail? RQ4: are the quantile forecasts calibrated?
+RQ5: when do multivariate mode and covariates help? RQ6: how much do inference-time options and fixed components contribute? RQ7: is
+zero-shot forecasting worth it against classical methods, accounting for compute?
+
+\paragraph{Pre-declared hypotheses.} \textbf{H1} (descriptive): the advantage over a statistical ensemble is smaller on post-release
+data than on the public benchmark. \textbf{H2}: on Wikipedia pageviews, TimesFM~3's advantage over Chronos-2 is larger on
+2023 windows inside TimesFM's pageview corpus (W-seen) than on the same pages in 2026 (W-post). \textbf{H3}: disabling the linear
+detrending lowers the error over steps 25--48 on a saturating logistic process. \textbf{H4}: multivariate mode lowers the error
+when a known dependence exists (H4a lead-lag, H4b known future covariate) and is equivalent within $\pm$3\% when none exists (H4c
+independent series, H4d spurious covariate). \textbf{H5}: on near-random-walk series (exchange rates, Treasury yields, oil prices)
+TimesFM~3 does not improve on the random walk by more than 10\%.
+
+\paragraph{Metrics.} The point metric is MASE of the median forecast and the probabilistic metric is the scaled quantile loss (SQL)
+over the nine quantile levels, both as defined by fev-bench \citep{shchur2025fevbench}; scales are the in-sample seasonal
+differences of each context (season 24 for hourly, 7 for daily, 5 for business-daily data). We also record RMSSE, WAPE, WQL and the
+empirical coverage of the 80\% and 60\% central intervals.
+
+\paragraph{Estimand and uncertainty.} A contrast between configurations A and B is the paired log ratio
+$d = \log(\text{error}_A) - \log(\text{error}_B)$ on identical series and windows, averaged with equal weight within each domain
+$\times$ horizon cell, then over horizons and over domains, and reported as $\exp(\bar d)$: a ratio below 1 favours A. Uncertainty
+comes from a two-way cluster bootstrap with 10{,}000 replicates that resamples series (within domains) and ISO weeks of the forecast
+origin jointly \citep{cameron2011multiway}, so that overlapping windows and shocks common to several series are both reflected;
+synthetic data resample replications. Intervals are percentile 95\% intervals; the series-only interval is reported as a sensitivity
+analysis.
+
+\paragraph{Families and decisions.} Decisions use Holm-adjusted $p$-values \citep{holm1979} within a family at
+$\alpha = 0.05$; intervals are unadjusted. \emph{Family P} (primary, ten tests) holds the information-matched contrasts on
+post-release data: TimesFM~3 in univariate mode without covariates against the statistical ensemble (P1), Chronos-2 (P2) and
+TimesFM~2.5 (P3) under the same inputs, the multivariate against the univariate mode on real group tasks (P4a), and the benchmark
+flags against the package defaults (P5), each on MASE and SQL. \emph{Family H} holds the primary test of each hypothesis H2--H5
+(seven tests). Equivalence (H4c, H4d) is claimed only if the 90\% interval lies inside the $\pm$3\% margin (two one-sided tests
+\citep{schuirmann1987tost}); H5 is a non-superiority test that is supported when the 95\% lower bound exceeds 0.90. A
+difference whose adjusted $p$ exceeds 0.05 is reported as \emph{not resolved}, never as a tie. Secondary families (S1--S6) have their
+own Holm correction.

@@ -1,0 +1,78 @@
+\section{Deviations from the frozen protocol}
+\label{app:deviations}
+
+\begin{enumerate}
+\item \textbf{Download date (2026-10-28).} The post-release Tier B and W data were downloaded on the evening of the freeze day, from
+about 18:10 UTC, instead of ``on or after 2026-10-29'', because the author was unavailable the next day and the GPU runs had to
+start. The freeze commit (17:59:59 UTC) precedes the download; the test windows end on 2026-10-20 and were fully covered by ERA5;
+nothing else changed.
+\item \textbf{Variate-attention ablation (found 2026-10-30).} \texttt{tfm3-novarattn} set the flag
+\texttt{use\_variate\_attention = False} on the top module of the loaded model, where it is only stored; the forward pass reads it on
+each of the 20 layers. Its forecasts therefore equalled those of \texttt{tfm3} up to GPU non-determinism. The error was found while
+drafting this paper, after the confirmatory analysis, because the ablation's ratio was exactly 1 on cells where multivariate mode
+changes the error by up to 55\%. The other module ablations read their flags at run time and are valid. The override now sets the
+flag on every submodule that has it, the smoke test checks that each switch changes a multivariate forecast, and the ablation is
+re-run on the same tasks with the corrected code; family S5 is recomputed with it. Families P and H do not involve this
+configuration.
+\end{enumerate}
+
+\section{Tier A per task}
+\label{app:tiera}
+
+\begin{table}[h]
+\centering
+\caption{Tier A, \texttt{tfm3-eval}: our SQL and Google's published SQL per task, relative deviations of SQL and MASE, pipeline
+controls (Seasonal Naive and Chronos-2), and SQL relative to fev's published statistical ensemble.}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\input{generated/table_tier_a_tasks.tex}
+\end{table}
+
+\section{Chronos-2 and cross-learning}
+\label{app:chronos}
+
+fev's published Chronos-2 results (fev 0.8.0, commit \texttt{f323f6c}) were produced by fev's script
+\texttt{examples/chronos-2/evaluate\_model.py}, which calls \texttt{predict\_fev(task, batch\_size=100, as\_univariate=False,
+cross\_learning=True)}. We ran that script on a Colab T4 on five tasks where our Chronos-2 failed the pipeline control, with
+cross-learning on and off (Table~\ref{tab:chronos}). With cross-learning on, the script reproduces the published SQL to
+$4\cdot10^{-6}$; with it off, it reproduces our values. On \texttt{rohlik\_sales\_1W} our value differs by a further 1.2\% because
+the protocol applies Google's last-value imputation to every Tier A model. Changing our input preparation (one series per call
+against batches of 100, imputed against raw values, synthetic against real timestamps) changes SQL by less than $10^{-8}$.
+
+\begin{table}[h]
+\centering
+\caption{Chronos-2 SQL on five fev-bench tasks: fev's script with and without cross-learning, fev's published value, and our Tier A
+run.}
+\label{tab:chronos}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Task & fev script, cross-learning & published & fev script, no cross-learning & our run \\
+\midrule
+australian\_tourism & 0.6769555 & 0.6769555 & 0.7396415 & 0.7396415 \\
+ecdc\_ili & 2.2713938 & 2.2713937 & 2.4665179 & 2.4665179 \\
+hospital & 0.6860471 & 0.6860471 & 0.7013574 & 0.7013574 \\
+SZ\_TAXI\_1H & 0.3977234 & 0.3977235 & 0.4166707 & 0.4166707 \\
+rohlik\_sales\_1W & 1.2741360 & 1.2741411 & 1.1477089 & 1.1338174 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{TiRex-2 checkpoints}
+\label{app:tirex}
+
+The TiRex-2 authors publish a checkpoint described as trained without the fev-bench datasets (\texttt{NX-AI/TiRex-2-fevbench}).
+Its weights are byte-identical to those of \texttt{NX-AI/TiRex-2} (all 283
+tensors; same source checkpoint SHA-256 \texttt{184b160f\ldots}; bit-identical forecasts). The same checkpoint was uploaded to both
+repositories on 2026-07-02, replacing an earlier TiRex-2 checkpoint. The TiRex-2 report describes one checkpoint per benchmark
+without stating which one is published as TiRex-2 \citep{podest2026tirex2}. We therefore dropped the planned TiRex-2 contrast on
+Tier A and use the public TiRex-2 checkpoint everywhere else. We report this as a provenance note, without drawing conclusions about
+the training data; the evidence is released with the code.
+
+\section{Hardware limits}
+\label{app:hardware}
+
+On the 15\,GB Tesla T4, \texttt{tfm3-eval} ran out of memory on two Tier A tasks (\texttt{boomlet\_619}, \texttt{boomlet\_1209}),
+deterministically at about 14.3\,GB, because symmetric averaging doubles the batch; the package defaults ran on all tasks after the
+GPU cache was released between tasks. TiRex-2 used its non-fused sLSTM kernels (the fused kernels need an Ampere GPU) and is not
+run beyond 320 steps.

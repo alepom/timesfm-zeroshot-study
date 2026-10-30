@@ -1,0 +1,46 @@
+\section{Introduction}
+
+Time-series foundation models promise forecasts without training: a pre-trained network receives the history of a series and
+returns quantile forecasts for any horizon. TimesFM~3, released by Google Research on 31 August 2026 \citep{jain2026timesfm3}, extends
+the TimesFM line \citep{das2024timesfm} to multivariate inputs and covariates and is reported to lead the public benchmarks
+GIFT-Eval and fev-bench \citep{aksu2024gifteval,shchur2025fevbench}. For a practitioner the questions are concrete: will the model
+beat the classical methods already in use on \emph{my} series, by how much, where will it fail, and is the extra compute worth it?
+
+Public benchmarks answer these questions only in part. Their datasets are years old and widely redistributed, and the training
+corpora of foundation models are large, partly undisclosed and drawn from the same public sources; a recent survey finds that only a
+small fraction of the datasets used to evaluate these models never appeared in any pre-training corpus \citep{meyer2025leakage}. A
+benchmark advantage may therefore mix forecasting skill with exposure. The reported comparisons also depend on inference options
+whose role is rarely visible in a leaderboard: symmetric averaging, clipping at zero, or, as we show, letting a competitor share
+information across up to 100 series at once.
+
+This paper evaluates TimesFM~3 zero-shot under a protocol frozen before any test data existed in our hands, with data that
+\emph{post-date the model's release}. We ask seven questions: whether the published results reproduce (RQ1); whether the advantage
+holds on post-release data and leaves a trace of memorisation (RQ2); where zero-shot forecasting fails under controlled conditions
+(RQ3); whether the quantiles are calibrated (RQ4); when multivariate inputs help (RQ5); how much the fixed inference steps
+contribute (RQ6); and whether the model is worth its compute against classical methods (RQ7).
+
+\paragraph{Contributions.}
+\begin{itemize}
+\item A \emph{leakage-aware design}: real data published after the release (six domains, 104 series, about 4{,}900 series-windows), a
+Wikipedia probe that compares the same pages inside and outside the model's documented pageview corpus, a prospective check with
+forecasts sealed by hash before their outcomes existed, and controlled synthetic data, all scored with paired contrasts, a two-way
+cluster bootstrap and Holm corrections within pre-declared families.
+\item A \emph{reproduction} of Google's per-task fev-bench results and a trace of the comparison with Chronos-2 to a difference in
+inference options (cross-learning) between the two published result sets.
+\item A \emph{reading of the inference code} of TimesFM~3, which has no technical report, with a configuration audit and ablations of
+its fixed steps: linear detrending behind an $R^2$ gate, iterative normalisation of masked horizon tokens, stitching, quantile
+sorting.
+\item Evidence on \emph{when not to use} the model: near-random-walk series, saturating trends, and recent regime changes.
+\end{itemize}
+
+\paragraph{Main findings.} The published results reproduce. On post-release data TimesFM~3 beats a classical ensemble clearly
+(\PoneMase{} in MASE, \PoneSql{} in SQL) and Chronos-2 and TimesFM~2.5 narrowly (about 5\%); the margin over classical methods is
+slightly smaller than on the benchmark, and we find no trace of memorisation within the detectable effect. On exchange rates and
+interest rates it is worse than the random walk, and on saturating growth and recent regime changes it fails badly. Multivariate
+mode helps when there is a strong cross-series signal and is harmless otherwise. The fixed inference steps matter little on
+average.
+
+The rest of the paper reviews related work (Section~\ref{sec:related}), explains how TimesFM~3 works (Section~\ref{sec:mechanism}),
+describes the protocol and data (Sections~\ref{sec:protocol}--\ref{sec:data}), reports the results
+(Sections~\ref{sec:reproduction}--\ref{sec:prospective}) and discusses their practical meaning and limits
+(Sections~\ref{sec:discussion}--\ref{sec:limitations}).

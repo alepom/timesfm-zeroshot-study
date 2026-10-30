@@ -1,0 +1,39 @@
+\section{Related work}
+\label{sec:related}
+
+\paragraph{Time-series foundation models.} Pre-trained forecasters now come in several designs: decoder-only patch transformers
+(TimesFM \citep{das2024timesfm}, Lag-Llama \citep{rasul2023lagllama}, Timer-style models such as Sundial \citep{liu2025sundial}),
+models that tokenise values (Chronos \citep{ansari2024chronos}), masked encoders with any-variate attention (Moirai
+\citep{woo2024moirai,liu2025moirai2}), mixtures of experts (Time-MoE \citep{shi2025timemoe}), recurrent architectures (TiRex
+\citep{auer2025tirex}), general-purpose encoders (MOMENT \citep{goswami2024moment}), observability-oriented models (Toto
+\citep{cohen2025toto,khwaja2026toto2}) and tabular foundation models applied to series \citep{hoo2026tabpfnts}. The 2025--2026
+generation adds multivariate inputs and covariates: Chronos-2 with group attention across series \citep{ansari2025chronos2}, TiRex-2
+\citep{podest2026tirex2} and TimesFM~3 \citep{jain2026timesfm3}.
+
+\paragraph{Benchmarks and their limits.} GIFT-Eval \citep{aksu2024gifteval} and fev-bench \citep{shchur2025fevbench} are the
+reference leaderboards, with TIME \citep{qiao2026time} among the newer ones; they build on decades of forecasting competitions
+\citep{makridakis2020m4,makridakis2022m5}. Their datasets are public and old enough to have entered pre-training corpora. Meyer et
+al.\ \citep{meyer2025leakage} document how pervasive the overlap is and argue for evaluation on data unseen by construction;
+TSFMAudit \citep{li2026tsfmaudit} audits contamination directly; live benchmarks score forecasts made before the outcomes exist
+(Impermanent \citep{garza2026impermanent}) or pre-registered on a platform (TS-Arena \citep{meyer2026tsarena}). For electricity
+prices, Pan and Ezzat \citep{pan2026electricity} discuss contamination risk and covariate dependence. More generally, Hewamalage et
+al.\ \citep{hewamalage2023forecast} list evaluation pitfalls, leakage among them. We combine three of these ideas in one study:
+post-release data, a within-model comparison of the same pages inside and outside the documented pageview corpus, and sealed
+prospective forecasts.
+
+\paragraph{Evaluations of TimesFM~3.} At the time of writing, the only independent study we know is a simulation study
+\citep{ebrahim2026foundation} that compares TimesFM~3 with classical models on nine synthetic univariate processes. Its
+worst-case error relative to the best method was smaller than that of any classical method, but automatic ARIMA was more accurate
+on seasonal ARIMA data with four or more cycles, the foundation models forecast a spurious decline on a saturating process at
+steps 25--48, and TimesFM~3 did not beat simple benchmarks on intermittent demand. We replicate its three hardest processes
+(Section~\ref{sec:controlled}), confirm the spurious decline, and add real post-release data, multivariate structure and an
+analysis of the mechanism. On intermittent demand our result differs: against the classical methods we run (which include no
+Croston-type method), the foundation models are about 20\% more accurate.
+
+\paragraph{Evaluation methods.} We use scaled errors \citep{hyndman2006mase}, the quantile loss as a proper scoring rule
+\citep{gneiting2007scoring}, calibration in the sense of \citet{gneiting2007calibration}, classical baselines from StatsForecast
+\citep{garza2022statsforecast} (ETS \citep{hyndman2002state}, ARIMA \citep{hyndman2008forecast}, Theta
+\citep{assimakopoulos2000theta}, MSTL \citep{bandara2025mstl}), a two-way cluster bootstrap \citep{cameron2011multiway,davison1997bootstrap},
+Holm's correction \citep{holm1979}, two one-sided tests for equivalence \citep{schuirmann1987tost} and Wilson intervals
+\citep{wilson1927}. The study follows the design of the author's earlier preprint \citep{pomaro2026decision}: a protocol frozen by
+a git tag, pre-declared contrasts, and a distinction between unresolved differences and ties.

@@ -1,0 +1,14 @@
+\begin{tabular}{llrllrll}
+\toprule
+Configuration & Change & Ratio B & 95\% CI & $p_{\mathrm{Holm}}$ & Ratio C & 95\% CI & $p_{\mathrm{Holm}}$ \\
+\midrule
+\texttt{tfm3-nodetrend} & linear detrending off & 0.989 & [0.969, 1.000] & 1.000 & 1.007 & [1.004, 1.010] & 0.002 \\
+\texttt{tfm3-nocpmrevin} & CPM and iterative RevIN off & 0.999 & [0.995, 1.002] & 1.000 & 1.000 & [0.998, 1.001] & 1.000 \\
+\texttt{tfm3-novarattn} & variate attention off & \multicolumn{6}{l}{\textit{withdrawn, re-run pending (Appendix~\ref{app:deviations})}} \\
+\texttt{tfm3-nostitch} & stitching off & 1.006 & [0.996, 1.016] & 1.000 & 1.000 & [1.000, 1.001] & 0.242 \\
+\texttt{tfm3-sym} & symmetric averaging on & 0.999 & [0.971, 1.030] & 1.000 & 1.002 & [1.001, 1.004] & 0.075 \\
+\texttt{tfm3-pos} & make\_positive on & 1.000 & [1.000, 1.000] & 1.000 & 1.000 & [0.999, 1.000] & 0.002 \\
+\texttt{tfm3-znorm} & z-normalised inputs & 1.001 & [0.999, 1.003] & 1.000 & 1.000 & [1.000, 1.000] & 1.000 \\
+\texttt{tfm3-edge} & covariate edge handling & 0.966 & [0.895, 1.038] & 1.000 & 1.007 & [1.003, 1.011] & 0.002 \\
+\bottomrule
+\end{tabular}

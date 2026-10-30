@@ -1,0 +1,53 @@
+\begin{tabular}{lrrrrrlr}
+\toprule
+Cell & $H$ & TimesFM-3 & Chronos-2 & TiRex-2 & TimesFM-2.5 & Best classical & TFM-3 / best \\
+\midrule
+\multicolumn{8}{l}{\textit{C-horizon}} \\
+uni long\_horizon 1024 & 1024 & 0.240 & 0.241 & -- & 0.252 & 0.257 (MSTL-ARIMA) & 0.937 \\
+uni long\_horizon 256 & 256 & 0.205 & 0.205 & 0.218 & 0.208 & 0.222 (MSTL-ARIMA) & 0.926 \\
+uni long\_horizon 512 & 512 & 0.239 & 0.239 & -- & 0.243 & 0.257 (MSTL-ARIMA) & 0.928 \\
+\midrule
+\multicolumn{8}{l}{\textit{C-ladder}} \\
+uni context\_ladder 1024 & 168 & 0.328 & 0.329 & 0.353 & 0.334 & 0.356 (MSTL-ARIMA) & 0.919 \\
+uni context\_ladder 15360 & 168 & 0.252 & 0.255 & 0.266 & 0.255 & 0.275 (MSTL-ARIMA) & 0.919 \\
+uni context\_ladder 256 & 168 & 0.371 & 0.350 & 0.744 & 0.357 & 0.914 (MSTL-ETS) & 0.405 \\
+uni context\_ladder 4096 & 168 & 0.232 & 0.232 & 0.243 & 0.235 & 0.251 (MSTL-ARIMA) & 0.924 \\
+uni context\_ladder 64 & 168 & 0.883 & 0.994 & 0.914 & 0.801 & 0.960 (MSTL-ETS) & 0.919 \\
+\midrule
+\multicolumn{8}{l}{\textit{C-mv}} \\
+mv independent 8 & 24 & 0.783 & 0.785 & 0.783 & 0.786 & 0.787 (AutoARIMA) & 0.995 \\
+mv known\_cov snr0.5 & 24 & 0.684 & 0.705 & 0.686 & 0.766 & 0.764 (AutoARIMA) & 0.896 \\
+mv known\_cov snr2 & 24 & 0.336 & 0.338 & 0.343 & 0.754 & 0.752 (Mean) & 0.447 \\
+mv lead\_lag 1 & 24 & 0.843 & 0.850 & 0.846 & 0.853 & 0.872 (AutoARIMA) & 0.967 \\
+mv lead\_lag 24 & 24 & 0.677 & 0.572 & 0.848 & 0.861 & 0.885 (AutoARIMA) & 0.764 \\
+mv lead\_lag 5 & 24 & 0.807 & 0.767 & 0.828 & 0.841 & 0.889 (AutoARIMA) & 0.908 \\
+mv spurious\_past\_cov & 24 & 0.747 & 0.750 & 0.747 & 0.751 & 0.751 (AutoARIMA) & 0.995 \\
+mv var1 2 & 24 & 0.739 & 0.739 & 0.744 & 0.741 & 0.741 (AutoARIMA) & 0.997 \\
+mv var1 32 & 24 & 0.740 & 0.738 & 0.742 & 0.743 & 0.743 (Mean) & 0.997 \\
+mv var1 64 & 24 & 0.744 & 0.744 & 0.746 & 0.746 & 0.745 (Mean) & 0.999 \\
+mv var1 8 & 24 & 0.755 & 0.751 & 0.758 & 0.759 & 0.758 (AutoARIMA) & 0.995 \\
+\midrule
+\multicolumn{8}{l}{\textit{C-replication}} \\
+rep D6 n200 & 48 & 0.902 & 0.927 & 1.178 & 0.871 & 0.895 (AutoETS) & \textbf{1.008} \\
+rep D6 n200 h12 & 12 & 0.912 & 0.907 & 0.906 & 0.898 & 0.894 (AutoETS) & \textbf{1.020} \\
+rep D6 n48 & 48 & 1.000 & 1.186 & 1.148 & 0.977 & 0.958 (AutoETS) & \textbf{1.044} \\
+rep D6 n48 h12 & 12 & 0.886 & 0.891 & 0.853 & 0.860 & 0.931 (AutoETS) & 0.952 \\
+rep D7 n200 & 48 & 6.322 & 4.382 & 3.245 & 10.924 & 1.000 (Naive) & \textbf{6.322} \\
+rep D7 n200 h12 & 12 & 1.024 & 1.136 & 0.993 & 1.257 & 1.000 (Naive) & \textbf{1.024} \\
+rep D7 n48 & 48 & 0.714 & 0.458 & 0.712 & 0.876 & 0.183 (AutoETS) & \textbf{3.901} \\
+rep D7 n48 h12 & 12 & 0.170 & 0.393 & 0.246 & 0.307 & 0.178 (AutoTheta) & 0.950 \\
+rep D8 n200 & 48 & 0.767 & 0.768 & 0.775 & 0.767 & 1.000 (Naive) & 0.767 \\
+rep D8 n200 h12 & 12 & 0.773 & 0.774 & 0.787 & 0.769 & 1.000 (Naive) & 0.773 \\
+rep D8 n48 & 48 & 0.807 & 0.783 & 0.796 & 0.795 & 1.000 (Naive) & 0.807 \\
+rep D8 n48 h12 & 12 & 0.768 & 0.759 & 0.780 & 0.762 & 1.000 (Naive) & 0.768 \\
+\midrule
+\multicolumn{8}{l}{\textit{C-uni}} \\
+uni long\_period ctx200 & 60 & 0.519 & 0.509 & 0.974 & 0.731 & 0.956 (AutoTheta) & 0.543 \\
+uni outliers & 48 & 0.278 & 0.282 & 0.305 & 0.284 & 0.326 (MSTL-ARIMA) & 0.853 \\
+uni random\_walk & 64 & 1.051 & 1.021 & 1.042 & 1.018 & 1.000 (Naive) & \textbf{1.051} \\
+uni regime\_change & 48 & 0.917 & 0.387 & 0.645 & 0.605 & 0.387 (MSTL-Theta) & \textbf{2.368} \\
+uni two\_seasons ctx168 & 168 & 0.620 & 0.597 & 0.847 & 0.530 & 0.886 (MSTL-ARIMA) & 0.700 \\
+uni two\_seasons ctx672 & 168 & 0.315 & 0.313 & 0.338 & 0.322 & 0.346 (MSTL-ARIMA) & 0.911 \\
+uni white\_noise & 64 & 0.714 & 0.714 & 0.714 & 0.714 & 0.713 (Mean) & \textbf{1.001} \\
+\bottomrule
+\end{tabular}

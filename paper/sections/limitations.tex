@@ -1,0 +1,25 @@
+\section{Limitations}
+\label{sec:limitations}
+
+\begin{itemize}
+\item \textbf{Scope.} One model in depth, three comparison foundation models, six real domains and eight weeks of post-release
+windows; no fine-tuning and no trained global model (fev's published LightGBM results are not analysed). Results on other domains,
+in particular business data, may differ.
+\item \textbf{Exposure is bounded, not excluded.} Post-release test windows do not make the series new: same-source data of earlier
+periods are in public pre-training corpora for load, price and weather, and the TimesFM~3 corpus is described only at the level of
+sources. The Wikipedia probe has a minimum detectable effect of about 5\%.
+\item \textbf{Oracle covariates.} The real covariates (temperature, precipitation) are observed values, an upper bound on what a
+forecast could use.
+\item \textbf{Our ensemble is not fev's.} H1 compares TimesFM~3 with fev's ensemble on Tier A and with ours on Tier B, so it is
+descriptive.
+\item \textbf{Design error in H3.} The pre-registered cell never activates the mechanism it tests; the exploratory results on the
+other cells are not adjusted for multiplicity.
+\item \textbf{A software error in one ablation} (variate attention) was found after the confirmatory analysis; the ablation is
+re-run and reported separately (Appendix~\ref{app:deviations}).
+\item \textbf{Hardware.} All neural models ran on a single 15\,GB T4 in fp32; two Tier A tasks did not fit with symmetric averaging,
+and TiRex-2 ran on its slower kernels and is limited to 320 steps.
+\item \textbf{Prospective tier.} Two overlapping issues give inference over series, not over time; they check the direction of the
+main results, not their size.
+\item \textbf{Code reading.} The description of TimesFM~3 is based on the public inference code and checkpoint configuration;
+statements about training are inferences.
+\end{itemize}

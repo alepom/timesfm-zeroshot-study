@@ -1,0 +1,83 @@
+\section{Results II: post-release data}
+\label{sec:postrelease}
+
+\input{sections/fig_forest}
+
+\paragraph{Primary contrasts (family P).} On the four structured domains of Tier B, with no covariates for any model, TimesFM~3 in
+univariate mode has a MASE \PoneMase{} times that of the statistical ensemble (95\% CI \PoneMaseLo--\PoneMaseHi) and an SQL
+\PoneSql{} times (\PoneSqlLo--\PoneSqlHi); both differences are resolved (Table~\ref{tab:familyp}, Figure~\ref{fig:forest}). Against
+the other foundation models the margins are an order of magnitude smaller: \PtwoMase{} (MASE) and \PtwoSql{} (SQL) against
+Chronos-2, both resolved, and \PthreeSql{} (SQL, resolved) and \PthreeMase{} (MASE, not resolved after Holm correction) against its
+predecessor TimesFM~2.5. Joint forecasting of the real group tasks (P4a: price, FX, FRED) lowers SQL by about 3\% (resolved; the
+MASE difference is not resolved). The flags of Google's benchmark runners (P5) change neither metric by more than about 1\%, at
+twice the compute; neither difference is resolved.
+
+\begin{table}[!htbp]
+\centering
+\caption{Family P (primary): information-matched contrasts on Tier B. Ratio of errors, A / B ($<1$: A better), with the
+two-way cluster bootstrap interval and the series-only interval; decisions by Holm-adjusted $p$ over the ten tests.}
+\label{tab:familyp}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\input{generated/table_family_p.tex}
+\end{table}
+
+\paragraph{By domain (S1).} The advantage over the statistical ensemble is resolved in every domain, from 11\% lower MASE on
+electricity load to 22\% on river flow (Table~\ref{tab:secondary}). Against Chronos-2 the per-domain differences are resolved only
+on weather; against TimesFM~2.5 on load and weather. The cross-model margins are therefore not uniform across domains, and the
+pooled P2 result rests mostly on the largest domain (weather: 2{,}280 of 3{,}855 series-windows).
+
+\paragraph{H1: is the advantage smaller after the release?} With the same configuration as on Tier A (package defaults, covariates
+included), TimesFM~3's MASE relative to our statistical ensemble on Tier B is \HoneBMase{} (\HoneBMaseLo--\HoneBMaseHi) and its SQL
+\HoneBSql{} (\HoneBSqlLo--\HoneBSqlHi), against \HoneAMase{} and \HoneASql{} relative to fev's ensemble on the benchmark tasks.
+Descriptively, the point-forecast advantage is about a quarter smaller on post-release data (18\% against 25\%) and the
+probabilistic advantage almost unchanged (31\% against 34\%). The two tiers differ in datasets, horizons and ensemble members, so
+this comparison carries no test and cannot separate exposure from difficulty; it says that the benchmark-level advantage over
+classical methods survives on new data, slightly reduced for the median forecast.
+
+\paragraph{H5: near-random-walk series.} On exchange rates, Treasury yields and oil prices, TimesFM~3's MASE is \Hfive{} times that
+of the random walk (\HfiveLo--\HfiveHi): H5 is supported, and more strongly than stated, since the model is \emph{worse} than the
+naive forecast rather than not much better. It is also worse than the statistical ensemble on these series (\NrwStatEns,
+\NrwStatEnsLo--\NrwStatEnsHi; descriptive), while the difference from Chronos-2 is not resolved (\NrwChronos,
+\NrwChronosLo--\NrwChronosHi). A random walk is the optimal forecast for a martingale, so no model can beat it by a resolved margin
+without an evaluation problem; the negative controls in Tier C behave the same way (Section~\ref{sec:controlled}).
+
+\paragraph{Covariates and context length (S3, S4).} Supplying the observed future temperature for load and the observed future
+precipitation for river flow, an oracle that no real forecast has, does not resolve a gain: \texttt{tfm3} against \texttt{tfm3-uni}
+gives 0.974 (0.904--1.060), and Chronos-2 with and without covariates 0.969 (0.930--1.008). On hourly data, cutting TimesFM~3's
+context to the 2{,}016 points the classical models use raises its MASE by 4\% (S4, resolved); the long context helps, but explains
+only a small part of the gap to the classical ensemble on hourly series (11--13\% in load and price).
+
+\paragraph{Memorisation probe (H2, S2).} TimesFM~3's MASE relative to Chronos-2 is 0.939 on the 2023 W-seen windows and 0.959 on the
+same pages in 2026; the difference in differences is \Htwo{} (\HtwoLo--\HtwoHi), not resolved (Table~\ref{tab:familyh}). The design
+had 80\% power to detect a difference of about 5\%, so a memorisation advantage of that size is unlikely; smaller effects cannot be
+excluded, and a null difference does not show that the pages were not memorised. The secondary contrasts agree
+(Table~\ref{tab:secondary}): with the statistical ensemble or TiRex-2 as the reference, and for TimesFM~2.5, the difference is not
+resolved. On pages born after 2023 (W-new), TimesFM~3's advantage over Chronos-2 is smaller than on W-post (0.984 against 0.959); the
+raw contrast is not resolved, and the contrast adjusted for context features (0.942, 0.897--0.996) is not resolved after Holm
+correction. If anything, TimesFM~3 does slightly better on long-lived pages than on new ones, which is consistent with familiarity
+with the type of series rather than with the particular windows.
+
+\paragraph{Calibration (RQ4).} The empirical coverage of the nominal 80\% interval on Tier B is close to nominal for TimesFM~3
+(\CovBtfm{}), TimesFM~2.5 and TiRex-2, lower for Chronos-2 (0.750) and lower for the statistical ensemble (\CovBstat{}), whose MSTL
+intervals ignore the uncertainty of the seasonal component (Table~\ref{tab:calibration}). On Wikipedia pageviews all foundation
+models are too narrow (coverage 0.72--0.76) and the ensemble far too wide (0.95). The Wilson intervals use the number of series as the sample size and are therefore wide; they are a guide,
+not a test.
+
+\begin{table}[!htbp]
+\centering
+\caption{Calibration: mean empirical coverage of the central 80\% and 60\% intervals (protocol §5.6). The Wilson interval treats
+each series as one observation (each series' coverage averaged over its windows and steps).}
+\label{tab:calibration}
+\small
+\input{generated/table_calibration.tex}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Secondary families (Holm within each family). S1: family P contrasts by domain; S2: Wikipedia memorisation probe; S3:
+oracle future covariates; S4: TimesFM~3 restricted to the classical models' context.}
+\label{tab:secondary}
+\scriptsize
+\input{generated/table_secondary.tex}
+\end{table}

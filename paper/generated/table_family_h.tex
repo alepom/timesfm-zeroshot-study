@@ -1,0 +1,13 @@
+\begin{tabular}{lllrlll}
+\toprule
+ & Contrast & Prediction & Ratio & 95\% CI & $p_{\mathrm{Holm}}$ & Decision \\
+\midrule
+H2 & W-seen vs W-post DiD, TimesFM-3 vs Chronos-2 & ratio $<$ 1 & 0.980 & [0.936, 1.021] & 0.714 & not supported \\
+H3 & no detrending vs default, D7, steps 25--48 & ratio $<$ 1 & 1.000 & [1.000, 1.000] & 1.000 & not supported \\
+H4a & multivariate vs univariate, lead-lag 24 & ratio $<$ 1 & 0.616 & [0.591, 0.643] & $<$0.001 & supported \\
+H4b & multivariate vs univariate, known covariate & ratio $<$ 1 & 0.446 & [0.432, 0.460] & $<$0.001 & supported \\
+H4c & multivariate vs univariate, independent series & within $\pm$3\% & 0.998 & [0.997, 0.999] & $<$0.001 & supported \\
+H4d & multivariate vs univariate, spurious covariate & within $\pm$3\% & 1.000 & [1.000, 1.001] & $<$0.001 & supported \\
+H5 & TimesFM-3 uni vs Naive, FX and FRED & not $<$ 0.90 & 1.110 & [1.049, 1.178] & $<$0.001 & supported \\
+\bottomrule
+\end{tabular}

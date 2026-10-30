@@ -1,0 +1,40 @@
+\section{Results I: the published results reproduce, the comparison with Chronos-2 does not}
+\label{sec:reproduction}
+
+\paragraph{Per-task reproduction (RQ1).} With the benchmark flags (\texttt{tfm3-eval}), our SQL is within $\pm$3\% of Google's
+published value on \AReproShare\% of the \ATasks{} tasks we could score (Table~\ref{tab:tiera}); the median deviation is zero to four
+decimals and the deviations show no systematic sign. The two remaining tasks of the sample (\texttt{boomlet\_619},
+\texttt{boomlet\_1209}) exhaust the 15\,GB of the T4 GPU under symmetric averaging, which doubles the batch, and are not scored;
+the package defaults (\texttt{tfm3}) run on all 30. The five tasks outside the $\pm$3\% band (deviations from $-10.6\%$ to
+$+6.1\%$; four of the five in our favour) all have covariates: the median absolute deviation is 0.001\% on tasks without covariates
+and 1\% on tasks with covariates. We did not trace the cause; candidates are the handling of covariates with missing values and
+batch-size choices that depend on the hardware. The per-task values are in Appendix~\ref{app:tiera}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Tier A: reproduction of Google's published fev-bench results. ``$\pm$3\%'': share of tasks whose SQL is within 3\%
+of the published value; ``Median'' and ``Range'': deviations relative to the published SQL. ``Ratio'': geometric mean over tasks of SQL(TimesFM~3) /
+SQL(Chronos-2), with our Chronos-2 (``ours'', no cross-learning) or fev's published Chronos-2 (``publ.'', cross-learning).}
+\label{tab:tiera}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\input{generated/table_tier_a.tex}
+\end{table}
+
+\paragraph{The claim against Chronos-2.} Google's comparison sets its TimesFM~3 results against the Chronos-2 results published by
+fev. Our Chronos-2 failed the pipeline control on 16 of the 28 tasks (two further tasks failed the Seasonal Naive control), with a
+higher SQL than published on 12 of them, so we traced the cause. fev's
+published Chronos-2 results were produced with \emph{cross-learning} switched on: the series of a batch of up to 100 share
+information through Chronos-2's group attention. Running fev's own evaluation script on five failing tasks reproduces the published
+SQL to $4\cdot10^{-6}$ with cross-learning on and our values with it off (Appendix~\ref{app:chronos}); input preparation (batching,
+imputation, timestamps) changes nothing. TimesFM~3 has no comparable option: it forecasts each series of a task on its own, or the
+series of one multivariate task jointly. Cross-learning lowered Chronos-2's SQL by 2--9\% on four of the five tasks and raised it by
+11\% on the fifth. With both models forecasting each series on its own, the geometric-mean SQL ratio of TimesFM~3 to Chronos-2 is
+\ASkillOurs{} on all scored tasks (published comparison: \ASkillPubl{}); on the \AControlTasks{} tasks where our Chronos-2 matches
+fev's, it is \ASkillOursCtl{} (published: \ASkillPublCtl{}). Our reading is that, on this sample, the published advantage over
+Chronos-2 is small and depends on which inference options each model is given; on like-for-like inputs the two are at parity on
+the tasks where the comparison is cleanest.
+
+\paragraph{Against classical methods (H1, Tier A side).} With Google's inputs, TimesFM~3 (\texttt{tfm3}) has a geometric-mean
+MASE of \HoneAMase{} and SQL of \HoneASql{} relative to fev's published statistical ensemble over the \HoneATasks{} tasks, and a lower
+SQL on \HoneAWins\% of them. Section~\ref{sec:postrelease} sets these numbers against the same comparison on post-release data.

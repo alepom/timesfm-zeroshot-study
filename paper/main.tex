@@ -1,0 +1,70 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.4cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{caption}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.18}
+\captionsetup{font=small,labelfont=bf}
+\emergencystretch=3em
+\graphicspath{{figures/}}
+\input{generated/meta.tex}
+\input{generated/numbers.tex}
+
+\title{How Far Does Zero-Shot Go?\\
+\large A Leakage-Aware Evaluation of TimesFM~3 on Post-Release, Multivariate and Controlled Data}
+\author{\PaperAuthors}
+\date{\PaperVersionLine}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\noindent\textbf{Status.} \PaperStatus
+
+\input{sections/introduction}
+\input{sections/related}
+\input{sections/mechanism}
+\input{sections/protocol}
+\input{sections/data_models}
+\input{sections/results_reproduction}
+\input{sections/results_postrelease}
+\input{sections/results_controlled}
+\input{sections/results_prospective}
+\input{sections/discussion}
+\input{sections/limitations}
+\input{sections/conclusion}
+
+\section*{AI assistance and authorship}
+\input{sections/ai_statement}
+
+\section*{Funding and competing interests}
+This study received no external funding. GPU computations used the free tier of Google Colab. The author has no financial or
+other relationship with Google, Amazon, NX-AI or any other developer of the models evaluated. TimesFM~3 was used under its
+licence for academic research and internal benchmarking; its weights are not redistributed.
+
+\section*{Code and data availability}
+\input{generated/availability.tex}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\appendix
+\input{sections/appendix}
+\end{document}

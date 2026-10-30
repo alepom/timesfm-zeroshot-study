@@ -1,0 +1,76 @@
+\section{Data and models}
+\label{sec:data}
+
+\paragraph{Tier A: public benchmark.} Thirty of the 100 fev-bench tasks \citep{shchur2025fevbench}, sampled with a fixed seed and
+stratified by domain and frequency, after excluding the three tasks whose string covariates Google's runner encodes with Python's
+salted \texttt{hash()} (not reproducible across processes). Metrics are computed with fev's own functions, and every Tier A model uses
+the conventions of Google's runner (last-value imputation, context cut to 15{,}360 points). Two pipeline controls are required on
+every task: our Seasonal Naive must match fev's published results ($|\Delta\mathrm{MASE}| < 5\cdot10^{-5}$) and our Chronos-2 fev's
+published Chronos-2 ($|\Delta\mathrm{SQL}| \le 0.5\%$).
+
+\paragraph{Tier B: post-release real data.} TimesFM~3 was released on 2026-08-31. The test windows run from 2026-09-01 to
+2026-10-20, with origins every week (every 24 or 168 hours, 7 days or 5 business days, depending on frequency). Six domains, with
+series lists fixed by rules on 2025 data: hourly electricity load in 12 European countries and day-ahead prices in 12 bidding zones
+(Energy-Charts \citep{energycharts2026}), hourly temperature and wind speed in 20 cities (ERA5 via Open-Meteo
+\citep{hersbach2020era5,zippenfenig2023openmeteo}), daily flow at 20 river gauges (USGS \citep{usgs2026nwis}), ten business-daily exchange rates
+against the euro (ECB \citep{ecb2026dataportal}), and eight Treasury yields with WTI and Brent prices (FRED \citep{fred2026}). Horizons are 24 and
+168 hours, 7 and 28 days, 5 and 20 business days. Load and river flow have a covariate whose \emph{observed} future values are
+supplied (temperature, precipitation): it is an oracle, used only in secondary analyses as an upper bound. Price, FX and FRED also
+form one group task each, in which all series of the domain are forecast jointly. Same-source data of earlier periods are part of
+the public pre-training corpora for load, price and weather; the model card describes the TimesFM~3 corpus only at the level of sources (GiftEvalPretrain without the
+datasets that overlap fev-bench, Wikipedia pageviews to November 2023, Google Trends to 2022, synthetic data
+\citep{timesfm2026hf}), so Tier B guarantees
+that the \emph{test windows} are new, not that the series are.
+
+\paragraph{Tier W: memorisation probe.} English Wikipedia daily user pageviews \citep{wikimedia2026pageviews}, horizons 7 and 28 days,
+400-day contexts. \emph{W-seen}: 200 popular pages (seed 17) with test windows from 2023-09-01 to 2023-10-20, inside the pageview
+corpus that the TimesFM~3 model card lists up to November 2023 \citep{timesfm2026hf}. \emph{W-post}: the same pages, same calendar span in
+2026. \emph{W-new}: pages that first entered the top-1000 lists in 2024--2025, with no views at all before December 2023, matched to
+W-seen/W-post on quintiles of median views. Pages that became redirects are excluded (190 and 128 pages remain).
+
+\paragraph{Tier C: controlled synthetic data.} 38 cells with 200 replications each (7{,}600 tasks), seeded per cell and
+replication: (i) a replication of the three hard processes of a recent simulation study of zero-shot forecasting
+\citep{ebrahim2026foundation}, level shift (D6), logistic growth (D7) and intermittent demand (D8), with contexts of 48 and 200 points and
+horizons 12 and 48; (ii) univariate stress cells: two seasonalities with one or four weeks of context, a season longer than the
+context, a context ladder from 64 to 15{,}360 points, horizons up to 1{,}024, a regime change near the origin, outliers in the last
+5\% of the context, a random walk and white noise; (iii) multivariate cells: VAR(1) systems of 2 to 64 variates, lead-lag pairs
+(lags 1, 5, 24), a target driven by a known future covariate (signal-to-noise 0.5 and 2), a spurious past covariate, and independent
+series stacked as variates.
+
+\paragraph{Tier P: prospective check.} On the mornings of 2026-10-30 and 2026-11-02 the data published up to the previous day were
+downloaded for the load, price, river, FX, FRED and Wikipedia series, every series was forecast from its last observation, and the
+contexts, tasks, code bundle, run records and forecast files were hashed together; the combined SHA-256 was recorded before the
+scoring window (from two to nine days after the issue day) had started.
+
+\paragraph{Models.} Table~\ref{tab:models} lists the configurations. Every Hugging Face model is loaded by revision hash.
+TimesFM~3 runs in four configurations: package defaults in multivariate mode with covariates (\texttt{tfm3}), univariate without
+covariates (\texttt{tfm3-uni}, the configuration of the information-matched contrasts), the flags of Google's benchmark runners
+(\texttt{tfm3-eval}), and univariate with the classical models' context of 2{,}016 points (\texttt{tfm3-c2016}). The comparison
+foundation models are TimesFM~2.5 \citep{das2024timesfm}, Chronos-2 \citep{ansari2025chronos2} and TiRex-2 \citep{podest2026tirex2}, each also
+in a univariate configuration where relevant. The classical models are StatsForecast \citep{garza2022statsforecast} implementations of
+AutoETS, AutoARIMA and AutoTheta, MSTL with seasons 24 and 168 \citep{bandara2025mstl} for hourly data, and Naive, Seasonal Naive and
+the historic mean. The statistical ensemble averages the quantiles of three members: MSTL with ETS, Theta and ARIMA remainders on
+hourly data, and AutoETS, AutoARIMA and AutoTheta otherwise. All foundation models ran on a free Google Colab Tesla T4 GPU in fp32;
+classical models ran on eight cores of a local CPU.
+
+\begin{table}[!htbp]
+\centering
+\caption{Model configurations.}
+\label{tab:models}
+\scriptsize
+\begin{tabular}{llp{7.6cm}}
+\toprule
+Key & Model (revision) & Configuration \\
+\midrule
+\texttt{tfm3} & TimesFM~3, 330M (\texttt{43046b85}) & package defaults; all targets and covariates of a task in one pass \\
+\texttt{tfm3-uni} & TimesFM~3 & package defaults; each target alone, no covariates \\
+\texttt{tfm3-eval} & TimesFM~3 & as \texttt{tfm3} with symmetric averaging and \emph{make positive} \\
+\texttt{tfm3-c2016} & TimesFM~3 & as \texttt{tfm3-uni}, last 2{,}016 points only \\
+\texttt{tfm25} & TimesFM~2.5, 200M (\texttt{1d952420}) & univariate, recommended flags \\
+\texttt{chronos2}, \texttt{-uni} & Chronos-2, 120M (\texttt{29ec3766}) & \texttt{predict\_df}; with / without covariates and joint targets \\
+\texttt{podest2026tirex2}, \texttt{-uni} & TiRex-2 (\texttt{30788a31}) & as Chronos-2; horizons up to 320 \\
+\texttt{stat-ens} & equal-weight ensemble & MSTL-\{ETS, Theta, ARIMA\} (hourly); AutoETS, AutoARIMA, AutoTheta \\
+classical & StatsForecast 2.1.1 & Naive, Seasonal Naive, mean, AutoETS, AutoARIMA, AutoTheta, MSTL variants \\
+\bottomrule
+\end{tabular}
+\end{table}

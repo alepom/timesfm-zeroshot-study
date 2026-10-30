@@ -1,0 +1,32 @@
+\begin{tabular}{llrlll}
+\toprule
+Test & Contrast (A vs B) & Ratio & 95\% CI & $p_{\mathrm{Holm}}$ & Resolved \\
+\midrule
+\multicolumn{6}{l}{\textit{S1: family P contrasts by domain (MASE)}} \\
+P1, load & TimesFM-3 uni vs Stat.\ ensemble & 0.892 & [0.824, 0.950] & 0.004 & yes \\
+P2, load & TimesFM-3 uni vs Chronos-2 uni & 0.960 & [0.909, 1.005] & 0.245 & no \\
+P3, load & TimesFM-3 uni vs TimesFM-2.5 & 0.925 & [0.882, 0.965] & 0.008 & yes \\
+P1, price & TimesFM-3 uni vs Stat.\ ensemble & 0.872 & [0.781, 0.952] & 0.008 & yes \\
+P2, price & TimesFM-3 uni vs Chronos-2 uni & 0.979 & [0.930, 1.029] & 0.817 & no \\
+P3, price & TimesFM-3 uni vs TimesFM-2.5 & 0.963 & [0.933, 0.992] & 0.069 & no \\
+P1, weather & TimesFM-3 uni vs Stat.\ ensemble & 0.808 & [0.763, 0.850] & 0.001 & yes \\
+P2, weather & TimesFM-3 uni vs Chronos-2 uni & 0.956 & [0.929, 0.983] & 0.026 & yes \\
+P3, weather & TimesFM-3 uni vs TimesFM-2.5 & 0.961 & [0.939, 0.982] & 0.011 & yes \\
+P1, river & TimesFM-3 uni vs Stat.\ ensemble & 0.776 & [0.628, 0.923] & 0.015 & yes \\
+P2, river & TimesFM-3 uni vs Chronos-2 uni & 0.917 & [0.834, 1.000] & 0.201 & no \\
+P3, river & TimesFM-3 uni vs TimesFM-2.5 & 0.955 & [0.835, 1.107] & 0.817 & no \\
+\midrule
+\multicolumn{6}{l}{\textit{S2: Wikipedia (MASE; DiD: W-seen minus W-post advantage)}} \\
+DiD, reference stat.\ ensemble & TimesFM-3 vs Stat.\ ensemble & 1.009 & [0.915, 1.108] & 1.000 & no \\
+DiD, reference TiRex-2 & TimesFM-3 vs TiRex-2 & 0.986 & [0.951, 1.024] & 1.000 & no \\
+DiD for TimesFM-2.5 & TimesFM-2.5 vs Chronos-2 & 0.980 & [0.936, 1.021] & 1.000 & no \\
+W-post vs W-new & TimesFM-3 vs Chronos-2 & 0.974 & [0.941, 1.009] & 0.737 & no \\
+adjusted DiD & TimesFM-3 vs Chronos-2 & 1.013 & [0.971, 1.056] & 1.000 & no \\
+adjusted W-post vs W-new & TimesFM-3 vs Chronos-2 & 0.942 & [0.897, 0.996] & 0.220 & no \\
+\midrule
+\multicolumn{6}{l}{\textit{S3: oracle covariates, load and river (upper bound); S4: classical context}} \\
+P4b & TimesFM-3 vs TimesFM-3 uni & 0.973 & [0.904, 1.060] & 0.467 & no \\
+Chronos-2 covariates & Chronos-2 vs Chronos-2 uni & 0.969 & [0.930, 1.008] & 0.217 & no \\
+S4, hourly domains & TimesFM-3 c2016 vs TimesFM-3 uni & 1.040 & [1.011, 1.072] & 0.004 & yes \\
+\bottomrule
+\end{tabular}

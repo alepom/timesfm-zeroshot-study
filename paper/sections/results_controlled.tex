@@ -1,0 +1,85 @@
+\section{Results III: controlled data, failure modes and components}
+\label{sec:controlled}
+
+\paragraph{Where zero-shot forecasting wins and where it fails (RQ3).} Table~\ref{tab:tierc} gives, for each synthetic cell, the
+geometric-mean MASE of each foundation model relative to Seasonal Naive, next to the best classical model of that cell. This is a
+descriptive table: the classical model is chosen after seeing the results, which favours it. TimesFM~3 is better than the best
+classical model in 29 of the 38 cells, often by a wide margin where classical methods lack information: a context of 256 hourly
+points with weekly seasonality (0.371 against 0.914), a season longer than the context (0.519 against 0.956), two seasonalities
+with one week of context (0.620 against 0.886), and a target driven by a known future covariate (0.336 against 0.752). On long
+contexts and long horizons (up to 1{,}024 steps) the margin is a steady 6--8\%, and there TimesFM~3 and Chronos-2 are within 1\%
+of each other.
+
+The failures are specific. (i) \emph{Logistic growth} (D7). With 200 points of context the series has already
+risen and starts to saturate; the true continuation is nearly flat, but TimesFM~3 forecasts a decline: its
+median forecast over steps 25--48 lies below the last observation in 199 of the 200 replications, and its MASE is 6.3 times that of
+the naive forecast (TimesFM~2.5: 10.9; Chronos-2: 4.4; TiRex-2: 3.2; we did not inspect the direction of their errors). The simulation study we replicate reports the same spurious
+decline \citep{ebrahim2026foundation}. With 48 points of context, which end before the steep part of the curve, TimesFM~3
+under-forecasts the rise in almost every replication, and the best classical model (AutoETS) is about four times more accurate.
+(ii) \emph{A regime change} near the origin: TimesFM~3's relative MASE is 0.917 against 0.387 for both Chronos-2 and the best
+classical model, a failure specific to TimesFM~3 among the foundation models. (iii) \emph{Level shifts} (D6, three of four cells) and the
+\emph{random walk}: TimesFM~3 is 1--5\% worse than the best classical model. (iv) On \emph{white noise} all models match the historic mean,
+which is optimal; no model beats the optimal forecast, as a sound evaluation requires. Intermittent demand (D8) is handled
+well: every foundation model is about 20\% better than the naive forecast, which is the best classical model there.
+
+\begin{table}[!htbp]
+\centering
+\caption{Tier C (descriptive): geometric-mean MASE relative to Seasonal Naive over 200 replications per cell, and the best
+classical model of the cell chosen after the fact. Last column: TimesFM~3 over the best classical model (bold: TimesFM~3
+worse). TiRex-2 is not run beyond 320 steps.}
+\label{tab:tierc}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\input{generated/table_tier_c.tex}
+\end{table}
+
+\paragraph{H3: the detrending stage.} The pre-registered test (\texttt{tfm3-nodetrend} against \texttt{tfm3}, D7, 200 points,
+$H = 48$, steps 25--48) gives a ratio of exactly \Hthree{}: the two configurations produce identical forecasts on all 200
+replications, and H3 is not supported. The reason is a design error of the protocol. The detrending gate opens only when a line
+explains more than 75\% of the context's variance, and in this cell the 200-point context is a long flat start followed by the
+rise, which a line fits with $R^2 < 0.75$ in all 200 contexts. The gate opens in every context of the other three D7 cells. There,
+in an exploratory analysis without multiplicity adjustment, switching the detrending off lowers MASE over steps 25--48 by 13\%
+(0.873, 0.810--0.941) and over the whole 48-step horizon by 17\% (0.830) with 48 points of context, and by 7\% at $H = 12$ with 200
+points (0.930), but almost doubles it at $H = 12$ with 48 points (1.888). The fixed linear extrapolation therefore helps at short horizons and hurts at long ones on this process; we did not
+analyse the forecasts further. It is not the cause of the largest D7 failure: in the 200-point cell, where TimesFM~3 forecasts
+the spurious decline, the gate is closed and the forecast comes from the network alone.
+
+\paragraph{Multivariate mode (H4, RQ5).} Joint forecasting helps when there is something to learn across variates: for the
+follower of a lead-lag pair with lag 24, MASE falls to \Hfoura{} (\HfouraLo--\HfouraHi) of the univariate forecast, and with a known
+future covariate (signal-to-noise 2) to \Hfourb{} (\HfourbLo--\HfourbHi). It costs nothing when there is nothing to learn: with
+eight independent series stacked as variates the ratio is \Hfourc{} and with a spurious past covariate \Hfourd{}, both equivalent
+within $\pm$3\% (Table~\ref{tab:familyh}). On a lead-lag pair with lag 24, Chronos-2 extracts more from the leader than
+TimesFM~3 (Table~\ref{tab:tierc}). On real data the gain is small: about 3\% lower SQL on the group tasks (P4a) and no resolved
+gain from oracle covariates (S3), whose relation to the target is weaker and less direct than in the synthetic cells.
+
+\begin{table}[!htbp]
+\centering
+\caption{Family H: primary tests of the pre-declared hypotheses (Holm over seven tests). H4c and H4d are equivalence tests with a
+$\pm$3\% margin (two one-sided tests); H5 is a non-superiority test with floor 0.90.}
+\label{tab:familyh}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\input{generated/table_family_h.tex}
+\end{table}
+
+\subsection{Ablations (RQ6)}
+\label{sec:ablations}
+
+Each ablation changes one fixed step or option of \texttt{tfm3} and is compared with it on the tasks where the change can act
+(Table~\ref{tab:ablations}). The effects are small. On the synthetic data, switching off the detrending raises MASE by 0.7\% and
+padding future covariates by repetition (\texttt{tfm3-edge}) by 0.7\%; clipping at zero lowers it by 0.05\%; all three differences
+are resolved but too small to matter in practice. Switching off the CPM refinement or the stitching, or adding symmetric averaging or
+z-normalisation, changes MASE by less than 0.3\% and none of these differences is resolved. On the 20\% sample of Tier B series no
+ablation has a resolved effect. The fixed steps of the inference path therefore matter in specific situations (H3, and long
+horizons for stitching and CPM) but contribute little to average accuracy; the network does the work. The variate-attention
+ablation is withdrawn: a software error left the attention switched on (Appendix~\ref{app:deviations}), and it is being re-run.
+
+\begin{table}[!htbp]
+\centering
+\caption{Ablations (secondary family S5, Holm within the family): ratio of MASE, ablated configuration / \texttt{tfm3}, on the
+Tier B sample and on Tier C, on the tasks where the change can act.}
+\label{tab:ablations}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\input{generated/table_ablations.tex}
+\end{table}

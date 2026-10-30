@@ -1,0 +1,51 @@
+\section{How TimesFM 3 works}
+\label{sec:mechanism}
+
+TimesFM~3 is described publicly by a blog post and a model card \citep{jain2026timesfm3,timesfm2026hf}; there is no technical report. We
+therefore read the inference code of the public package (\texttt{timesfm} 3.0.2, PyTorch backend, commit \texttt{e51928e}) line by
+line, together with the checkpoint configuration (\texttt{google/timesfm-3.0-pytorch}, revision \texttt{43046b85}). The
+description below is limited to what the code shows; statements about training are inferences and are marked as such.
+Figure~\ref{fig:architecture} summarises the inference path.
+
+\input{sections/fig_architecture}
+
+\paragraph{Tokens and normalisation.} A series is cut into patches of 32 points aligned to its last observation; shorter batches
+are left-padded with masked zeros, and the public API keeps at most the last 15{,}360 points. Each patch is normalised with the
+mean and standard deviation of all observed points up to and including that patch (a causal, ``running'' RevIN), and the token
+receives the 32 normalised values, a 64-point look-ahead channel and two mask channels (192 features), mapped to the model width
+1{,}280 by a residual block. The look-ahead channel is non-empty only for covariates whose future values are known; for targets and
+past-only covariates it is masked. Interior gaps are filled by linear interpolation before the model sees them: the network can take
+point masks, but the forecasting API does not pass them, so missingness never reaches the model.
+
+\paragraph{Transformer.} Twenty layers alternate, inside each layer, causal attention along the patch axis (rotary positions) and
+full attention across variates at the same patch index, followed by a feed-forward block with no expansion (1{,}280 to 1{,}280);
+the parameter count implied by the code shapes is about 330.7 million, as advertised. The checkpoint configuration sets
+\texttt{use\_rope\_var = false}: attention across variates has no positional signal, so the model is equivariant to permutations of
+the variates. A ``past-only covariate'' is encoded exactly as an extra target and is forecast and then discarded; inside the network
+the two roles are indistinguishable. The limit of 32 variates mentioned in the documentation is not enforced by the model or by the
+forecasting API; only the evaluator class used by Google's benchmark runners splits larger problems into chunks of 32 and randomly
+subsamples covariates beyond that number.
+
+\paragraph{Horizon and decoding.} Forecasting is a single forward pass. Every token predicts the next 64 points for nine quantiles
+(0.1 to 0.9); the horizon is represented by masked tokens appended to the context (continuous patch masking, CPM). Overlapping
+64-point windows of consecutive tokens, with a hop of 32, are cross-faded linearly (``stitching''). Because the statistics used to
+de-normalise a horizon token cannot be observed, an iterative routine rolls them forward by treating the model's own median forecast
+as if it were observed. Two consequences follow from the code. For horizons up to 64 steps, the entire forecast is produced by the
+last context token, and neither the masked tokens nor the refinement play any role. With causal attention and no known future
+covariates, the forecast of the first $h$ steps does not depend on the requested horizon.
+
+\paragraph{Fixed computations around the network.} Four steps shape every forecast but have no parameters. (i) \emph{Linear
+detrending:} each variate gets an ordinary least-squares line over its context, and the residuals are used instead of the series
+when $\mathrm{std}(\text{residual}) < 0.5\,\mathrm{std}(\text{series})$, i.e.\ when the line explains more than 75\% of the
+variance; the extrapolated line is then added back to all nine quantiles. The gate is discontinuous: a small change of the context
+can switch it on or off. (ii) The CPM refinement described above. (iii) Stitching. (iv) Quantile sorting: the nine heads are
+independent linear outputs, so they are sorted, and the point forecast is the fifth sorted value. Two further options are off by
+default in the forecasting API but on in all of Google's benchmark runners: \emph{symmetric averaging}, which forecasts $x$ and $-x$
+and averages the reflected quantiles (doubling the compute), and \emph{make positive}, which clips the quantiles of non-negative
+series at zero. We call the package defaults \texttt{tfm3} and the runners' flags \texttt{tfm3-eval}.
+
+\paragraph{Properties worth testing.} The design implies per-variate equivariance to positive affine transformations (each variate
+is normalised by its own location and scale), equivariance to permutations of variates, no learned mechanism for missing data, and a
+hard-coded linear extrapolation that may be harmful on saturating or regime-switching trends. Section~\ref{sec:controlled} tests the
+last point (H3) and the ablations in Section~\ref{sec:ablations} switch each fixed step off in turn. The full reading of the code,
+with line references, is released as \texttt{reports/mechanism.md}.

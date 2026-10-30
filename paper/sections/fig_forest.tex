@@ -1,0 +1,25 @@
+\begin{figure}[!htbp]
+\centering
+\input{generated/forest_data.tex}
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.62\textwidth, height=9.2cm,
+  xmode=log, log basis x=10, xmin=0.4, xmax=1.3,
+  xtick={0.5,0.6,0.7,0.8,0.9,1,1.1,1.2}, xticklabels={0.5,0.6,0.7,0.8,0.9,1,1.1,1.2},
+  forest ticks, yticklabel style={font=\scriptsize, align=right},
+  xlabel={ratio of errors, A / B (log scale; $<1$: A better)}, xlabel style={font=\footnotesize},
+  tick label style={font=\footnotesize},
+  axis lines*=left, ymajorgrids=false, xmajorgrids=true, grid style={black!10},
+  clip=false]
+\addplot[black!40, dashed] coordinates {(1,-0.7) (1,10.7)};
+\addplot[only marks, mark=*, mark size=1.6pt, black,
+  error bars/.cd, x dir=both, x explicit, error bar style={line width=0.8pt}]
+  table[x=x, y=y, x error minus=em, x error plus=ep] {\forestdata};
+\end{axis}
+\end{tikzpicture}
+\caption{Primary (family P, MASE) and hypothesis (family H) contrasts: estimate and two-way cluster bootstrap 95\% interval
+(unadjusted). P-tests are on post-release Tier B data with identical inputs for both models; H4a--H4d are on controlled
+multivariate data; H5 is on exchange rates, Treasury yields and oil prices. H3 is omitted (its cell never activates the mechanism
+it tests, Section~\ref{sec:controlled}). Decisions use Holm-adjusted $p$-values (Tables~\ref{tab:familyp} and~\ref{tab:familyh}).}
+\label{fig:forest}
+\end{figure}

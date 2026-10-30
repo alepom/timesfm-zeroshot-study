@@ -1,0 +1,13 @@
+TimesFM~3, released by Google in August 2026, is reported to lead the public forecasting benchmarks. Benchmark data are old and
+public, so part of such a lead may reflect exposure during pre-training. We evaluate TimesFM~3 zero-shot under a protocol frozen
+before any test data were downloaded, on real data published after the model's release (electricity load and prices, weather, river
+flow, exchange and interest rates), on a Wikipedia probe that compares the same pages inside and outside the model's documented
+training corpus, on two prospective issues sealed by hash before their outcomes existed, and on 7{,}600 controlled synthetic tasks.
+We also reproduce Google's published fev-bench results and read the model's inference code, which has no technical report. The
+published results reproduce. On post-release data TimesFM~3 has a 16\% lower MASE and a 29\% lower scaled quantile loss than a
+classical ensemble, and about 5\% lower errors than Chronos-2 and TimesFM~2.5; its published benchmark lead over Chronos-2 is
+largely a difference in inference options, since the published Chronos-2 results share information across series. We find no
+trace of memorisation within a detectable effect of about 5\%. TimesFM~3 is 11\% worse than the random walk on exchange and
+interest rates, forecasts a spurious decline on saturating growth and fails after recent regime changes. Multivariate mode helps
+when a strong cross-series signal exists and is harmless otherwise, and the fixed steps of the inference path contribute little on
+average.

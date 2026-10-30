@@ -224,6 +224,9 @@ ABLATION_TEXT = {"tfm3-nodetrend": "linear detrending off", "tfm3-nocpmrevin": "
                  "tfm3-znorm": "z-normalised inputs", "tfm3-edge": "covariate edge handling"}
 
 
+INVALID_ABLATIONS = {"tfm3-novarattn"}  # emptied once the corrected re-run is scored
+
+
 def table_ablations(conf: dict) -> None:
     by = {}
     for r in conf["family_S5"]:
@@ -231,6 +234,9 @@ def table_ablations(conf: dict) -> None:
         by.setdefault(key, {})[tier] = r
     rows = []
     for key, txt in ABLATION_TEXT.items():
+        if key in INVALID_ABLATIONS:  # protocol deviation 2: the switch was not applied; re-run with bundle 0.5.5
+            rows.append([f"\\texttt{{{key}}}", txt, "\\multicolumn{6}{l}{\\textit{withdrawn, re-run pending (Appendix~\\ref{app:deviations})}}"])
+            continue
         cells = [f"\\texttt{{{key}}}", txt]
         for tier in ("B", "C"):
             r = by.get(key, {}).get(tier)
@@ -248,11 +254,11 @@ def table_tier_a() -> None:
         for subset, label in (("all_tasks", "all tasks"), ("controls_passed", "tasks passing both controls")):
             x = s[model][subset]
             rows.append([name(model), label, str(x["tasks"]), f"{100 * x['reproduced_share']:.0f}\\%",
-                         f"{100 * x['median_SQL_dev']:+.2f}\\%",
+                         f"{abs(100 * x['median_SQL_dev']):.2f}\\%" if abs(x['median_SQL_dev']) < 5e-5 else f"{100 * x['median_SQL_dev']:+.2f}\\%",
                          f"[{100 * x['range_SQL_dev'][0]:+.1f}\\%, {100 * x['range_SQL_dev'][1]:+.1f}\\%]",
                          r3(x["skill_ours"]), r3(x["skill_published"])])
-    write("table_tier_a.tex", tabular("llrrrlrr", ["Model", "Tasks", "$n$", "Within $\\pm$3\\%", "Median dev.",
-                                                     "Range", "SQL ratio ours", "SQL ratio publ."], rows))
+    write("table_tier_a.tex", tabular("llrrrlrr", ["Model", "Tasks", "$n$", "$\\pm$3\\%", "Median",
+                                                     "Range", "Ratio ours", "Ratio publ."], rows))
     # Appendix: per-task reproduction of tfm3-eval.
     t = pd.read_csv(ROOT / "reports" / "tierA_reproduction.csv")
     t = t[t.model == "tfm3-eval"].sort_values("task_name")
@@ -361,7 +367,8 @@ def forest(conf: dict) -> None:
     ticks = ",".join(str(i) for i in range(len(items)))
     labels = ",".join("{" + label + "}" for label, _ in reversed(items))
     write("forest_data.tex", "\\pgfplotstableread{\nx y em ep\n" + "\n".join(lines) + "\n}\\forestdata\n"
-          f"\\def\\forestticks{{{ticks}}}\n\\def\\forestlabels{{{labels}}}\n")
+          f"\\pgfplotsset{{forest ticks/.style={{ytick={{{ticks}}}, yticklabels={{{labels}}}, "
+          f"ymin=-0.7, ymax={len(items) - 0.3}}}}}\n")
 
 
 VERSION = "1.0.0"

@@ -1,0 +1,29 @@
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}[
+  font=\footnotesize, node distance=0.22cm,
+  blk/.style={draw, rounded corners=2pt, align=center, inner sep=3pt, text width=3.35cm, minimum height=1.05cm},
+  fixed/.style={blk, fill=orange!12},
+  learned/.style={blk, fill=blue!8},
+  arr/.style={-{Stealth[length=1.8mm]}, thick}
+]
+\node[fixed] (in) {\textbf{API preprocessing}\\ interpolate gaps, keep last\\ 15{,}360 points, round $H$ to 64};
+\node[fixed, right=of in] (det) {\textbf{Linear detrending gate}\\ OLS line per variate, used\\ only if $R^2 > 0.75$};
+\node[learned, right=of det] (tok) {\textbf{Patch tokens}\\ 32 points, causal running\\ RevIN; 192 input features};
+\node[learned, right=of tok] (tr) {\textbf{20 mixing layers}\\ causal attention over time,\\ then over variates; FFN};
+\node[learned, below=0.75cm of tr] (head) {\textbf{Quantile head}\\ each token: next 64 points\\ $\times$ 9 quantiles};
+\node[fixed, left=of head] (cpm) {\textbf{CPM iterative RevIN}\\ statistics rolled forward\\ with its own median};
+\node[fixed, left=of cpm] (st) {\textbf{Stitching}\\ 64-point windows, hop 32,\\ linear cross-fade};
+\node[fixed, left=of st] (out) {\textbf{Output}\\ add back the line; sort\\ quantiles; median = point};
+\draw[arr] (in) -- (det); \draw[arr] (det) -- (tok); \draw[arr] (tok) -- (tr); \draw[arr] (tr) -- (head);
+\draw[arr] (head) -- (cpm); \draw[arr] (cpm) -- (st); \draw[arr] (st) -- (out);
+\node[below=0.15cm of out.south west, anchor=north west, font=\scriptsize, text=black!70, text width=15.2cm]
+  {\colorbox{blue!8}{\strut learned} \colorbox{orange!12}{\strut fixed computation (no parameters)}\quad
+   One forward pass: horizon positions enter as masked tokens (CPM); there is no autoregressive loop.
+   For $H \le 64$ the whole forecast comes from the last context token.};
+\end{tikzpicture}
+\caption{Inference path of TimesFM~3 as implemented in the public PyTorch code (\texttt{timesfm} 3.0.2), read line by line
+(Section~\ref{sec:mechanism}). Shaded boxes are deterministic steps without parameters; four of them (detrending, CPM refinement,
+stitching, quantile sorting) shape every forecast but are not part of the network.}
+\label{fig:architecture}
+\end{figure}
