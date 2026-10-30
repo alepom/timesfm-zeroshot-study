@@ -3,22 +3,25 @@
 
 Tier P repeats the information-matched comparison on forecasts made before their outcomes existed. Each issue was sealed by a
 combined SHA-256 of its contexts, tasks, issue record, code bundle, run records and all forecast files, computed before the first
-day of its scoring window (Table~\ref{tab:seals}). The analysis (secondary family S6) pools both issues and tests TimesFM~3 in
+day of its scoring window (Table~\ref{tab:seals}). The combined hash, together with the hash of the frozen protocol commit,
+received two independent public timestamps before any outcome was published: an RFC~3161 token from FreeTSA and an
+OpenTimestamps proof anchored in the Bitcoin blockchain; both receipts are in the repository. The analysis (secondary family S6) pools both issues and tests TimesFM~3 in
 univariate mode against the statistical ensemble, Chronos-2, TimesFM~2.5 and the naive forecast, on MASE and SQL, separately on the
 structured domains and on Wikipedia, with series clusters only. With two overlapping issues, Tier P generalises over series, not
 over time: it checks the direction of the Tier B results, not their size.
 
 \begin{table}[h]
 \centering
-\caption{Tier P issues and seals. The scoring window covers target timestamps from two to nine days after the issue day (UTC).}
+\caption{Tier P issues and seals. The scoring window covers target timestamps from two to nine days after the issue day (UTC).
+Public timestamp: RFC~3161 time of the manifest that lists the combined hash.}
 \label{tab:seals}
 \scriptsize
-\begin{tabular}{lllrl}
+\begin{tabular}{llllrl}
 \toprule
-Issue day & Sealed (UTC) & Scoring window & Tasks & Combined SHA-256 \\
+Issue day & Sealed (UTC) & Public timestamp & Scoring window & Tasks & Combined SHA-256 \\
 \midrule
-2026-10-30 & 2026-10-30 08:10 & 11-01 to 11-08 & 385 & \texttt{f84a669d33e07ffb\ldots 349843f3} \\
-2026-11-02 & pending & 11-04 to 11-11 & -- & -- \\
+2026-10-30 & 2026-10-30 08:10 & 2026-10-30 13:29 & 11-01 to 11-08 & 385 & \texttt{f84a669d33e07ffb\ldots 349843f3} \\
+2026-11-02 & pending & pending & 11-04 to 11-11 & -- & -- \\
 \bottomrule
 \end{tabular}
 \end{table}

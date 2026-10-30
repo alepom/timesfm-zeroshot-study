@@ -1,0 +1,9 @@
+TimesFM-3 zero-shot study (Alessio Pomaro) - public timestamp manifest, 2026-10-30
+Every line below is a hash computed before the outcomes of Tier P issue 1 existed
+(scoring window: target timestamps 2026-11-01T00:00Z to 2026-11-08T00:00Z).
+
+protocol-frozen-v1 git commit (sha1): 9f15b3843319a1829908fa13b86eb0bd7b50711e
+protocol.md at protocol-frozen-v1 (sha256): 45d7078f658123828ad2540c0818364907eeac941a83e918d1c3af0fd62c95ee
+Tier P issue 2026-10-30 combined seal (sha256): f84a669d33e07ffba7519185a090d564fe6baad00ffd9cd7e91370de349843f3
+SEAL_prospective-2026-10-30.json (sha256): f3a53a49b9945755cb7bcf3bd8a5477d1922b39a38ba8ba60110827824a30537
+ISSUE_prospective-2026-10-30.json (sha256): a4a424ca374fd8b5db89b46bde312cb1c4305beded55274fb7e6574c177e78b7
