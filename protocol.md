@@ -299,3 +299,12 @@ The smoke test and the pilot used synthetic data and pre-release data only; they
    freeze (commit 9f15b38, 17:59:59 UTC) precedes the download; ERA5 already covered the test windows (last ERA5 value available
    2026-10-22 23:00 UTC, test windows end 2026-10-20); nothing else changed. The earliest-download guard in `catalog.py` was moved
    accordingly in the commit that records this deviation.
+2. **2026-10-30, variate-attention ablation not applied.** `tfm3-novarattn` set `use_variate_attention = False` on the top
+   `TimesFM3Torch` module, where the flag is only stored (model.py:132); the forward pass reads it on each `MixingTransformer`
+   layer (transformer.py:516). Its forecasts therefore equal `tfm3` up to GPU non-determinism (ratio 1.000 on Tier C, where
+   multivariate mode changes MASE by up to 55%). The other three module ablations read their flags at run time and are valid.
+   Found while drafting the paper, after the confirmatory analysis. Fix (bundle 0.5.5): the override is set on every submodule
+   that has the attribute, and the smoke test now checks that each of the four switches changes a multivariate forecast. The
+   invalid `tfm3-novarattn` forecasts are kept but not reported; `tfm3-novarattn` is re-run on the same Tier B and Tier C tasks
+   after the second prospective issue is sealed (so that both issues use bundle 0.5.4), and family S5 is recomputed with the
+   corrected forecasts. Families P and H do not involve this configuration.

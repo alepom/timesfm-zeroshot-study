@@ -126,20 +126,26 @@ class TimesFM3(Adapter):
         A Hub load replaces ModelConfig flags with the checkpoint's config.json
         (timesfm3_forecaster.py:398), so ablations cannot go through ModelConfig. They are set only
         for the duration of a call because the loaded module is shared across configurations.
+
+        A flag is set on every submodule that has it: `use_variate_attention` is read in the forward
+        pass of each MixingTransformer layer (transformer.py:516), not on the top module, where it is only
+        stored (model.py:132). Setting it on the top module alone, as versions before 0.5.5 did, left
+        variate attention on.
         """
-        module = self.model.model
         overrides = self.options.get("model_overrides", {})
+        saved = []
         for field in overrides:
-            if not hasattr(module, field):
-                raise AttributeError(f"TimesFM3Torch has no attribute {field!r}")
-        saved = {field: getattr(module, field) for field in overrides}
+            holders = [m for m in self.model.model.modules() if hasattr(m, field)]
+            if not holders:
+                raise AttributeError(f"no submodule of TimesFM3Torch has attribute {field!r}")
+            saved += [(m, field, getattr(m, field)) for m in holders]
         try:
-            for field, value in overrides.items():
-                setattr(module, field, value)
+            for m, field, _ in saved:
+                setattr(m, field, overrides[field])
             yield
         finally:
-            for field, value in saved.items():
-                setattr(module, field, value)
+            for m, field, value in saved:
+                setattr(m, field, value)
 
     def predict(self, tasks: list[Task]) -> list[np.ndarray]:
         with self._overrides():

@@ -126,18 +126,23 @@ def timesfm3_properties(adapter) -> dict:
 
 
 def ablation_switch_check(adapter) -> dict:
-    """Checks that a module override changes the output and is restored afterwards (functionality only)."""
+    """Checks that every module override changes the output where it can act, and is restored afterwards.
+
+    A two-variate task with a strong linear trend, a lead-lag dependence and a horizon above 64 steps lets all
+    four switches act (detrending, iterative CPM RevIN, stitching, variate attention).
+    """
     t = np.arange(600)
-    trending = Task(5 + 0.05 * t + RNG.normal(0, 0.5, t.size), 48)  # strong linear trend: detrending applies
-    before = adapter.predict([trending])[0]
-    ablated = adapters.TimesFM3(device=adapter.device, model_overrides={"use_linear_detrending": False})
-    ablated.model = adapter.model
-    changed = ablated.predict([trending])[0]
-    after = adapter.predict([trending])[0]
-    return {
-        "override_changes_output": bool(np.max(np.abs(changed - before)) > 1e-6),
-        "restored_after_override": bool(np.array_equal(before, after)),
-    }
+    leader = 5 + 0.05 * t + np.sin(2 * np.pi * t / 24) + RNG.normal(0, 0.3, t.size)
+    follower = np.roll(leader, 5) + RNG.normal(0, 0.3, t.size)
+    task = Task(np.stack([leader, follower]), 96)
+    before = adapter.predict([task])[0]
+    out = {}
+    for field in ("use_linear_detrending", "use_iterative_cpm_revin", "use_stitching", "use_variate_attention"):
+        ablated = adapters.TimesFM3(device=adapter.device, model_overrides={field: False})
+        ablated.model = adapter.model
+        out[f"{field}_off_changes_output"] = bool(np.max(np.abs(ablated.predict([task])[0] - before)) > 1e-6)
+    out["restored_after_override"] = bool(np.array_equal(before, adapter.predict([task])[0]))
+    return out
 
 
 def throughput(adapter, n_series=256, context=2048, horizon=64) -> dict:
