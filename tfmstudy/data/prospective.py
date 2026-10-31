@@ -214,6 +214,7 @@ def score(issue_date: str, results: Path) -> pd.DataFrame:
     tasks, make = load_tasks("P", period, PROCESSED)
     outcome = pd.read_parquet(PROCESSED / period / "outcomes.parquet")
     by_id = {sid: g.set_index("timestamp")["value"] for sid, g in outcome.groupby("series_id")}
+    none = pd.Series(dtype=float, index=pd.DatetimeIndex([], tz="UTC"))  # a series with no published outcome
     run_dir = results / period / "P"
     models = sorted(p.name for p in run_dir.iterdir() if p.is_dir() and any(p.glob("part-*.parquet")))
     forecasts = {m: read_forecasts(run_dir / m) for m in models}
@@ -222,7 +223,7 @@ def score(issue_date: str, results: Path) -> pd.DataFrame:
     for row in tasks.itertuples():
         task, _, season = make(row)
         targets = json.loads(row.targets)
-        aligned = [truth_for(row, None, by_id.get(t, pd.Series(dtype=float))) for t in targets]
+        aligned = [truth_for(row, None, by_id.get(t, none)) for t in targets]
         truth = np.stack([np.where(win, val, np.nan) for val, win in aligned])
         window = aligned[0][1]
         observed = np.isfinite(truth[:, window]).mean() if window.any() else 0.0

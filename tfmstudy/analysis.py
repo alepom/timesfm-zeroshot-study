@@ -466,8 +466,18 @@ def main() -> None:
     parser.add_argument("--reps", type=int, default=REPS)
     parser.add_argument("--out", default="results/analysis")
     parser.add_argument("--data", default="data/processed")
+    parser.add_argument("--s6-only", action="store_true", help="Tier P only: <out>/prospective/confirmatory_s6.json")
     args = parser.parse_args()
     res = Path(args.results)
+    if args.s6_only:
+        paths = sorted(res.glob("prospective-*/P/metrics.parquet"))
+        p = pd.concat([pd.read_parquet(f) for f in paths], ignore_index=True)
+        report = {"issues": sorted(p.issue.unique().tolist()), "reps": args.reps, "family_S6": family_s6(p, args.reps)}
+        out = Path(args.out) / "prospective"
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "confirmatory_s6.json").write_text(json.dumps(report, indent=1, default=str))
+        print(pd.DataFrame(report["family_S6"])[["test", "ratio", "ci95", "p_holm", "resolved"]].to_string(index=False))
+        return
     b, w, c = (load(res, args.period, t) for t in ("B", "W", "synthetic"))
     report = {"period": args.period, "reps": args.reps}
     prospective = [pd.read_parquet(f) for f in sorted(res.glob("prospective-*/P/metrics.parquet"))]

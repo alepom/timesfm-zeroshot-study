@@ -27,6 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 GEN = ROOT / "paper" / "generated"
 CONFIRMATORY = ROOT / "results" / "analysis" / "main" / "confirmatory.json"
 DESCRIPTIVE = ROOT / "reports" / "descriptive.json"
+S6 = ROOT / "results" / "analysis" / "prospective" / "confirmatory_s6.json"
 METRICS = ROOT / "results" / "forecast" / "main"
 DESCRIPTIVE_REPS = 2_000
 
@@ -190,6 +191,26 @@ def table_family_h(conf: dict) -> None:
         rows.append([r["test"], H_TEXT[r["test"]], H_FORM[r["direction"]], r3(r["ratio"]), ci(r.get("ci95")),
                      pval(r["p_family_holm"]), "supported" if r["supported"] else "not supported"])
     write("table_family_h.tex", tabular("lllrlll", ["", "Contrast", "Prediction", "Ratio", "95\\% CI",
+                                                      "$p_{\\mathrm{Holm}}$", "Decision"], rows))
+
+
+S6_REF = {"stat-ens": "Stat.\\ ensemble", "chronos2-uni": "Chronos-2 uni", "tfm25": "TimesFM-2.5", "naive": "Naive"}
+
+
+def table_family_s6(s6: dict | None) -> None:
+    """Tier P (protocol section 5.5): TimesFM-3 uni against four references, two domain groups, two metrics."""
+    if s6 is None:
+        write("table_family_s6.tex", "\\textit{[Tier P outcomes not yet scored.]}")
+        return
+    rows = []
+    for group, label in (("structured", "Load, price, river"), ("wiki", "Wikipedia")):
+        rows.append(f"\\multicolumn{{6}}{{l}}{{\\textit{{{label}}}}} \\\\")
+        for r in s6["family_S6"]:
+            _, g, ref, metric = r["test"].split(":")
+            if g == group:
+                rows.append([f"vs {S6_REF[ref]}", metric.upper(), r3(r["ratio"]), ci(r["ci95"]), pval(r["p_holm"]),
+                             "resolved" if r["resolved"] else "not resolved"])
+    write("table_family_s6.tex", tabular("llrlll", ["TimesFM-3 uni", "Metric", "Ratio", "95\\% CI (series)",
                                                       "$p_{\\mathrm{Holm}}$", "Decision"], rows))
 
 
@@ -408,6 +429,7 @@ def main() -> None:
     table_tier_a()
     table_calibration(desc)
     table_tier_c(desc)
+    table_family_s6(json.loads(S6.read_text()) if S6.exists() else None)
     numbers(conf, desc)
     forest(conf)
     meta()
