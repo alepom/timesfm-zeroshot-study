@@ -40,7 +40,7 @@ explains more than 75\% of the context's variance, and in this cell the 200-poin
 rise, which a line fits with $R^2 < 0.75$ in all 200 contexts. The gate opens in every context of the other three D7 cells. There,
 in an exploratory analysis without multiplicity adjustment, switching the detrending off lowers MASE over steps 25--48 by 13\%
 (0.873, 0.810--0.941) and over the whole 48-step horizon by 17\% (0.830) with 48 points of context, and by 7\% at $H = 12$ with 200
-points (0.930), but almost doubles it at $H = 12$ with 48 points (1.888). The fixed linear extrapolation therefore helps at short horizons and hurts at long ones on this process; we did not
+points (0.930), but almost doubles it at $H = 12$ with 48 points (1.888). On this process the fixed linear extrapolation therefore helps only with a short context and a short horizon, and hurts otherwise; we did not
 analyse the forecasts further. It is not the cause of the largest D7 failure: in the 200-point cell, where TimesFM~3 forecasts
 the spurious decline, the gate is closed and the forecast comes from the network alone.
 
@@ -48,8 +48,8 @@ the spurious decline, the gate is closed and the forecast comes from the network
 follower of a lead-lag pair with lag 24, MASE falls to \Hfoura{} (\HfouraLo--\HfouraHi) of the univariate forecast, and with a known
 future covariate (signal-to-noise 2) to \Hfourb{} (\HfourbLo--\HfourbHi). It costs nothing when there is nothing to learn: with
 eight independent series stacked as variates the ratio is \Hfourc{} and with a spurious past covariate \Hfourd{}, both equivalent
-within $\pm$3\% (Table~\ref{tab:familyh}). On a lead-lag pair with lag 24, Chronos-2 extracts more from the leader than
-TimesFM~3 (Table~\ref{tab:tierc}). On real data the gain is small: about 3\% lower SQL on the group tasks (P4a) and no resolved
+within $\pm$3\% (Table~\ref{tab:familyh}). On a lead-lag pair with lag 24, Chronos-2 reaches a lower MASE than
+TimesFM~3 (Table~\ref{tab:tierc}); we did not measure its multivariate gain separately. On real data the gain is small: about 3\% lower SQL on the group tasks (P4a) and no resolved
 gain from oracle covariates (S3), whose relation to the target is weaker and less direct than in the synthetic cells.
 
 \begin{table}[!htbp]
@@ -70,13 +70,14 @@ Each ablation changes one fixed step or option of \texttt{tfm3} and is compared 
 padding future covariates by repetition (\texttt{tfm3-edge}) by 0.7\%; clipping at zero lowers it by 0.05\%; all three differences
 are resolved but too small to matter in practice. Switching off the CPM refinement or the stitching, or adding symmetric averaging or
 z-normalisation, changes MASE by less than 0.3\% and none of these differences is resolved. On the 20\% sample of Tier B series no
-ablation has a resolved effect. The fixed steps of the inference path therefore matter in specific situations (H3, and long
-horizons for stitching and CPM) but contribute little to average accuracy; the network does the work. The variate-attention
+ablation has a resolved effect. The fixed steps of the inference path therefore matter in specific situations (the detrending gate,
+H3) but contribute little to average accuracy; the network does the work. The variate-attention
 ablation is withdrawn: a software error left the attention switched on (Appendix~\ref{app:deviations}), and it is being re-run.
 
 \begin{table}[!htbp]
 \centering
-\caption{Ablations (secondary family S5, Holm within the family): ratio of MASE, ablated configuration / \texttt{tfm3}, on the
+\caption{Ablations (secondary family S5, Holm over the 16 tests of both tiers; with Holm within each tier,
+\texttt{tfm3-sym} on Tier C, $p = 0.006$, would also be resolved): ratio of MASE, ablated configuration / \texttt{tfm3}, on the
 Tier B sample and on Tier C, on the tasks where the change can act.}
 \label{tab:ablations}
 \scriptsize

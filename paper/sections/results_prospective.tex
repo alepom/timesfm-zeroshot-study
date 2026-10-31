@@ -1,11 +1,11 @@
 \section{Results IV: prospective check}
 \label{sec:prospective}
 
-Tier P repeats the information-matched comparison on forecasts made before their outcomes existed. Each issue was sealed by a
+Tier P repeats the information-matched comparison on forecasts made before their outcomes existed. Each issue is sealed by a
 combined SHA-256 of its contexts, tasks, issue record, code bundle, run records and all forecast files, computed before the first
-day of its scoring window (Table~\ref{tab:seals}). The combined hash, together with the hash of the frozen protocol commit,
-received two independent public timestamps before any outcome was published: an RFC~3161 token from FreeTSA and an
-OpenTimestamps proof anchored in the Bitcoin blockchain; both receipts are in the repository. The analysis (secondary family S6) pools both issues and tests TimesFM~3 in
+day of its scoring window (Table~\ref{tab:seals}). The combined hash receives two independent public timestamps before any outcome is
+published: an RFC~3161 token from FreeTSA and an OpenTimestamps proof anchored in the Bitcoin blockchain. For the first issue both
+receipts, which also cover the hash of the frozen protocol commit, are in the repository. The analysis (secondary family S6) pools both issues and tests TimesFM~3 in
 univariate mode against the statistical ensemble, Chronos-2, TimesFM~2.5 and the naive forecast, on MASE and SQL, separately on the
 structured domains and on Wikipedia, with series clusters only. With two overlapping issues, Tier P generalises over series, not
 over time: it checks the direction of the Tier B results, not their size.

@@ -262,6 +262,7 @@ Notebook "cell N" refers to the index in `nb.cells`, markdown cells included.
 **P5. NaNs and gaps.** The model can use point masks, but the API linearly interpolates gaps instead (§2.1). [Inference] Long gaps become straight lines that the model treats as observed data.
 
 **P6. Horizon prefix invariance [Inference].**
+  - **Correction (2026-10-31, review):** this holds for steps 1..32 only. Steps 33..64 come from the last context token alone when H' = 64 but are cross-faded with the first mask token when H' > 64 (§5.1), so they can change with the requested horizon.
   - Without past-future covariates, causal sequence attention, the causal refinement scan and per-patch variate attention imply that the forecast for steps 1..h does not depend on the requested H ≥ h. This holds because `global_horizon` rounding only appends later tokens, and stitching blends are fixed per token pair.
   - With past-future covariates, the look-ahead channel changes the picture: with `padding_mode='none'` the covariate steps past H are masked, with `'edge'` they are repeated.
   - Quality should show **structure at 32/64-step boundaries**: steps 0..31 come from a context token, later steps from mask tokens.

@@ -41,7 +41,8 @@ analysis.
 \paragraph{Families and decisions.} Decisions use Holm-adjusted $p$-values \citep{holm1979} within a family at
 $\alpha = 0.05$; intervals are unadjusted. \emph{Family P} (primary, ten tests) holds the information-matched contrasts on
 post-release data: TimesFM~3 in univariate mode without covariates against the statistical ensemble (P1), Chronos-2 (P2) and
-TimesFM~2.5 (P3) under the same inputs, the multivariate against the univariate mode on real group tasks (P4a), and the benchmark
+TimesFM~2.5 (P3) on the same series and windows without covariates (on hourly data the context lengths differ;
+Section~\ref{sec:data}), the multivariate against the univariate mode on real group tasks (P4a), and the benchmark
 flags against the package defaults (P5), each on MASE and SQL. \emph{Family H} holds the primary test of each hypothesis H2--H5
 (seven tests). Equivalence (H4c, H4d) is claimed only if the 90\% interval lies inside the $\pm$3\% margin (two one-sided tests
 \citep{schuirmann1987tost}); H5 is a non-superiority test that is supported when the 95\% lower bound exceeds 0.90. A

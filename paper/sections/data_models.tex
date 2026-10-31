@@ -9,7 +9,7 @@ every task: our Seasonal Naive must match fev's published results ($|\Delta\math
 published Chronos-2 ($|\Delta\mathrm{SQL}| \le 0.5\%$).
 
 \paragraph{Tier B: post-release real data.} TimesFM~3 was released on 2026-08-31. The test windows run from 2026-09-01 to
-2026-10-20, with origins every week (every 24 or 168 hours, 7 days or 5 business days, depending on frequency). Six domains, with
+2026-10-20, with origins every 24 hours for 24-hour horizons and weekly otherwise (168 hours, 7 days or 5 business days). Six domains, with
 series lists fixed by rules on 2025 data: hourly electricity load in 12 European countries and day-ahead prices in 12 bidding zones
 (Energy-Charts \citep{energycharts2026}), hourly temperature and wind speed in 20 cities (ERA5 via Open-Meteo
 \citep{hersbach2020era5,zippenfenig2023openmeteo}), daily flow at 20 river gauges (USGS \citep{usgs2026nwis}), ten business-daily exchange rates
@@ -37,10 +37,10 @@ context, a context ladder from 64 to 15{,}360 points, horizons up to 1{,}024, a 
 (lags 1, 5, 24), a target driven by a known future covariate (signal-to-noise 0.5 and 2), a spurious past covariate, and independent
 series stacked as variates.
 
-\paragraph{Tier P: prospective check.} On the mornings of 2026-10-30 and 2026-11-02 the data published up to the previous day were
-downloaded for the load, price, river, FX, FRED and Wikipedia series, every series was forecast from its last observation, and the
-contexts, tasks, code bundle, run records and forecast files were hashed together; the combined SHA-256 was recorded before the
-scoring window (from two to nine days after the issue day) had started.
+\paragraph{Tier P: prospective check.} On the morning of each issue day (2026-10-30 and 2026-11-02) the data published up to the
+previous day are downloaded for the load, price, river, FX, FRED and Wikipedia series, every series is forecast from its last
+observation, and the contexts, tasks, code bundle, run records and forecast files are hashed together; the combined SHA-256 is
+recorded before the scoring window (from two to nine days after the issue day) starts.
 
 \paragraph{Models.} Table~\ref{tab:models} lists the configurations. Every Hugging Face model is loaded by revision hash.
 TimesFM~3 runs in four configurations: package defaults in multivariate mode with covariates (\texttt{tfm3}), univariate without
@@ -49,7 +49,10 @@ covariates (\texttt{tfm3-uni}, the configuration of the information-matched cont
 foundation models are TimesFM~2.5 \citep{das2024timesfm}, Chronos-2 \citep{ansari2025chronos2} and TiRex-2 \citep{podest2026tirex2}, each also
 in a univariate configuration where relevant. The classical models are StatsForecast \citep{garza2022statsforecast} implementations of
 AutoETS, AutoARIMA and AutoTheta, MSTL with seasons 24 and 168 \citep{bandara2025mstl} for hourly data, and Naive, Seasonal Naive and
-the historic mean. The statistical ensemble averages the quantiles of three members: MSTL with ETS, Theta and ARIMA remainders on
+the historic mean. Classical models use at most the last 2{,}016 hourly, 1{,}095 daily or 780 business-daily observations,
+the foundation models up to 15{,}360 (Chronos-2 truncates at 8{,}192). On daily and business-daily data all models therefore see the
+same history; on hourly data the foundation models see about 15{,}000 points, and \texttt{tfm3-c2016} measures the effect of that
+difference for TimesFM~3. The statistical ensemble averages the quantiles of three members: MSTL with ETS, Theta and ARIMA remainders on
 hourly data, and AutoETS, AutoARIMA and AutoTheta otherwise. All foundation models ran on a free Google Colab Tesla T4 GPU in fp32;
 classical models ran on eight cores of a local CPU.
 
@@ -68,7 +71,7 @@ Key & Model (revision) & Configuration \\
 \texttt{tfm3-c2016} & TimesFM~3 & as \texttt{tfm3-uni}, last 2{,}016 points only \\
 \texttt{tfm25} & TimesFM~2.5, 200M (\texttt{1d952420}) & univariate, recommended flags \\
 \texttt{chronos2}, \texttt{-uni} & Chronos-2, 120M (\texttt{29ec3766}) & \texttt{predict\_df}; with / without covariates and joint targets \\
-\texttt{podest2026tirex2}, \texttt{-uni} & TiRex-2 (\texttt{30788a31}) & as Chronos-2; horizons up to 320 \\
+\texttt{tirex2}, \texttt{-uni} & TiRex-2 (\texttt{30788a31}) & as Chronos-2; horizons up to 320 \\
 \texttt{stat-ens} & equal-weight ensemble & MSTL-\{ETS, Theta, ARIMA\} (hourly); AutoETS, AutoARIMA, AutoTheta \\
 classical & StatsForecast 2.1.1 & Naive, Seasonal Naive, mean, AutoETS, AutoARIMA, AutoTheta, MSTL variants \\
 \bottomrule

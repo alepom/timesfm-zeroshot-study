@@ -24,8 +24,9 @@ two-way cluster bootstrap interval and the series-only interval; decisions by Ho
 
 \paragraph{By domain (S1).} The advantage over the statistical ensemble is resolved in every domain, from 11\% lower MASE on
 electricity load to 22\% on river flow (Table~\ref{tab:secondary}). Against Chronos-2 the per-domain differences are resolved only
-on weather; against TimesFM~2.5 on load and weather. The cross-model margins are therefore not uniform across domains, and the
-pooled P2 result rests mostly on the largest domain (weather: 2{,}280 of 3{,}855 series-windows).
+on weather; against TimesFM~2.5 on load and weather. The cross-model margins are therefore not uniform across domains. Since every domain has equal
+weight in the estimate, the pooled P2 result reflects all four, with the largest per-domain margins on river flow (0.917) and weather
+(0.956); only the weather difference is resolved on its own.
 
 \paragraph{H1: is the advantage smaller after the release?} With the same configuration as on Tier A (package defaults, covariates
 included), TimesFM~3's MASE relative to our statistical ensemble on Tier B is \HoneBMase{} (\HoneBMaseLo--\HoneBMaseHi) and its SQL
@@ -36,32 +37,36 @@ this comparison carries no test and cannot separate exposure from difficulty; it
 classical methods survives on new data, slightly reduced for the median forecast.
 
 \paragraph{H5: near-random-walk series.} On exchange rates, Treasury yields and oil prices, TimesFM~3's MASE is \Hfive{} times that
-of the random walk (\HfiveLo--\HfiveHi): H5 is supported, and more strongly than stated, since the model is \emph{worse} than the
-naive forecast rather than not much better. It is also worse than the statistical ensemble on these series (\NrwStatEns,
+of the random walk (\HfiveLo--\HfiveHi): H5 is supported. The interval lies entirely above 1, so the model is \emph{worse} than the naive
+forecast rather than not much better (a reading of the interval, not a further test). It is also worse than the statistical ensemble on these series (\NrwStatEns,
 \NrwStatEnsLo--\NrwStatEnsHi; descriptive), while the difference from Chronos-2 is not resolved (\NrwChronos,
 \NrwChronosLo--\NrwChronosHi). A random walk is the optimal forecast for a martingale, so no model can beat it by a resolved margin
 without an evaluation problem; the negative controls in Tier C behave the same way (Section~\ref{sec:controlled}).
 
 \paragraph{Covariates and context length (S3, S4).} Supplying the observed future temperature for load and the observed future
 precipitation for river flow, an oracle that no real forecast has, does not resolve a gain: \texttt{tfm3} against \texttt{tfm3-uni}
-gives 0.974 (0.904--1.060), and Chronos-2 with and without covariates 0.969 (0.930--1.008). On hourly data, cutting TimesFM~3's
+gives 0.973 (0.904--1.060), and Chronos-2 with and without covariates 0.969 (0.930--1.008). On hourly data, cutting TimesFM~3's
 context to the 2{,}016 points the classical models use raises its MASE by 4\% (S4, resolved); the long context helps, but explains
 only a small part of the gap to the classical ensemble on hourly series (11--13\% in load and price).
 
 \paragraph{Memorisation probe (H2, S2).} TimesFM~3's MASE relative to Chronos-2 is 0.939 on the 2023 W-seen windows and 0.959 on the
-same pages in 2026; the difference in differences is \Htwo{} (\HtwoLo--\HtwoHi), not resolved (Table~\ref{tab:familyh}). The design
-had 80\% power to detect a difference of about 5\%, so a memorisation advantage of that size is unlikely; smaller effects cannot be
-excluded, and a null difference does not show that the pages were not memorised. The secondary contrasts agree
+same pages in 2026; the difference in differences is \Htwo{} (\HtwoLo--\HtwoHi), not resolved (Table~\ref{tab:familyh}). The estimate points
+in the predicted direction but is not resolved. With the realised standard error the test had 80\% power only for a difference of
+about \HtwoMde\% (the pilot suggested 5\%), and the interval is compatible with an advantage of that size; a null difference does not
+show that the pages were not memorised. The probe assumes that Chronos-2's training data contain Wikipedia pageviews only from
+before 2018 (the Kaggle web-traffic data \citep{kaggle2017webtraffic}), as their published descriptions state. The secondary contrasts agree
 (Table~\ref{tab:secondary}): with the statistical ensemble or TiRex-2 as the reference, and for TimesFM~2.5, the difference is not
-resolved. On pages born after 2023 (W-new), TimesFM~3's advantage over Chronos-2 is smaller than on W-post (0.984 against 0.959); the
+resolved. TimesFM~2.5 gives the same difference in differences as TimesFM~3 (0.980), which is consistent both with no memorisation by
+either model and with a period effect specific to Chronos-2. On pages born after 2023 (W-new), TimesFM~3's advantage over Chronos-2 is smaller than on W-post (0.984 against 0.959); the
 raw contrast is not resolved, and the contrast adjusted for context features (0.942, 0.897--0.996) is not resolved after Holm
-correction. If anything, TimesFM~3 does slightly better on long-lived pages than on new ones, which is consistent with familiarity
-with the type of series rather than with the particular windows.
+correction. If anything, TimesFM~3 does slightly better on long-lived pages than on new ones; a speculative reading is
+familiarity with the type of series rather than with the particular windows.
 
 \paragraph{Calibration (RQ4).} The empirical coverage of the nominal 80\% interval on Tier B is close to nominal for TimesFM~3
 (\CovBtfm{}), TimesFM~2.5 and TiRex-2, lower for Chronos-2 (0.750) and lower for the statistical ensemble (\CovBstat{}), whose MSTL
-intervals ignore the uncertainty of the seasonal component (Table~\ref{tab:calibration}). On Wikipedia pageviews all foundation
-models are too narrow (coverage 0.72--0.76) and the ensemble far too wide (0.95). The Wilson intervals use the number of series as the sample size and are therefore wide; they are a guide,
+intervals ignore the uncertainty of the seasonal component (Table~\ref{tab:calibration}). On Wikipedia pageviews the foundation models'
+coverage is below nominal (0.72--0.76; only for Chronos-2 does the Wilson interval exclude 0.80) and the ensemble's far above it
+(0.95). The Wilson intervals use the number of series as the sample size and are therefore wide; they are a guide,
 not a test.
 
 \paragraph{Exploratory: spikes and lineage.} These analyses were declared exploratory (protocol §5.3) and are not corrected for

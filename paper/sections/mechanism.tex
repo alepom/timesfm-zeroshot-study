@@ -32,7 +32,8 @@ subsamples covariates beyond that number.
 de-normalise a horizon token cannot be observed, an iterative routine rolls them forward by treating the model's own median forecast
 as if it were observed. Two consequences follow from the code. For horizons up to 64 steps, the entire forecast is produced by the
 last context token, and neither the masked tokens nor the refinement play any role. With causal attention and no known future
-covariates, the forecast of the first $h$ steps does not depend on the requested horizon.
+covariates, the first 32 steps of the forecast do not depend on the requested horizon; steps 33--64 do, because for horizons above
+64 they are cross-faded with the output of the first masked token.
 
 \paragraph{Fixed computations around the network.} Four steps shape every forecast but have no parameters. (i) \emph{Linear
 detrending:} each variate gets an ordinary least-squares line over its context, and the residuals are used instead of the series
@@ -47,5 +48,6 @@ series at zero. We call the package defaults \texttt{tfm3} and the runners' flag
 \paragraph{Properties worth testing.} The design implies per-variate equivariance to positive affine transformations (each variate
 is normalised by its own location and scale), equivariance to permutations of variates, no learned mechanism for missing data, and a
 hard-coded linear extrapolation that may be harmful on saturating or regime-switching trends. Section~\ref{sec:controlled} tests the
-last point (H3) and the ablations in Section~\ref{sec:ablations} switch each fixed step off in turn. The full reading of the code,
+last point (H3) and the ablations in Section~\ref{sec:ablations} switch off the detrending, the CPM refinement and the
+stitching and change the inference options (quantile sorting is not ablated). The full reading of the code,
 with line references, is released as \texttt{reports/mechanism.md}.

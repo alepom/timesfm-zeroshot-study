@@ -2,3 +2,5 @@
 5.6 | protocol section number
 14.3 | GiB allocated by PyTorch at the OOM, Tier A run records on Drive (results/tiera/A/run_20261029T*.json)
 15000 | rounded median hourly Tier B context, 15,168 points (reports/paper_facts.json)
+1095 | classical context limit for daily data, protocol section 2
+780 | classical context limit for business-daily data, protocol section 2

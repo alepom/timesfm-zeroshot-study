@@ -3,15 +3,17 @@
 
 \paragraph{What the evidence supports.} Three statements are well supported. First, Google's benchmark numbers are real: they
 reproduce with the public code and weights. Second, TimesFM~3's advantage over well-configured classical methods carries over to
-data that did not exist when the model was released, with a margin (16\% in MASE, 29\% in SQL on the information-matched contrast)
-that is large in practical terms and somewhat smaller, for the median forecast, than on the benchmark. Third, the advantage over
-the strongest other foundation models is small: about 5\% over Chronos-2 and TimesFM~2.5 on post-release data, and parity with
-Chronos-2 on the benchmark tasks where both are run on the same terms. The leaderboard ordering among foundation models depends
-on inference options (cross-learning, symmetric averaging) as much as on the models, and claims of a clear lead should state those
-options.
+data that did not exist when the model was released, with a margin (16\% in MASE, 29\% in SQL on the contrast without covariates)
+that is large in practical terms and somewhat smaller, for the median forecast, than on the benchmark. The SQL margin is largest on
+river flow (0.493 against 0.797 on the other three domains pooled; exploratory). Third, the advantage over the strongest other
+foundation models is small: about 5\% over Chronos-2 on post-release data, and over TimesFM~2.5 resolved only in SQL. On the
+benchmark the published lead over Chronos-2 holds; it comes from the tasks where cross-learning matters, while on the other tasks
+the two are at parity. Published comparisons among foundation models should state the inference options (cross-learning, symmetric
+averaging) each model was run with.
 
-\paragraph{Exposure and memorisation.} We find no difference between pages and windows inside the documented pageview corpus and the
-same pages three years later, within a detectable effect of about 5\%. The probe is narrow (one source, one model family, a corpus
+\paragraph{Exposure and memorisation.} We find no resolved difference between pages and windows inside the documented pageview corpus
+and the same pages three years later; the estimate (\Htwo) points in the predicted direction and the interval is compatible with an
+advantage of up to about \HtwoMde\%. The probe is narrow (one source, one model family, a corpus
 described only by its sources), and it cannot exclude smaller effects or memorisation of series types rather than windows. It does
 show that, on the source most likely to be exposed, exposure does not buy a measurable advantage over another foundation model.
 
@@ -24,11 +26,11 @@ GPU; the gain over the long context is real but modest (4\% from 2{,}016 to abou
 \item \emph{Near-random-walk series} (exchange rates, interest rates, commodity prices): do not use it; the naive forecast is
 better, by 11\% in our data.
 \item \emph{Recent regime changes and saturating growth}: check the forecast against a simple baseline; these are the cases where
-TimesFM~3 fails by large factors, and its intervals do not warn of it.
+TimesFM~3 fails by large factors in our synthetic tests.
 \item \emph{Covariates}: useful when the covariate drives the target strongly and its future is known; with real covariates of
 moderate strength, the gain is small even when their observed future values are supplied.
 \end{itemize}
-On compute (Tier B, 4{,}136 tasks, run records), TimesFM~3 in univariate mode took about 17 minutes on a free T4 GPU,
+On compute (Tier B, 4{,}136 forecast tasks in univariate and group mode, run records), TimesFM~3 in univariate mode took about 17 minutes on a free T4 GPU,
 Chronos-2 about 5, TimesFM~2.5 and TiRex-2 about 20, and the benchmark flags of TimesFM~3 about 35; the three MSTL members of the
 hourly classical ensemble took about an hour on eight CPU cores. Zero-shot forecasting is therefore not expensive at this scale;
 the costs that matter in practice are the GPU dependency and the licence (TimesFM~3's weights are licensed for non-commercial
@@ -36,12 +38,12 @@ use only). Latency at batch sizes 1, 32 and 256 is reported in Appendix~\ref{app
 
 \paragraph{Practical implications for digital marketing and demand planning.} We did not evaluate marketing data, and we make no
 claim about it; the following maps our results onto common use cases. (i) \emph{Demand and inventory}: intermittent demand (D8)
-and retail tasks in fev-bench are handled well, and short histories of new products are the strongest case for zero-shot
+is forecast better than by the classical methods we ran (which include no Croston-type method), and short histories of new products are the strongest case for zero-shot
 forecasting. (ii) \emph{Sales with promotions or advertising}: the closest analogue in our data is load with an oracle temperature,
 where even perfect knowledge of the covariate's future gives no resolved gain; covariate effects must be strong (as in our
 synthetic cells) to matter, so planned promotions should be tested, not assumed to help. (iii) \emph{Attention and traffic}
-(pageviews, search interest): the models forecast the level well but their intervals are too narrow on spiky attention data
-(coverage 0.72--0.76 for a nominal 0.80), so alerting thresholds based on them will fire too often, and they do not anticipate
+(pageviews, search interest): the models forecast the level well but their intervals tend to be too narrow on spiky attention data
+(coverage 0.72--0.76 for a nominal 0.80, with wide uncertainty), so alerting thresholds based on them may fire too often, and they do not anticipate
 the onset of a spike (exploratory analysis in Section~\ref{sec:postrelease}): a viral peak or a campaign burst is visible to them only
 once it has started. (iv) \emph{Prices and
 financial series}: use a random walk as the benchmark and expect no gain. (v) \emph{Product launches and growth curves}: the

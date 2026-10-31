@@ -22,12 +22,12 @@ post-release data, a within-model comparison of the same pages inside and outsid
 prospective forecasts.
 
 \paragraph{Evaluations of TimesFM~3.} At the time of writing, the only independent study we know is a simulation study
-\citep{ebrahim2026foundation} that compares TimesFM~3 with classical models on nine synthetic univariate processes. Its
+\citep{ebrahim2026foundation} that compares TimesFM~3 and other foundation models with classical methods on nine synthetic univariate processes. Its
 worst-case error relative to the best method was smaller than that of any classical method, but automatic ARIMA was more accurate
 on seasonal ARIMA data with four or more cycles, the foundation models forecast a spurious decline on a saturating process at
 steps 25--48, and TimesFM~3 did not beat simple benchmarks on intermittent demand. We replicate its three hardest processes
 (Section~\ref{sec:controlled}), confirm the spurious decline, and add real post-release data, multivariate structure and an
-analysis of the mechanism. On intermittent demand our result differs: against the classical methods we run (which include no
+analysis of the mechanism. On intermittent demand the results are not directly comparable: against the classical methods we run (which include no
 Croston-type method), the foundation models are about 20\% more accurate.
 
 \paragraph{Evaluation methods.} We use scaled errors \citep{hyndman2006mase}, the quantile loss as a proper scoring rule

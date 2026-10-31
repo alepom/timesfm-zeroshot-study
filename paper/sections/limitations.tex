@@ -7,7 +7,18 @@ windows; no fine-tuning and no trained global model (fev's published LightGBM re
 in particular business data, may differ.
 \item \textbf{Exposure is bounded, not excluded.} Post-release test windows do not make the series new: same-source data of earlier
 periods are in public pre-training corpora for load, price and weather, and the TimesFM~3 corpus is described only at the level of
-sources. The Wikipedia probe has a minimum detectable effect of about 5\%.
+sources. With the realised precision, the Wikipedia probe detects an effect of about \HtwoMde\% with 80\% power;
+smaller effects cannot be excluded. The probe also relies on a stated assumption: that Chronos-2's training data contain no
+Wikipedia pageviews from 2023.
+\item \textbf{Pilot overlap.} The protocol was frozen before the post-release data were downloaded, but the 2023 W-seen windows
+had been forecast (not scored) in the pilot, before the freeze; they were re-run under the frozen code.
+\item \textbf{Few clusters.} The bootstrap resamples 12--20 series per domain, four structured domains and eight weekly time
+clusters (20 series and seven weeks for H5). Percentile intervals can under-cover with so few clusters; differences whose intervals
+end near 1 should be read with care.
+\item \textbf{Context lengths.} On hourly data the foundation models see about 15{,}000 points and the classical models 2{,}016, so
+the contrasts without covariates match the inputs but not the context length (S4 measures the effect for TimesFM~3).
+\item \textbf{Calibration intervals.} The Wilson intervals treat each series' mean coverage as one trial; they are a guide, not a
+test.
 \item \textbf{Oracle covariates.} The real covariates (temperature, precipitation) are observed values, an upper bound on what a
 forecast could use.
 \item \textbf{Our ensemble is not fev's.} H1 compares TimesFM~3 with fev's ensemble on Tier A and with ours on Tier B, so it is
