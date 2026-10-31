@@ -3,7 +3,7 @@
 
 \begin{enumerate}
 \item \textbf{Download date (2026-10-28).} The post-release Tier B and W data were downloaded on the evening of the freeze day, from
-about 18:10 UTC, instead of ``on or after 2026-10-29'', because the author was unavailable the next day and the GPU runs had to
+18:23 UTC, instead of ``on or after 2026-10-29'', because the author was unavailable the next day and the GPU runs had to
 start. The freeze commit (17:59:59 UTC) precedes the download; the test windows end on 2026-10-20 and were fully covered by ERA5;
 nothing else changed.
 \item \textbf{Variate-attention ablation (found 2026-10-30).} \texttt{tfm3-novarattn} set the flag
@@ -73,6 +73,6 @@ the training data; the evidence is released with the code.
 \label{app:hardware}
 
 On the 15\,GB Tesla T4, \texttt{tfm3-eval} ran out of memory on two Tier A tasks (\texttt{boomlet\_619}, \texttt{boomlet\_1209}),
-deterministically at about 14.3\,GB, because symmetric averaging doubles the batch; the package defaults ran on all tasks after the
+deterministically at about 14.3\,GiB, because symmetric averaging doubles the batch; the package defaults ran on all tasks after the
 GPU cache was released between tasks. TiRex-2 used its non-fused sLSTM kernels (the fused kernels need an Ampere GPU) and is not
 run beyond 320 steps.

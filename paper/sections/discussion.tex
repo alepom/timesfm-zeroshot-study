@@ -20,7 +20,7 @@ show that, on the source most likely to be exposed, exposure does not buy a meas
 \item \emph{Short histories, long seasonality, several seasonal cycles, new series}: the foundation models are far ahead of
 classical methods, which lack the information to estimate seasonality. This is the main practical case for zero-shot forecasting.
 \item \emph{Strongly structured, long series} (load, prices, weather): a 10--20\% gain over a classical ensemble at the cost of a
-GPU; the gain over the long context is real but modest (4\% from 2{,}016 to about 14{,}500 hourly points).
+GPU; the gain over the long context is real but modest (4\% from 2{,}016 to about 15{,}000 hourly points).
 \item \emph{Near-random-walk series} (exchange rates, interest rates, commodity prices): do not use it; the naive forecast is
 better, by 11\% in our data.
 \item \emph{Recent regime changes and saturating growth}: check the forecast against a simple baseline; these are the cases where

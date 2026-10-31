@@ -1,0 +1,4 @@
+# literal | why it is not in the generated outputs (checked by hand)
+5.6 | protocol section number
+14.3 | GiB allocated by PyTorch at the OOM, Tier A run records on Drive (results/tiera/A/run_20261029T*.json)
+15000 | rounded median hourly Tier B context, 15,168 points (reports/paper_facts.json)

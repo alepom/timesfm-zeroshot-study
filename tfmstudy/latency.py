@@ -2,7 +2,7 @@
 
     python -m tfmstudy.latency --out <results dir> [--models tfm3-uni,tfm3-eval,tfm25,chronos2-uni,tirex2-uni]
 
-256 univariate Tier B tasks (hourly load and price, horizon 24, the longest contexts of the study, about 14,500 points)
+256 univariate Tier B tasks (hourly load and price, horizon 24, the longest contexts of the study, about 15,000 points)
 are forecast in calls of 1, 32 and 256 series. For each batch size the model is loaded (TimesFM-3 fixes its batch size at
 load time) and warmed up with one call; then every batch size is timed over the same 256 series, with `torch.cuda.synchronize()` around the timed calls.
 TimesFM-3 receives the call size as `per_core_batch_size`; the other adapters batch internally. Output:

@@ -1,0 +1,47 @@
+{
+ "tier_b": {
+  "series": 104,
+  "domains": 6,
+  "series_windows": 4068,
+  "series_tasks_by_mode": {
+   "group": 884,
+   "uni": 4059
+  },
+  "hourly_context_points": {
+   "min": 14592,
+   "median": 15168,
+   "max": 15768
+  }
+ },
+ "tier_a": {
+  "tfm3_eval_tasks": 28,
+  "tasks_with_covariates": 12,
+  "median_abs_sql_dev_pct_without_cov": 0.0013,
+  "median_abs_sql_dev_pct_with_cov": 1.01,
+  "chronos2_control_failures": 16,
+  "chronos2_control_failures_higher_sql": 12,
+  "snaive_control_failures": 2,
+  "not_reproduced": 5,
+  "not_reproduced_with_covariates": 5,
+  "not_reproduced_range_pct": [
+   -10.6,
+   6.1
+  ]
+ },
+ "tier_c_d7_tfm3": {
+  "rep:D7:n200": {
+   "replications": 200,
+   "median_below_last_obs_steps25_48": 199,
+   "median_above_truth_steps25_48": 1
+  },
+  "rep:D7:n48": {
+   "replications": 200,
+   "median_below_last_obs_steps25_48": 0,
+   "median_above_truth_steps25_48": 3
+  }
+ },
+ "tier_c_cells": {
+  "cells": 38,
+  "tfm3_beats_best_classical": 29
+ }
+}
