@@ -1,0 +1,20 @@
+{
+ "_note": "Jobs added to Drive job.json ONLY after the Tier P issue 2 seal, with bundle 0.5.5 (protocol deviation 2). Move results/forecast/main/{synthetic,B}/tfm3-novarattn aside on Drive first.",
+ "jobs": [
+  {
+   "name": "C-novarattn",
+   "job": "forecast",
+   "extra_args": "--tier synthetic --period main --models tfm3-novarattn"
+  },
+  {
+   "name": "B-novarattn",
+   "job": "forecast",
+   "extra_args": "--tier B --period main --models tfm3-novarattn"
+  },
+  {
+   "name": "latency",
+   "job": "latency",
+   "extra_args": ""
+  }
+ ]
+}
