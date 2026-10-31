@@ -64,6 +64,18 @@ intervals ignore the uncertainty of the seasonal component (Table~\ref{tab:calib
 models are too narrow (coverage 0.72--0.76) and the ensemble far too wide (0.95). The Wilson intervals use the number of series as the sample size and are therefore wide; they are a guide,
 not a test.
 
+\paragraph{Exploratory: spikes and lineage.} These analyses were declared exploratory (protocol §5.3) and are not corrected for
+multiplicity. (i) \emph{Spike anticipation on W.} In 191 of the 5{,}588 Wikipedia windows the observed maximum exceeds three times
+the 90th percentile of the context. In the 161 of them where the spike starts after the forecast origin, no foundation model
+anticipates it: the maximum of TimesFM~3's 0.9 quantile over the window has a median of 1.09 times the context percentile (observed:
+4.7), and exceeds three times the percentile in 9\% of these windows (Chronos-2 8\%, TiRex-2 and TimesFM~2.5 3\%). The naive
+forecast reaches that level more often (48\%) only because its intervals widen with the horizon. In the 30 windows where the spike is
+already under way at the origin, all foundation models extend it. The share does not differ between W-seen and W-post for TimesFM~3
+(0.189 and 0.191), which agrees with the memorisation probe. (ii) \emph{Lineage.} On the structured domains of Tier B,
+TimesFM~3's MASE relative to the statistical ensemble is 0.857 (0.823--0.889) on series whose source has earlier-period data in
+public pre-training corpora (load, price, weather) and 0.776 (0.636--0.922) on rivers, for which none is known. The advantage is not
+larger where exposure to the source is documented; since the lineage groups coincide with domains, this is not a test of exposure.
+
 \begin{table}[!htbp]
 \centering
 \caption{Calibration: mean empirical coverage of the central 80\% and 60\% intervals (protocol §5.6). The Wilson interval treats

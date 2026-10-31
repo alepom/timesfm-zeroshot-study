@@ -32,8 +32,7 @@ On compute (Tier B, 4{,}136 tasks, run records), TimesFM~3 in univariate mode to
 Chronos-2 about 5, TimesFM~2.5 and TiRex-2 about 20, and the benchmark flags of TimesFM~3 about 35; the three MSTL members of the
 hourly classical ensemble took about an hour on eight CPU cores. Zero-shot forecasting is therefore not expensive at this scale;
 the costs that matter in practice are the GPU dependency and the licence (TimesFM~3's weights are licensed for non-commercial
-use only). Latency at batch sizes 1, 32 and 256 is measured separately (Section~\ref{sec:prospective} will report it with the
-final results).
+use only). Latency at batch sizes 1, 32 and 256 is reported in Appendix~\ref{app:hardware}.
 
 \paragraph{Practical implications for digital marketing and demand planning.} We did not evaluate marketing data, and we make no
 claim about it; the following maps our results onto common use cases. (i) \emph{Demand and inventory}: intermittent demand (D8)
@@ -42,7 +41,9 @@ forecasting. (ii) \emph{Sales with promotions or advertising}: the closest analo
 where even perfect knowledge of the covariate's future gives no resolved gain; covariate effects must be strong (as in our
 synthetic cells) to matter, so planned promotions should be tested, not assumed to help. (iii) \emph{Attention and traffic}
 (pageviews, search interest): the models forecast the level well but their intervals are too narrow on spiky attention data
-(coverage 0.72--0.76 for a nominal 0.80), so alerting thresholds based on them will fire too often. (iv) \emph{Prices and
+(coverage 0.72--0.76 for a nominal 0.80), so alerting thresholds based on them will fire too often, and they do not anticipate
+the onset of a spike (exploratory analysis in Section~\ref{sec:postrelease}): a viral peak or a campaign burst is visible to them only
+once it has started. (iv) \emph{Prices and
 financial series}: use a random walk as the benchmark and expect no gain. (v) \emph{Product launches and growth curves}: the
 spurious decline on saturating growth and the failure after regime changes are exactly the situations of a launch or a campaign;
 a naive or damped-trend baseline should run alongside. Finally, the non-commercial licence of TimesFM~3 matters for any business use.

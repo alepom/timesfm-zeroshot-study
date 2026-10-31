@@ -1,0 +1,431 @@
+{
+ "label": "exploratory, no multiplicity correction (protocol section 5.4)",
+ "spike_anticipation_W": {
+  "definition": "windows with max(actual) > 3.0 x context p90; forecast ratio = max q0.9 / context p90",
+  "windows_total": 5588,
+  "spike_windows": 191,
+  "spike_windows_by_stratum": {
+   "W-new": 49,
+   "W-post": 89,
+   "W-seen": 53
+  },
+  "by_stratum_model": [
+   {
+    "stratum": "W-new",
+    "model": "chronos2",
+    "windows": 49,
+    "median_actual_ratio": 5.21,
+    "median_forecast_ratio": 1.721,
+    "share_forecast_ratio_above_spike": 0.347
+   },
+   {
+    "stratum": "W-new",
+    "model": "naive",
+    "windows": 49,
+    "median_actual_ratio": 5.21,
+    "median_forecast_ratio": 4.753,
+    "share_forecast_ratio_above_spike": 0.673
+   },
+   {
+    "stratum": "W-new",
+    "model": "snaive",
+    "windows": 49,
+    "median_actual_ratio": 5.21,
+    "median_forecast_ratio": 4.632,
+    "share_forecast_ratio_above_spike": 0.673
+   },
+   {
+    "stratum": "W-new",
+    "model": "tfm25",
+    "windows": 49,
+    "median_actual_ratio": 5.21,
+    "median_forecast_ratio": 1.008,
+    "share_forecast_ratio_above_spike": 0.265
+   },
+   {
+    "stratum": "W-new",
+    "model": "tfm3",
+    "windows": 49,
+    "median_actual_ratio": 5.21,
+    "median_forecast_ratio": 1.754,
+    "share_forecast_ratio_above_spike": 0.367
+   },
+   {
+    "stratum": "W-new",
+    "model": "tfm3-eval",
+    "windows": 49,
+    "median_actual_ratio": 5.21,
+    "median_forecast_ratio": 1.874,
+    "share_forecast_ratio_above_spike": 0.388
+   },
+   {
+    "stratum": "W-new",
+    "model": "tirex2",
+    "windows": 49,
+    "median_actual_ratio": 5.21,
+    "median_forecast_ratio": 1.175,
+    "share_forecast_ratio_above_spike": 0.265
+   },
+   {
+    "stratum": "W-post",
+    "model": "chronos2",
+    "windows": 89,
+    "median_actual_ratio": 5.02,
+    "median_forecast_ratio": 1.15,
+    "share_forecast_ratio_above_spike": 0.169
+   },
+   {
+    "stratum": "W-post",
+    "model": "naive",
+    "windows": 89,
+    "median_actual_ratio": 5.02,
+    "median_forecast_ratio": 2.928,
+    "share_forecast_ratio_above_spike": 0.472
+   },
+   {
+    "stratum": "W-post",
+    "model": "snaive",
+    "windows": 89,
+    "median_actual_ratio": 5.02,
+    "median_forecast_ratio": 2.17,
+    "share_forecast_ratio_above_spike": 0.315
+   },
+   {
+    "stratum": "W-post",
+    "model": "tfm25",
+    "windows": 89,
+    "median_actual_ratio": 5.02,
+    "median_forecast_ratio": 1.04,
+    "share_forecast_ratio_above_spike": 0.202
+   },
+   {
+    "stratum": "W-post",
+    "model": "tfm3",
+    "windows": 89,
+    "median_actual_ratio": 5.02,
+    "median_forecast_ratio": 1.133,
+    "share_forecast_ratio_above_spike": 0.191
+   },
+   {
+    "stratum": "W-post",
+    "model": "tfm3-eval",
+    "windows": 89,
+    "median_actual_ratio": 5.02,
+    "median_forecast_ratio": 1.118,
+    "share_forecast_ratio_above_spike": 0.202
+   },
+   {
+    "stratum": "W-post",
+    "model": "tirex2",
+    "windows": 89,
+    "median_actual_ratio": 5.02,
+    "median_forecast_ratio": 1.093,
+    "share_forecast_ratio_above_spike": 0.191
+   },
+   {
+    "stratum": "W-seen",
+    "model": "chronos2",
+    "windows": 53,
+    "median_actual_ratio": 4.25,
+    "median_forecast_ratio": 1.292,
+    "share_forecast_ratio_above_spike": 0.17
+   },
+   {
+    "stratum": "W-seen",
+    "model": "naive",
+    "windows": 53,
+    "median_actual_ratio": 4.25,
+    "median_forecast_ratio": 3.484,
+    "share_forecast_ratio_above_spike": 0.604
+   },
+   {
+    "stratum": "W-seen",
+    "model": "snaive",
+    "windows": 53,
+    "median_actual_ratio": 4.25,
+    "median_forecast_ratio": 2.731,
+    "share_forecast_ratio_above_spike": 0.396
+   },
+   {
+    "stratum": "W-seen",
+    "model": "tfm25",
+    "windows": 53,
+    "median_actual_ratio": 4.25,
+    "median_forecast_ratio": 1.112,
+    "share_forecast_ratio_above_spike": 0.075
+   },
+   {
+    "stratum": "W-seen",
+    "model": "tfm3",
+    "windows": 53,
+    "median_actual_ratio": 4.25,
+    "median_forecast_ratio": 1.2,
+    "share_forecast_ratio_above_spike": 0.189
+   },
+   {
+    "stratum": "W-seen",
+    "model": "tfm3-eval",
+    "windows": 53,
+    "median_actual_ratio": 4.25,
+    "median_forecast_ratio": 1.201,
+    "share_forecast_ratio_above_spike": 0.245
+   },
+   {
+    "stratum": "W-seen",
+    "model": "tirex2",
+    "windows": 53,
+    "median_actual_ratio": 4.25,
+    "median_forecast_ratio": 1.04,
+    "share_forecast_ratio_above_spike": 0.094
+   }
+  ],
+  "spike_windows_by_onset": {
+   "new": 161,
+   "ongoing": 30
+  },
+  "by_onset_model": [
+   {
+    "onset": "new",
+    "model": "chronos2",
+    "windows": 161,
+    "median_actual_ratio": 4.7,
+    "median_forecast_ratio": 1.122,
+    "share_forecast_ratio_above_spike": 0.081
+   },
+   {
+    "onset": "new",
+    "model": "naive",
+    "windows": 161,
+    "median_actual_ratio": 4.7,
+    "median_forecast_ratio": 2.928,
+    "share_forecast_ratio_above_spike": 0.478
+   },
+   {
+    "onset": "new",
+    "model": "snaive",
+    "windows": 161,
+    "median_actual_ratio": 4.7,
+    "median_forecast_ratio": 2.286,
+    "share_forecast_ratio_above_spike": 0.323
+   },
+   {
+    "onset": "new",
+    "model": "tfm25",
+    "windows": 161,
+    "median_actual_ratio": 4.7,
+    "median_forecast_ratio": 0.932,
+    "share_forecast_ratio_above_spike": 0.031
+   },
+   {
+    "onset": "new",
+    "model": "tfm3",
+    "windows": 161,
+    "median_actual_ratio": 4.7,
+    "median_forecast_ratio": 1.086,
+    "share_forecast_ratio_above_spike": 0.093
+   },
+   {
+    "onset": "new",
+    "model": "tfm3-eval",
+    "windows": 161,
+    "median_actual_ratio": 4.7,
+    "median_forecast_ratio": 1.076,
+    "share_forecast_ratio_above_spike": 0.124
+   },
+   {
+    "onset": "new",
+    "model": "tirex2",
+    "windows": 161,
+    "median_actual_ratio": 4.7,
+    "median_forecast_ratio": 1.006,
+    "share_forecast_ratio_above_spike": 0.031
+   },
+   {
+    "onset": "ongoing",
+    "model": "chronos2",
+    "windows": 30,
+    "median_actual_ratio": 5.14,
+    "median_forecast_ratio": 8.428,
+    "share_forecast_ratio_above_spike": 0.933
+   },
+   {
+    "onset": "ongoing",
+    "model": "naive",
+    "windows": 30,
+    "median_actual_ratio": 5.14,
+    "median_forecast_ratio": 13.441,
+    "share_forecast_ratio_above_spike": 1.0
+   },
+   {
+    "onset": "ongoing",
+    "model": "snaive",
+    "windows": 30,
+    "median_actual_ratio": 5.14,
+    "median_forecast_ratio": 11.784,
+    "share_forecast_ratio_above_spike": 1.0
+   },
+   {
+    "onset": "ongoing",
+    "model": "tfm25",
+    "windows": 30,
+    "median_actual_ratio": 5.14,
+    "median_forecast_ratio": 4.911,
+    "share_forecast_ratio_above_spike": 1.0
+   },
+   {
+    "onset": "ongoing",
+    "model": "tfm3",
+    "windows": 30,
+    "median_actual_ratio": 5.14,
+    "median_forecast_ratio": 6.77,
+    "share_forecast_ratio_above_spike": 1.0
+   },
+   {
+    "onset": "ongoing",
+    "model": "tfm3-eval",
+    "windows": 30,
+    "median_actual_ratio": 5.14,
+    "median_forecast_ratio": 6.727,
+    "share_forecast_ratio_above_spike": 1.0
+   },
+   {
+    "onset": "ongoing",
+    "model": "tirex2",
+    "windows": 30,
+    "median_actual_ratio": 5.14,
+    "median_forecast_ratio": 8.616,
+    "share_forecast_ratio_above_spike": 1.0
+   }
+  ]
+ },
+ "lineage_B": [
+  {
+   "lineage": "L0",
+   "domains": [
+    "river"
+   ],
+   "ref": "stat-ens",
+   "metric": "mase",
+   "ratio": 0.776,
+   "ci95": [
+    0.636,
+    0.922
+   ],
+   "n": 207,
+   "clusters": 20
+  },
+  {
+   "lineage": "L0",
+   "domains": [
+    "river"
+   ],
+   "ref": "stat-ens",
+   "metric": "sql",
+   "ratio": 0.493,
+   "ci95": [
+    0.361,
+    0.662
+   ],
+   "n": 207,
+   "clusters": 20
+  },
+  {
+   "lineage": "L0",
+   "domains": [
+    "river"
+   ],
+   "ref": "chronos2-uni",
+   "metric": "mase",
+   "ratio": 0.917,
+   "ci95": [
+    0.83,
+    0.996
+   ],
+   "n": 207,
+   "clusters": 20
+  },
+  {
+   "lineage": "L0",
+   "domains": [
+    "river"
+   ],
+   "ref": "chronos2-uni",
+   "metric": "sql",
+   "ratio": 0.925,
+   "ci95": [
+    0.866,
+    0.984
+   ],
+   "n": 207,
+   "clusters": 20
+  },
+  {
+   "lineage": "L1",
+   "domains": [
+    "load",
+    "price",
+    "weather"
+   ],
+   "ref": "stat-ens",
+   "metric": "mase",
+   "ratio": 0.857,
+   "ci95": [
+    0.823,
+    0.889
+   ],
+   "n": 3648,
+   "clusters": 44
+  },
+  {
+   "lineage": "L1",
+   "domains": [
+    "load",
+    "price",
+    "weather"
+   ],
+   "ref": "stat-ens",
+   "metric": "sql",
+   "ratio": 0.797,
+   "ci95": [
+    0.771,
+    0.82
+   ],
+   "n": 3648,
+   "clusters": 44
+  },
+  {
+   "lineage": "L1",
+   "domains": [
+    "load",
+    "price",
+    "weather"
+   ],
+   "ref": "chronos2-uni",
+   "metric": "mase",
+   "ratio": 0.965,
+   "ci95": [
+    0.941,
+    0.989
+   ],
+   "n": 3648,
+   "clusters": 44
+  },
+  {
+   "lineage": "L1",
+   "domains": [
+    "load",
+    "price",
+    "weather"
+   ],
+   "ref": "chronos2-uni",
+   "metric": "sql",
+   "ratio": 0.967,
+   "ci95": [
+    0.944,
+    0.989
+   ],
+   "n": 3648,
+   "clusters": 44
+  }
+ ]
+}

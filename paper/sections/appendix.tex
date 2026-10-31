@@ -76,3 +76,6 @@ On the 15\,GB Tesla T4, \texttt{tfm3-eval} ran out of memory on two Tier A tasks
 deterministically at about 14.3\,GiB, because symmetric averaging doubles the batch; the package defaults ran on all tasks after the
 GPU cache was released between tasks. TiRex-2 used its non-fused sLSTM kernels (the fused kernels need an Ampere GPU) and is not
 run beyond 320 steps.
+
+\textit{[Latency at batch sizes 1, 32 and 256 (256 hourly Tier B series, horizon 24, about 15{,}000 context points): pending the
+GPU job run after the second prospective issue.]}
