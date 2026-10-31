@@ -11,4 +11,7 @@
 
 | Manifest | Contents | FreeTSA time (UTC) | OpenTimestamps |
 |---|---|---|---|
-| 2026-10-30 | protocol-frozen-v1 (9f15b38…), issue 2026-10-30 seal (f84a669d…) | 2026-10-30 13:29:45 | stamped 2026-10-30; Bitcoin attestation pending |
+| 2026-10-30 | protocol-frozen-v1 (9f15b38…), issue 2026-10-30 seal (f84a669d…) | 2026-10-30 13:29:45 | Bitcoin block 973830 (2026-10-30 13:48:06 UTC); also 973864, 973887 |
+
+Without a local Bitcoin node, `ots verify` cannot run; the proof was checked on 2026-10-31 by recomputing each attestation's
+merkle root with the `opentimestamps` library and comparing it with the block header from blockstream.info (all three match).
