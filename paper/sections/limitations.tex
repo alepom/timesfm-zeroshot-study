@@ -13,10 +13,17 @@ Wikipedia pageviews from 2023.
 \item \textbf{Pilot overlap.} The protocol was frozen before the post-release data were downloaded, but the 2023 W-seen windows
 had been forecast (not scored) in the pilot, before the freeze; they were re-run under the frozen code.
 \item \textbf{Few clusters.} The bootstrap resamples 12--20 series per domain, four structured domains and eight weekly time
-clusters (20 series and seven weeks for H5). Percentile intervals can under-cover with so few clusters; differences whose intervals
-end near 1 should be read with care.
+clusters (20 series and seven weeks for H5). Percentile intervals can under-cover with so few clusters, and windows of different series
+that overlap in time, or fall in adjacent weeks, are not independent. Under a cluster jackknife with $t$ critical values or with
+two-week time blocks, some family P decisions change (Section~\ref{sec:robustness}). All inference is conditional on these domains
+and these autumn weeks.
+\item \textbf{Multiplicity across families.} Holm controls the error rate within each family, not across the 17 primary tests of
+families P and H. The equivalence margin $\log 1.03$ corresponds to ratios from 0.971 to 1.030.
 \item \textbf{Context lengths.} On hourly data the foundation models see about 15{,}000 points and the classical models 2{,}016, so
 the contrasts without covariates match the inputs but not the context length (S4 measures the effect for TimesFM~3).
+\item \textbf{Baselines.} The pre-registered classical ensemble uses a weekly season on daily river flow and on business-daily
+FX and rates and is fitted to raw flows; a re-specified ensemble improves the river results markedly (Section~\ref{sec:robustness}).
+No Croston-type method is included for intermittent demand.
 \item \textbf{Calibration intervals.} The Wilson intervals treat each series' mean coverage as one trial; they are a guide, not a
 test.
 \item \textbf{Oracle covariates.} The real covariates (temperature, precipitation) are observed values, an upper bound on what a

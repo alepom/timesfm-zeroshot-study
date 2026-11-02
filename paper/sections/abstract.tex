@@ -5,10 +5,11 @@ flow, exchange and interest rates), on a Wikipedia probe that compares the same 
 training corpus, on two prospective issues sealed by hash before their outcomes existed, and on 7{,}600 controlled synthetic tasks.
 We also reproduce Google's published fev-bench results and read the model's inference code, which has no technical report. The
 published results reproduce. On post-release data TimesFM~3 has a 16\% lower MASE and a 29\% lower scaled quantile loss than a
-classical ensemble, and about 5\% lower errors than Chronos-2 and TimesFM~2.5; its published benchmark lead over Chronos-2 also
+classical ensemble (15\% and 22\% with a re-specified ensemble for river flow), about 5\% lower errors than Chronos-2, which on
+hourly data comes from using a longer context, and a lower probabilistic error than TimesFM~2.5; its published benchmark lead over Chronos-2 also
 reproduces, and is slightly larger when neither model shares information across series, an option the published Chronos-2 results
-use. We find no resolved sign of memorisation; effects of up to about 6\% cannot be excluded. TimesFM~3 is 11\% worse than the random walk on exchange
-rates, interest rates and oil prices, forecasts a spurious decline on saturating growth and, in a synthetic test, fails after a
-recent regime change. Multivariate mode helps
-when a strong cross-series signal exists and is harmless otherwise, and the fixed steps of the inference path contribute little on
-average.
+use. We find no resolved sign of memorisation; effects of up to about 6\% cannot be excluded. Like every foundation model we ran, TimesFM~3 is worse than the random walk on exchange
+rates, interest rates and oil prices (by 11\%). In single synthetic settings (descriptive) it forecasts a spurious decline on
+saturating growth and fails after a recent level shift. In synthetic data, multivariate mode helps when a strong cross-series
+signal exists and is harmless otherwise; on real data its gain is small. The fixed steps of the inference path contribute little
+on average.

@@ -9,7 +9,7 @@ univariate mode has a MASE \PoneMase{} times that of the statistical ensemble (9
 the other foundation models the margins are an order of magnitude smaller: \PtwoMase{} (MASE) and \PtwoSql{} (SQL) against
 Chronos-2, both resolved, and \PthreeSql{} (SQL, resolved) and \PthreeMase{} (MASE, not resolved after Holm correction) against its
 predecessor TimesFM~2.5. Joint forecasting of the real group tasks (P4a: price, FX, FRED) lowers SQL by about 3\% (resolved; the
-MASE difference is not resolved). The flags of Google's benchmark runners (P5) change neither metric by more than about 1\%, at
+MASE difference is not resolved; the SQL decision does not survive the small-cluster checks of Section~\ref{sec:robustness}). The flags of Google's benchmark runners (P5) change neither metric by more than about 1\%, at
 twice the compute; neither difference is resolved.
 
 \begin{table}[!htbp]
@@ -24,7 +24,8 @@ two-way cluster bootstrap interval and the series-only interval; decisions by Ho
 
 \paragraph{By domain (S1).} The advantage over the statistical ensemble is resolved in every domain, from 11\% lower MASE on
 electricity load to 22\% on river flow (Table~\ref{tab:secondary}). Against Chronos-2 the per-domain differences are resolved only
-on weather; against TimesFM~2.5 on load and weather. The cross-model margins are therefore not uniform across domains. Since every domain has equal
+on weather; against TimesFM~2.5 on load and weather. The cross-model margins are therefore not uniform across domains, and on hourly data the lead over Chronos-2 disappears
+when TimesFM~3 is given the classical models' context (Section~\ref{sec:robustness}). Since every domain has equal
 weight in the estimate, the pooled P2 result reflects all four, with the largest per-domain margins on river flow (0.917) and weather
 (0.956); only the weather difference is resolved on its own.
 
@@ -40,7 +41,10 @@ classical methods survives on new data, slightly reduced for the median forecast
 of the random walk (\HfiveLo--\HfiveHi): H5 is supported. The interval lies entirely above 1, so the model is \emph{worse} than the naive
 forecast rather than not much better (a reading of the interval, not a further test). It is also worse than the statistical ensemble on these series (\NrwStatEns,
 \NrwStatEnsLo--\NrwStatEnsHi; descriptive), while the difference from Chronos-2 is not resolved (\NrwChronos,
-\NrwChronosLo--\NrwChronosHi). A random walk is the optimal forecast for a martingale, so no model can beat it by a resolved margin
+\NrwChronosLo--\NrwChronosHi). The pattern is not specific to TimesFM~3: every foundation model we ran is worse than the random walk on these series
+(Chronos-2 1.068, TiRex-2 1.086, TimesFM~2.5 1.098; descriptive), while the statistical ensemble is close to it (1.011). Note that
+H5, a non-superiority test, would be supported by any model that does not beat the random walk; the informative part is the
+direction of the interval. A random walk is the optimal forecast for a martingale, so no model can beat it by a resolved margin
 without an evaluation problem; the negative controls in Tier C behave the same way (Section~\ref{sec:controlled}).
 
 \paragraph{Covariates and context length (S3, S4).} Supplying the observed future temperature for load and the observed future
@@ -97,4 +101,59 @@ oracle future covariates; S4: TimesFM~3 restricted to the classical models' cont
 \label{tab:secondary}
 \scriptsize
 \input{generated/table_secondary.tex}
+\end{table}
+
+\subsection{Robustness (requested in review; not pre-registered)}
+\label{sec:robustness}
+
+Two internal reviews asked for checks that the protocol did not plan. They do not change any pre-registered decision; they show
+which conclusions depend on choices of aggregation, inference, baseline and context. Code and results are released
+(\texttt{tfmstudy/robustness.py}, \texttt{tfmstudy/alt\_baseline.py}).
+
+\paragraph{Aggregation.} Table~\ref{tab:robustness} recomputes family P with other averaging schemes. The MASE contrasts are stable:
+P1 lies between 0.824 and 0.872 and P2 and P3 between 0.94 and 0.98 under every scheme. The SQL advantage over the ensemble is not:
+0.707 with the pre-registered nested equal weights, 0.797 when every window counts equally, 0.807 as a ratio of mean losses and
+0.832 as a median. River flow drives the difference: it has a quarter of the weight but 207 of the 3{,}855 windows, and without it
+P1 on SQL is 0.797.
+
+\paragraph{A re-specified classical baseline.} The pre-registered ensemble fits AutoETS, AutoARIMA and AutoTheta with a weekly
+season to daily river flow and to business-daily FX and rates, none of which has a weekly cycle, and fits raw, skewed flows. With
+the same models without a season, fitted to $\log(1+y)$ for river flow, the ensemble's SQL on rivers falls to 0.665 of its value
+(MASE 0.920) and its 80\% coverage moves from 0.891 to 0.798. TimesFM~3 still leads on rivers (MASE 0.844, 0.684--1.004; SQL 0.742,
+0.604--0.897), and P1 with the re-specified river ensemble is 0.854 (0.804--0.900) in MASE and 0.782 (0.737--0.824) in SQL. On FX and
+rates the re-specification changes nothing (1.002).
+
+\paragraph{Few time clusters.} Family P rests on eight weekly clusters. With a delete-one-cluster jackknife over series and weeks
+and $t_7$ critical values, and separately with the two-way bootstrap on two-week time blocks, P1 (both metrics), P2 and P3 on SQL
+stay resolved after Holm correction. P2 on MASE is resolved with time blocks but not with the jackknife ($p_{\mathrm{Holm}} =
+0.059$), and the multivariate gain on the real group tasks (P4a, SQL) is resolved under neither ($p_{\mathrm{Holm}} = 0.067$ and
+0.077): it should be read as fragile.
+
+\paragraph{Context length.} On the three hourly domains, TimesFM~3 restricted to the 2{,}016 points the classical models see is
+level with Chronos-2 (MASE 1.004, 0.980--1.027; SQL 1.008), while with its full context it is ahead (0.965 and 0.967). Its hourly
+lead over Chronos-2, which truncates at 8{,}192 points, therefore comes from using a longer context. Against the classical ensemble
+the restricted model keeps most of its advantage (MASE 0.891, SQL 0.830), so P1 is not a context effect.
+
+\paragraph{The memorisation probe and difficulty.} The 2026 windows are harder than the 2023 windows for both models
+(geometric-mean MASE of TimesFM~3 0.414 against 0.279; Chronos-2 0.432 against 0.297), and the difference in differences varies
+with page difficulty, from 0.937 on the easiest quarter of pages to 1.022 on the hardest. A log-ratio difference in differences
+identifies memorisation only if the relative advantage does not depend on difficulty (a parallel-trends assumption), which these
+numbers do not support; together with the sign change of the adjusted contrast (S2), this makes H2 uninformative beyond about
+\HtwoMde\%. A placebo on the 2025 pilot windows was not run, because whether 2025 pageviews are in the TimesFM~3 corpus is unknown.
+
+\paragraph{Ablations by domain.} The pooled S5 estimates average over windows where a step is inactive. By domain, switching off the
+linear detrending lowers TimesFM~3's MASE on FX by 6\% (0.943; on the 19 of 44 windows where the forecast changes, 0.872), which is
+about half of its shortfall against the random walk there (1.126); on Treasury yields it has no effect (1.000). Elsewhere every
+ablation changes MASE by less than 2.5\% in every domain; repeated GPU runs differ by up to about 0.1\% on some windows, so smaller
+differences are not interpretable.
+
+\begin{table}[!htbp]
+\centering
+\caption{Robustness of family P (requested in review; not pre-registered). Ratios under the pre-registered nested equal weights,
+pooled over windows, per series, as a ratio of mean errors, as the median log ratio, and without river flow; Holm-adjusted $p$ and
+decision under a delete-one-cluster jackknife with $t_7$ critical values and under the two-way bootstrap with two-week time blocks.}
+\label{tab:robustness}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\input{generated/table_robustness.tex}
 \end{table}

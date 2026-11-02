@@ -264,6 +264,26 @@ def table_ablations(conf: dict) -> None:
     write("table_ablations.tex", tabular("llrllrll", head, rows))
 
 
+def table_robustness() -> None:
+    """Review-requested sensitivity of family P: other aggregations and small-cluster inference (not pre-registered)."""
+    path = ROOT / "reports" / "robustness.json"
+    if not path.exists():
+        return
+    rob = json.loads(path.read_text())
+    small = {r["test"]: r for r in rob["R2_small_clusters"]}
+    rows = []
+    for r in rob["R1_aggregation"]:
+        s = small[r["test"]]
+        dec = lambda k: "yes" if s[k] else "no"
+        rows.append([r["test"].replace(":", " ").upper().replace("P4A", "P4a"), r3(r["nested_equal_weights"]), r3(r["row_pooled"]),
+                     r3(r["series_weighted"]), r3(r["ratio_of_means"]), r3(r["median"]),
+                     r3(r.get("without_river", float("nan"))), pval(s["jackknife_p_holm"]), dec("jackknife_resolved"),
+                     pval(s["block2_p_holm"]), dec("block2_resolved")])
+    head = ["Test", "Nested", "Pooled", "Series", "Ratio of means", "Median", "w/o river", "$p$ jack.", "Res.",
+            "$p$ 2-wk", "Res."]
+    write("table_robustness.tex", tabular("lrrrrrrrlrl", head, rows))
+
+
 def table_latency() -> None:
     """Protocol section 7: seconds per call and series per second on the T4, by model and call size."""
     lat = pd.read_csv(ROOT / "reports" / "latency.csv")
@@ -458,6 +478,7 @@ def main() -> None:
     table_ablations(conf)
     table_tier_a()
     table_latency()
+    table_robustness()
     table_calibration(desc)
     table_tier_c(desc)
     table_family_s6(json.loads(S6.read_text()) if S6.exists() else None)

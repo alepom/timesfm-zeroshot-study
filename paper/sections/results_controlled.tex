@@ -10,17 +10,23 @@ with one week of context (0.620 against 0.886), and a target driven by a known f
 contexts and long horizons (up to 1{,}024 steps) the margin is a steady 6--8\%, and there TimesFM~3 and Chronos-2 are within 1\%
 of each other.
 
-The failures are specific. (i) \emph{Logistic growth} (D7). With 200 points of context the series has already
+The failures are specific; each comes from one synthetic cell and is descriptive, without a test. (i) \emph{Logistic growth} (D7). With 200 points of context the series has already
 risen and starts to saturate; the true continuation is nearly flat, but TimesFM~3 forecasts a decline: its
 median forecast over steps 25--48 lies below the last observation in 199 of the 200 replications, and its MASE is 6.3 times that of
 the naive forecast (TimesFM~2.5: 10.9; Chronos-2: 4.4; TiRex-2: 3.2; we did not inspect the direction of their errors). The simulation study we replicate reports the same spurious
 decline \citep{ebrahim2026foundation}. With 48 points of context, which end before the steep part of the curve, TimesFM~3
 under-forecasts the rise in almost every replication, and the best classical model (AutoETS) is about four times more accurate.
-(ii) \emph{A regime change} near the origin: TimesFM~3's relative MASE is 0.917 against 0.387 for both Chronos-2 and the best
-classical model, a failure specific to TimesFM~3 among the foundation models. (iii) \emph{Level shifts} (D6, three of four cells) and the
+(ii) \emph{A regime change} near the origin, in one parametrisation (a level shift of five innovation standard deviations 24
+steps before the origin): TimesFM~3's relative MASE is 0.917 against 0.387 for both Chronos-2 and the best classical model, a
+failure specific to TimesFM~3 among the foundation models, although it still beats the seasonal naive forecast. With 24 points
+after the shift the situation is ambiguous between a burst and a new level; we did not vary the size or timing of the shift. (iii) \emph{Level shifts} (D6, three of four cells) and the
 \emph{random walk}: TimesFM~3 is 1--5\% worse than the best classical model. (iv) On \emph{white noise} all models match the historic mean,
-which is optimal; no model beats the optimal forecast, as a sound evaluation requires. Intermittent demand (D8) is handled
-well: every foundation model is about 20\% better than the naive forecast, which is the best classical model there.
+which is optimal; no model beats the optimal forecast, as a sound evaluation requires. On intermittent demand (D8) the
+verdict depends on the metric. Every foundation model has about a 20\% lower MASE than the naive forecast, the best classical
+model on that metric, but MASE rewards a median forecast near zero; on the root mean squared scaled error the historic mean and
+AutoETS are better than TimesFM~3 (0.709 against 0.811 with 200 points and $H = 48$), while on the quantile loss the foundation
+models are better (0.567 against 0.674). For intermittent demand the foundation models' quantiles, not their point forecasts,
+are the useful output (review-requested analysis, not pre-registered).
 
 \begin{table}[!htbp]
 \centering
