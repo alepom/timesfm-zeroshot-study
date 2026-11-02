@@ -79,6 +79,16 @@
    "name": "latency",
    "job": "latency",
    "extra_args": ""
+  },
+  {
+   "name": "B-context",
+   "job": "forecast",
+   "extra_args": "--tier B --period main --models tfm3-c8192,chronos2-c2016"
+  },
+  {
+   "name": "C-regime",
+   "job": "forecast",
+   "extra_args": "--tier synthetic --period regime --models tfm3,chronos2,tfm25,tirex2"
   }
  ]
 }
