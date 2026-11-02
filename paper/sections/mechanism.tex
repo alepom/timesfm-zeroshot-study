@@ -35,7 +35,8 @@ last context token, and neither the masked tokens nor the refinement play any ro
 covariates, the first 32 steps of the forecast do not depend on the requested horizon; steps 33--64 do, because for horizons above
 64 they are cross-faded with the output of the first masked token.
 
-\paragraph{Fixed computations around the network.} Four steps can shape a forecast but have no parameters; two of them act only under conditions. (i) \emph{Linear
+\paragraph{Fixed computations around the network.} Four steps can shape a forecast but have no parameters; three of them act only under conditions (the detrending behind a gate,
+the refinement and stitching only for horizons above 64 steps). (i) \emph{Linear
 detrending:} each variate gets an ordinary least-squares line over its context, and the residuals are used instead of the series
 when $\mathrm{std}(\text{residual}) < 0.5\,\mathrm{std}(\text{series})$, i.e.\ when the line explains more than 75\% of the
 variance; the extrapolated line is then added back to all nine quantiles. The gate is discontinuous: a small change of the context

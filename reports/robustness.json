@@ -1,5 +1,17 @@
 {
  "label": "robustness and sensitivity analyses requested in review; not pre-registered",
+ "methods": {
+  "estimator": "nested equal-weight mean of the per-window log ratio (cells domain x horizon, then horizons, then domains)",
+  "bootstrap": "two-way multiplicative-weight (pigeonhole) cluster bootstrap: series clusters drawn with replacement within domain strata, times ISO weeks of the first forecast step drawn with replacement (Owen 2007, Ann. Appl. Stat. 1:386-411); one-way over replications on synthetic data",
+  "interval": "percentile, 2.5 and 97.5 per cent of the bootstrap distribution of the log estimate, exponentiated",
+  "p_value": "two-sided, 2 min(share of replicates >= 0, share <= 0), floored at 1/reps",
+  "seed": 17,
+  "reps": {
+   "R2, R7, R12, R13": 10000,
+   "R3, R9, R10": 2000
+  },
+  "status": "post hoc, not pre-registered; intervals and p-values are unadjusted unless a Holm column is given"
+ },
  "R1_aggregation": [
   {
    "test": "P1:mase",

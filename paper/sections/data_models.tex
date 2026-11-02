@@ -15,11 +15,13 @@ series lists fixed by rules on 2025 data: hourly electricity load in 12 European
 \citep{hersbach2020era5,zippenfenig2023openmeteo}), daily flow at 20 river gauges (USGS \citep{usgs2026nwis}), ten business-daily exchange rates
 against the euro (ECB \citep{ecb2026dataportal}), and eight Treasury yields with WTI and Brent prices (FRED \citep{fred2026}). Horizons are 24 and
 168 hours, 7 and 28 days, 5 and 20 business days. Load and river flow have a covariate whose \emph{observed} future values are
-supplied (temperature, precipitation): it is an oracle, an upper bound on any real forecast, and enters only the configurations with covariates (\texttt{tfm3}, \texttt{tfm3-eval}, \texttt{chronos2}, \texttt{tirex2}): P4a, P5, H1 and S3. Price, FX and FRED also
+supplied (temperature, precipitation): it is an oracle, an upper bound on any real forecast, and enters only the configurations with covariates (\texttt{tfm3}, \texttt{tfm3-eval}, \texttt{chronos2}, \texttt{tirex2}): P5, H1, S3 and the Tier B ablations (S5). Price, FX and FRED also
 form one group task each, in which all series of the domain are forecast jointly. The denominators differ by analysis and are
 not interchangeable: 4{,}136 forecast tasks produce 4{,}943 series-task evaluations (4{,}059 univariate and 884 in group mode),
-which cover 4{,}068 distinct series-windows; family P uses the 3{,}855 univariate evaluations on the four structured domains with
-complete cases for all compared models. Same-source data of earlier periods are part of
+which cover 4{,}068 distinct series-windows. P1--P3 and P5 use the 3{,}855 univariate evaluations on the four structured domains
+and P4a the 884 group-mode evaluations; no score was missing or excluded in either set, and no forecast fell back to the naive
+method. Before forecasting, 13 of the 4{,}149 forecast tasks, all river windows, were excluded under the protocol's rules (a target value missing in the
+test window). Same-source data of earlier periods are part of
 the public pre-training corpora for load, price and weather; the model card describes the TimesFM~3 corpus only at the level of sources (GiftEvalPretrain without the
 datasets that overlap fev-bench, Wikipedia pageviews to November 2023, Google Trends to 2022, synthetic data
 \citep{timesfm2026hf}), so Tier B guarantees

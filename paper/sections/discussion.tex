@@ -1,47 +1,53 @@
 \section{Discussion}
 \label{sec:discussion}
 
-\paragraph{What the evidence supports.} Three statements are well supported. First, Google's benchmark numbers are real: they
-reproduce with the public code and weights. Second, TimesFM~3's advantage over the pre-specified classical ensemble carries over to
+\paragraph{What the evidence supports.} Three statements are well supported. First, on a 30-task sample Google's published fev-bench results
+largely reproduce with the public code and weights (Section~\ref{sec:reproduction} lists the two tasks we could not run, the
+deviations on tasks with covariates and the failed pipeline controls). Second, TimesFM~3's advantage over the pre-specified classical ensemble carries over to
 data that did not exist when the model was released, with a margin (16\% in MASE, 29\% in SQL on the contrast without covariates)
 that is large in practical terms and somewhat smaller, for the median forecast, than on the benchmark. The SQL margin depends on how windows
 are weighted and on the river baseline (Section~\ref{sec:robustness}): with every window weighted equally it is 20\%, and with a
 re-specified ensemble for river flow 22\%. Third, the advantage over the strongest other
 foundation models is small: about 5\% over Chronos-2 on post-release data, and over TimesFM~2.5 resolved only in SQL. On the
 benchmark the published lead over Chronos-2 holds; it comes from the tasks where cross-learning matters, while on the other tasks
-the two are at parity. Published comparisons among foundation models should state the inference options (cross-learning, symmetric
+the two are close (descriptive). Published comparisons among foundation models should state the inference options (cross-learning, symmetric
 averaging) each model was run with.
 
 \paragraph{Exposure and memorisation.} We find no resolved difference between pages and windows inside the documented pageview corpus
-and the same pages three years later; the estimate (\Htwo) points in the predicted direction and the interval is compatible with an
-advantage of up to about \HtwoMde\%. The probe is narrow (one source, one model family, a corpus
+and the same pages three years later; the estimate (\Htwo) points in the predicted direction and the interval
+(\HtwoLo--\HtwoHi) includes both no difference and an advantage of several per cent; because the design does not identify
+memorisation (below), the interval is not a bound on it. The probe is narrow (one source, one model family, a corpus
 described only by its sources), and it cannot exclude smaller effects or memorisation of series types rather than windows. Because the 2026 windows are harder than the 2023 windows and the difference in differences varies with page difficulty
 (Section~\ref{sec:robustness}), the probe does not identify an effect of memorisation; it is not evidence that exposure does not help.
 
 \paragraph{When to use it, and when not to (RQ7).} The controlled data separate the situations sharply.
 \begin{itemize}
-\item \emph{Short histories, long seasonality, several seasonal cycles, new series}: the foundation models are far ahead of
-classical methods, which lack the information to estimate seasonality. This is the main practical case for zero-shot forecasting.
+\item \emph{Short histories, long seasonality, several seasonal cycles}: in our synthetic cells the foundation models were far
+ahead of the classical methods we ran, which lack the information to estimate seasonality; this is where our results favour
+zero-shot forecasting most clearly. We did not evaluate real new series.
 \item \emph{Strongly structured, long series} (load, prices, weather): in our domains and weeks, a 10--20\% gain over a classical
 ensemble at the cost of a GPU; the gain over the long context is real but modest (4\% from 2{,}016 to about 15{,}000 hourly points).
 \item \emph{Near-random-walk series} (exchange rates, interest rates, commodity prices): in our data its MASE was 11\% higher than that of the naive forecast, as were those of the
 other foundation models; use a random walk as the benchmark.
-\item \emph{Recent regime changes and saturating growth}: check the forecast against a simple baseline; these are the cases where
-TimesFM~3 fails by large factors in our synthetic tests.
-\item \emph{Covariates}: useful when the covariate drives the target strongly and its future is known; with real covariates of
-moderate strength, the gain is small even when their observed future values are supplied.
+\item \emph{Recent regime changes and saturating growth}: check the forecast against a simple baseline; in our synthetic tests
+(upward level shifts of two or more noise standard deviations a few steps to a few days before the origin, and a logistic curve near
+saturation) TimesFM~3 failed by large factors.
+\item \emph{Covariates}: in synthetic data, useful when the covariate drives the target strongly and its future is known; with the real
+covariates we tested (temperature for load, precipitation for river flow) no gain is resolved even with their observed future values,
+and the interval (0.904--1.060) includes both a gain of about 10\% and a loss of 6\%.
 \end{itemize}
 On compute (Tier B, 4{,}136 forecast tasks in univariate and group mode, run records), TimesFM~3 in univariate mode took about 17 minutes on a free T4 GPU,
 Chronos-2 about 5, TimesFM~2.5 and TiRex-2 about 20, and the benchmark flags of TimesFM~3 about 35; the three MSTL members of the
-hourly classical ensemble took about an hour on eight CPU cores. Zero-shot forecasting is therefore not expensive at this scale;
-the costs that matter in practice are the GPU dependency and the licence (TimesFM~3's weights are licensed for non-commercial
+hourly classical ensemble took about an hour on eight CPU cores. These are wall-clock times from the run records, including model
+loading, on one shared free GPU; they show that zero-shot forecasting is not expensive at this scale, not a cost comparison in
+general. The costs that matter in practice are the GPU dependency and the licence (TimesFM~3's weights are licensed for non-commercial
 use only). Latency at batch sizes 1, 32 and 256 is reported in Appendix~\ref{app:hardware}.
 
 \paragraph{Practical implications for digital marketing and demand planning.} We did not evaluate marketing or sales data. The
 following are hypotheses that our results suggest for common use cases, to be validated on the user's own data with a loss that
 reflects the decision. (i) \emph{Demand and inventory}: for intermittent demand the foundation models' quantiles were more
-accurate than the classical methods we ran, their point forecasts were not better on squared error, and Croston-type methods did not
-improve on the historic mean; short histories, where classical methods lack data to estimate seasonality, were the clearest case for zero-shot
+accurate than those of the probabilistic classical baselines we ran, their point forecasts were not better on squared error, and
+Croston-type methods (point forecasts only) did not improve on the historic mean in squared error; short histories, where classical methods lack data to estimate seasonality, were the clearest case for zero-shot
 forecasting in our synthetic cells. (ii) \emph{Sales with promotions or advertising}: in our data, observed future temperature
 for load and precipitation for rivers gave no resolved gain, and the interval is compatible with gains and losses; whether a
 planned promotion helps should be tested rather than assumed. (iii) \emph{Attention and traffic} (pageviews, search interest):

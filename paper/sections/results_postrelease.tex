@@ -3,18 +3,21 @@
 
 \input{sections/fig_forest}
 
-\paragraph{Primary contrasts (family P).} On the four structured domains of Tier B, with no covariates for any model, TimesFM~3 in
+\paragraph{Primary contrasts (family P).} On the four structured domains of Tier B, with no covariates for any model (P1--P3), TimesFM~3 in
 univariate mode has a MASE \PoneMase{} times that of the statistical ensemble (95\% CI \PoneMaseLo--\PoneMaseHi) and an SQL
 \PoneSql{} times (\PoneSqlLo--\PoneSqlHi); both differences are resolved (Table~\ref{tab:familyp}, Figure~\ref{fig:forest}). Against
 the other foundation models the margins are an order of magnitude smaller: \PtwoMase{} (MASE) and \PtwoSql{} (SQL) against
 Chronos-2, both resolved, and \PthreeSql{} (SQL, resolved) and \PthreeMase{} (MASE, not resolved after Holm correction) against its
 predecessor TimesFM~2.5. Joint forecasting of the real group tasks (P4a: price, FX, FRED) lowers SQL by about 3\% (resolved; the
-MASE difference is not resolved; the SQL decision does not survive the small-cluster checks of Section~\ref{sec:robustness}). The flags of Google's benchmark runners (P5) change neither metric by more than about 1\%, at
+MASE difference is not resolved; the SQL decision does not survive the small-cluster and non-overlapping-window checks of
+Section~\ref{sec:robustness}). The flags of Google's benchmark runners (P5) change neither metric by more than about 1\%, at
 twice the compute; neither difference is resolved.
 
 \begin{table}[!htbp]
 \centering
-\caption{Family P (primary): contrasts on Tier B on the same series and windows, without covariates (on hourly data the context lengths differ). Ratio of errors, A / B ($<1$: A better), with the
+\caption{Family P (primary): contrasts on Tier B. P1--P3: same 3{,}855 series-windows, no covariates (on hourly data the context
+lengths differ); P4a: 884 group-mode evaluations (no covariates); P5: the 3{,}855 series-windows, both configurations with the
+covariates of load and river flow. Ratio of errors, A / B ($<1$: A better), with the
 two-way cluster bootstrap interval and the series-only interval; decisions by Holm-adjusted $p$ over the ten tests.}
 \label{tab:familyp}
 \scriptsize
@@ -24,7 +27,7 @@ two-way cluster bootstrap interval and the series-only interval; decisions by Ho
 
 \paragraph{By domain (S1).} The advantage over the statistical ensemble is resolved in every domain, from 11\% lower MASE on
 electricity load to 22\% on river flow (Table~\ref{tab:secondary}). Against Chronos-2 the per-domain differences are resolved only
-on weather; against TimesFM~2.5 on load and weather. The cross-model margins are therefore not uniform across domains, and on hourly data the lead over Chronos-2 disappears
+on weather; against TimesFM~2.5 on load and weather. The cross-model margins are therefore not uniform across domains, and on hourly data the lead over Chronos-2 is no longer resolved
 when TimesFM~3 is given the classical models' context (Section~\ref{sec:robustness}). Since every domain has equal
 weight in the estimate, the pooled P2 result reflects all four, with the largest per-domain margins on river flow (0.917) and weather
 (0.956); only the weather difference is resolved on its own.
@@ -75,8 +78,8 @@ dependence.
 
 \paragraph{Exploratory: spikes and lineage.} These analyses were declared exploratory (protocol §5.3) and are not corrected for
 multiplicity. (i) \emph{Spike anticipation on W.} In 191 of the 5{,}588 Wikipedia windows the observed maximum exceeds three times
-the 90th percentile of the context. In the 161 of them where the spike starts after the forecast origin, no foundation model
-anticipates it: the maximum of TimesFM~3's 0.9 quantile over the window has a median of 1.09 times the context percentile (observed:
+the 90th percentile of the context. In the 161 of them where the spike starts after the forecast origin, the foundation models' upper
+quantiles rarely reach the spike level: the maximum of TimesFM~3's 0.9 quantile over the window has a median of 1.09 times the context percentile (observed:
 4.7), and exceeds three times the percentile in 9\% of these windows (Chronos-2 8\%, TiRex-2 and TimesFM~2.5 3\%). The naive
 forecast reaches that level more often (48\%) only because its intervals widen with the horizon. In the 30 windows where the spike is
 already under way at the origin, all foundation models extend it. The share does not differ between W-seen and W-post for TimesFM~3
@@ -106,9 +109,10 @@ oracle future covariates; S4: TimesFM~3 restricted to the classical models' cont
 \subsection{Robustness (requested in review; not pre-registered)}
 \label{sec:robustness}
 
-Three reviews of the draft (two internal, one external) asked for checks that the protocol did not plan; two of them
-needed new GPU runs, made on 2026-11-02 with bundle 0.5.6. They do not change any pre-registered decision; they show
-which conclusions depend on choices of aggregation, inference, baseline and context. Code and results are released
+Three reviews of the draft (two internal, one external, the latter in two rounds) asked for checks that the protocol did not plan;
+two of them needed new GPU runs, made on 2026-11-02 with bundle 0.5.6, and the others reuse the existing forecasts. They do not change
+any pre-registered decision; they show which conclusions depend on choices of aggregation, inference, baseline and context. Their
+intervals and $p$-values are unadjusted unless a Holm adjustment is stated, and none has the status of a pre-registered test. Code and results are released
 (\texttt{tfmstudy/robustness.py}, \texttt{tfmstudy/alt\_baseline.py}, \texttt{reports/robustness\_extra.json}).
 
 \paragraph{Aggregation.} Table~\ref{tab:robustness} recomputes family P with other averaging schemes. The MASE contrasts are stable:
@@ -130,14 +134,28 @@ stay resolved after Holm correction. P2 on MASE is resolved with time blocks but
 0.059$), and the multivariate gain on the real group tasks (P4a, SQL) is resolved under neither ($p_{\mathrm{Holm}} = 0.067$ and
 0.077): it should be read as fragile.
 
-\paragraph{Context length.} On the three hourly domains, TimesFM~3 restricted to the 2{,}016 points the classical models see is
-level with Chronos-2 (MASE 1.004, 0.980--1.027; SQL 1.008), while with its full context it is ahead (0.965 and 0.967). A second GPU run
-(2026-11-02) compared the two models at equal context lengths. With both at 2{,}016 points they are level (MASE 0.994,
-0.966--1.021; SQL 0.999); with both at 8{,}192 points, Chronos-2's own limit, TimesFM~3 leads by about 2\% (MASE 0.976,
-0.954--0.997; SQL 0.979, 0.959--0.999); with its full context the lead is 3--4\%. Going from 2{,}016 to 8{,}192 points lowers
-TimesFM~3's MASE by 2.8\% and Chronos-2's by 1.0\% (0.972 and 0.990), and the context beyond 8{,}192 adds about 1\% for
-TimesFM~3 (0.989). The hourly lead over Chronos-2 therefore grows with the context: TimesFM~3 makes better use of long histories,
-and the two are level on short ones (a ratio near 1 is not a test of equivalence). Against the classical ensemble the restricted
+\paragraph{Overlapping windows.} Origins are weekly for all but the 24-hour horizons, so only the 28-day river windows and the
+20-business-day FX and rates windows overlap, each with up to three later windows; every other horizon equals the spacing of its
+origins. Keeping, per series and horizon, only windows that start after the previous kept one ends removes 51 of the 3{,}855
+univariate evaluations and 57 of the 884 group evaluations. No family P estimate moves by more than 0.011 and no Holm decision
+changes except P4a on SQL ($p_{\mathrm{Holm}} = 0.052$), already fragile. The short and long horizon of each domain give similar
+ratios (P1 on MASE 0.836 and 0.834), and H5 is unchanged (1.108, 1.035--1.159). The loss differentials of consecutive origins of the
+same series are only weakly correlated at daily origins (lag-one autocorrelation $-0.03$ to 0.14, series means removed) and negatively
+at weekly origins, where four to seven origins per series bias the estimate downwards; the share of their variance that is common to
+the series of a domain in the same week is below 0.13 except for weekly price forecasts (up to 0.40). These checks do not model
+dependence between different series in different weeks: the $p$-values remain conditional on the dependence structure the bootstrap
+reproduces, and with eight weeks they speak for this autumn, not for other periods.
+
+\paragraph{Context length.} On the three hourly domains, TimesFM~3 restricted to the 2{,}016 points the classical models see shows no
+resolved difference from Chronos-2 (MASE 1.004, 0.980--1.027; SQL 1.008), while with its full context it is ahead (0.965 and 0.967).
+A second GPU run (2026-11-02) compared the two models at equal context lengths. With both at 2{,}016 points no difference is resolved
+and the estimates are close to 1 (MASE 0.994, 0.966--1.021; SQL 0.999), which is not a test of equivalence; with both at 8{,}192
+points, Chronos-2's own limit, TimesFM~3 leads by about 2\% (MASE 0.976, 0.954--0.997; SQL 0.979, 0.959--0.999); with its full
+context the lead is 3--4\%. Going from 2{,}016 to 8{,}192 points lowers TimesFM~3's MASE by 2.8\% and Chronos-2's by 1.0\% (0.972
+and 0.990), and the context beyond 8{,}192 adds about 1\% for TimesFM~3 (0.989). The point estimates suggest that TimesFM~3 gains
+more from long histories, but the difference between the two gains, resampled jointly, is not resolved: 0.982 (0.957--1.011) in MASE
+and 0.980 (0.957--1.005) in SQL. On hourly data the lead over Chronos-2 is therefore resolved only when TimesFM~3 sees at least
+8{,}192 points. Against the classical ensemble the restricted
 model keeps most of its advantage (MASE 0.891, SQL 0.830), so P1 is not a context effect.
 
 \paragraph{The memorisation probe and difficulty.} The 2026 windows are harder than the 2023 windows for both models
@@ -155,21 +173,29 @@ about half of its shortfall against the random walk there (1.126); on Treasury y
 it by 2\% on load; elsewhere every ablation changes MASE by less than 2.5\% in every domain; repeated GPU runs differ by up to about 0.1\% on some windows, so smaller
 differences are not interpretable.
 
-\paragraph{Level shifts.} A grid of 16 synthetic cells (the regime-change process with level shifts of 1, 2, 3 and 5 standard
-deviations of its noise, starting 6, 24, 96 or 336 steps before the origin, 100 new replications each, plus a no-shift control)
-replaces the single regime-change cell (Table~\ref{tab:regime}). Without a shift TimesFM~3 is 8\% better than the best classical
-model. After a shift of two or more standard deviations in the last 96 steps it is worse than the best classical model in every
-cell, by 17\% to 194\%; when the shift is 336 steps old it is again better (0.759--0.917). Against Chronos-2 the failure is
+\paragraph{Level shifts.} A grid of 16 synthetic cells extends the single regime-change cell of Table~\ref{tab:tierc}, which
+is kept, as are the pre-registered tests (Table~\ref{tab:regime}; exploratory). The process is that of the original cell (two
+seasons of 24 and 168 steps plus AR(1) noise, 1{,}024 points, horizon 48) with an upward level shift of 1, 2, 3 or 5 marginal
+standard deviations of the noise, starting 6, 24, 96 or 336 steps before the origin; each cell has 100 replications drawn
+independently (seed 2026), plus a no-shift control. Without a shift TimesFM~3 is 8\% better than the best classical model. In each
+of the nine cells with a shift of two or more standard deviations 6, 24 or 96 steps before the origin it is worse than the best
+classical model, by 17\% to 194\%; the best model is chosen per cell after seeing the results, and against the fixed statistical
+ensemble the ratios are 1.14 to 2.36. When the shift is 336 steps old TimesFM~3 is again better (0.759--0.917). Against Chronos-2 the failure is
 specific to shifts 24 and 96 steps old (1.12 to 2.43 for two or more standard deviations); six steps after a shift every foundation
-model is far behind the classical models, and TimesFM~3 is level with Chronos-2 or slightly ahead except for the largest shift.
-Recent level shifts are therefore a systematic weakness, larger for TimesFM~3 than for Chronos-2 once the shift is a day to a few
-days old.
+model is far behind the classical models, and TimesFM~3 is close to Chronos-2 or slightly ahead except for the largest shift.
+Within this process, recent upward level shifts are a consistent weakness, larger for TimesFM~3 than for Chronos-2 once the shift is
+a day to a few days old. The grid does not cover downward shifts, other processes or other timings, and it does not identify which
+step of the model is responsible.
 
 \paragraph{Intermittent demand with Croston-type methods.} On the four D8 cells, Croston's method (optimised and with the
-Syntetos--Boylan correction), ADIDA, IMAPA and TSB do not improve on the historic mean in squared error (RMSSE 0.713--0.737 against
-0.709 with 200 points and $H = 48$) and all beat TimesFM~3 on it (0.811), while TimesFM~3 has the lowest MASE (0.657 against
-0.920--0.937). The conclusion on intermittent demand is unchanged: the foundation models' quantiles and median are better, their
-point forecasts are not better in squared error.
+Syntetos--Boylan correction), ADIDA, IMAPA and TSB do not improve on the historic mean in squared error in any cell (RMSSE
+0.713--0.737 against 0.709 with 200 points and $H = 48$). In three of the four cells they all have a lower RMSSE than TimesFM~3's
+median forecast (0.811 with 200 points and $H = 48$); with 48 points and $H = 12$ two of them, optimised Croston (0.699) and TSB (0.701), are slightly worse than
+it (0.693). In MASE the foundation models are well ahead in every cell (TimesFM~3 0.657 against 0.920--0.937 with 200 points and
+$H = 48$; with 48 points Chronos-2 is slightly lower than TimesFM~3). These methods give point forecasts only, so they extend the
+point comparison; the probabilistic comparison is still against the classical baselines of Table~\ref{tab:tierc}. The conclusion on
+intermittent demand is unchanged: the foundation models' median forecasts win on absolute error and lose on squared error, and their
+quantiles are better than those of the probabilistic baselines we ran.
 
 \paragraph{Tier A by source family.} Resampling the 28 Tier A tasks by source family (22 families; for example the three ERCOT
 tasks move together) gives intervals close to the task bootstrap: 0.924--0.982 for our ratio of TimesFM~3 to Chronos-2,
@@ -179,7 +205,8 @@ tasks move together) gives intervals close to the task bootstrap: 0.924--0.982 f
 \centering
 \caption{Level-shift grid (requested in review; not pre-registered): MASE of TimesFM~3 relative to the best classical model of each
 cell and to Chronos-2, by size of the shift (standard deviations of the noise) and steps between the shift and the origin; 100
-replications per cell, context 1{,}024, horizon 48.}
+replications per cell, context 1{,}024, horizon 48. The best classical model is chosen per cell after seeing the results;
+the ratios to the fixed statistical ensemble are in \texttt{reports/robustness\_extra.json}.}
 \label{tab:regime}
 \scriptsize
 \input{generated/table_regime.tex}

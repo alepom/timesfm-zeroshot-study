@@ -5,27 +5,34 @@
 \item \textbf{Scope.} One model in depth, three comparison foundation models, six real domains and eight weeks of post-release
 windows; no fine-tuning and no trained global model (fev's published LightGBM results are not analysed). Results on other domains,
 in particular business data, may differ.
-\item \textbf{Exposure is bounded, not excluded.} Post-release test windows do not make the series new: same-source data of earlier
+\item \textbf{Exposure is not excluded.} Post-release test windows do not make the series new: same-source data of earlier
 periods are in public pre-training corpora for load, price and weather, and the TimesFM~3 corpus is described only at the level of
-sources. With the realised precision, the Wikipedia probe detects an effect of about \HtwoMde\% with 80\% power;
-smaller effects cannot be excluded. The probe also relies on a stated assumption: that Chronos-2's training data contain no
+sources. The Wikipedia contrast had 80\% power for a difference of about \HtwoMde\%, but because the probe does not identify
+memorisation (Section~\ref{sec:robustness}), neither its null result nor its interval bounds the effect of exposure. The probe also relies on a stated assumption: that Chronos-2's training data contain no
 Wikipedia pageviews from 2023.
 \item \textbf{Pilot overlap.} The protocol was frozen before the post-release data were downloaded, but the 2023 W-seen windows
 had been forecast (not scored) in the pilot, before the freeze; they were re-run under the frozen code.
 \item \textbf{Few clusters.} The bootstrap resamples 12--20 series per domain, four structured domains and eight weekly time
 clusters (20 series and seven weeks for H5). Percentile intervals can under-cover with so few clusters, and windows of different series
 that overlap in time, or fall in adjacent weeks, are not independent. Under a cluster jackknife with $t$ critical values or with
-two-week time blocks, some family P decisions change (Section~\ref{sec:robustness}). All inference is conditional on these domains
-and these autumn weeks.
+two-week time blocks, some family P decisions change, and keeping only non-overlapping windows changes the P4a decision on SQL
+(Section~\ref{sec:robustness}). Dependence between different series in different weeks is not modelled, so every $p$-value is
+conditional on the dependence structure the bootstrap reproduces. All inference is conditional on these domains and these autumn
+weeks.
 \item \textbf{Multiplicity across families.} Holm controls the error rate within each family, not across the 17 primary tests of
 families P and H. The equivalence margin $\log 1.03$ corresponds to ratios from 0.971 to 1.030.
 \item \textbf{Context lengths.} On hourly data the foundation models see about 15{,}000 points and the classical models 2{,}016, so
 the contrasts without covariates match the inputs but not the context length (S4 measures the effect for TimesFM~3).
 \item \textbf{Baselines.} The pre-registered classical ensemble uses a weekly season on daily river flow and on business-daily
 FX and rates and is fitted to raw flows; a re-specified ensemble improves the river results markedly (Section~\ref{sec:robustness}).
-Croston-type methods were added for intermittent demand only after review.
+Croston-type methods were added for intermittent demand only after review and give point forecasts only; no
+probabilistic baseline designed for intermittent demand was run.
 \item \textbf{Calibration.} Coverage is reported without intervals. The protocol's Wilson intervals treat each series' mean coverage
-as a Bernoulli trial, which it is not, and were dropped after review.
+as a Bernoulli trial, which it is not, and were dropped after review. Marginal coverage says nothing about conditional calibration,
+and the differences in coverage between models are not tested.
+\item \textbf{Data vintages.} Tier B data were downloaded after the test windows ended. Some sources revise recent values (provisional
+river flows, for example), so the contexts may differ from what was available at each origin; Tier B is a retrospective
+evaluation, not a real-time simulation. Tier P is the real-time check.
 \item \textbf{Oracle covariates.} The real covariates (temperature, precipitation) are observed values, an upper bound on what a
 forecast could use.
 \item \textbf{Our ensemble is not fev's.} H1 compares TimesFM~3 with fev's ensemble on Tier A and with ours on Tier B, so it is
@@ -35,7 +42,8 @@ other cells are not adjusted for multiplicity.
 \item \textbf{A software error in one ablation} (variate attention) was found after the confirmatory analysis; the ablation was
 re-run with the corrected code and family S5 recomputed (Appendix~\ref{app:deviations}).
 \item \textbf{Hardware.} All neural models ran on a single 15\,GB T4 in fp32; two Tier A tasks did not fit with symmetric averaging,
-and TiRex-2 ran on its slower kernels and is limited to 320 steps.
+and TiRex-2 ran on its slower kernels and is limited to 320 steps. Run times and latencies include model loading and compilation
+and do not separate a cold start from steady state; they are not a cost benchmark.
 \item \textbf{Prospective tier.} Two overlapping issues give inference over series, not over time; they check the direction of the
 main results, not their size.
 \item \textbf{Code reading.} The description of TimesFM~3 is based on the public inference code and checkpoint configuration;

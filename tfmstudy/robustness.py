@@ -11,6 +11,13 @@ R4  ablations on Tier B by domain and only on windows where the ablation changes
 R5  Wikipedia difference in differences by page difficulty.
 R6  intermittent demand (D8) on RMSSE and SQL as well as MASE.
 R7  Tier A: task-bootstrap intervals for the TimesFM-3 / Chronos-2 ratios.
+R8  every model against the random walk on FX and rates.
+
+    python -m tfmstudy.robustness --extra <tree> [--parts R10 R13 ...]   -> reports/robustness_extra.json
+
+R9  level-shift grid; R10 equal context with the model x context interaction; R11 Croston-type methods on D8;
+R12 Tier A by source family; R13 family P and H5 on non-overlapping windows and by horizon; R14 serial dependence of the
+loss differentials; R15 the windows behind the SQL tails of P1; R16 excluded scores and fallbacks.
 """
 
 from __future__ import annotations
@@ -30,6 +37,17 @@ OUT = ROOT / "reports" / "robustness.json"
 MAIN = ROOT / "results" / "forecast" / "main"
 REPS = 10_000
 ACTIVE = 1e-3  # |log MASE ratio| above which an ablation counts as having changed the forecast
+METHODS = {
+    "estimator": "nested equal-weight mean of the per-window log ratio (cells domain x horizon, then horizons, then domains)",
+    "bootstrap": ("two-way multiplicative-weight (pigeonhole) cluster bootstrap: series clusters drawn with replacement "
+                  "within domain strata, times ISO weeks of the first forecast step drawn with replacement "
+                  "(Owen 2007, Ann. Appl. Stat. 1:386-411); one-way over replications on synthetic data"),
+    "interval": "percentile, 2.5 and 97.5 per cent of the bootstrap distribution of the log estimate, exponentiated",
+    "p_value": "two-sided, 2 min(share of replicates >= 0, share <= 0), floored at 1/reps",
+    "seed": 17,
+    "reps": {"R2, R7, R12, R13": 10_000, "R3, R9, R10": 2_000},
+    "status": "post hoc, not pre-registered; intervals and p-values are unadjusted unless a Holm column is given",
+}
 P_TESTS = [("P1", "tfm3-uni", "stat-ens"), ("P2", "tfm3-uni", "chronos2-uni"), ("P3", "tfm3-uni", "tfm25"),
            ("P4a", "tfm3", "tfm3-uni"), ("P5", "tfm3-eval", "tfm3")]
 
@@ -205,8 +223,12 @@ def tier_a(reps: int = REPS) -> dict:
 
 def regime_grid(reps: int = 2_000) -> list[dict]:
     """R9: level-shift grid (period 'regime'): TimesFM-3 against the best classical model and against Chronos-2, per cell."""
-    from .evaluate import score
-    c = score("synthetic", "regime", ROOT / "results" / "forecast", ROOT / "data" / "processed")
+    stored = ROOT / "results" / "forecast" / "regime" / "synthetic" / "metrics.parquet"
+    if stored.exists():
+        c = pd.read_parquet(stored)
+    else:
+        from .evaluate import score
+        c = score("synthetic", "regime", ROOT / "results" / "forecast", ROOT / "data" / "processed")
     classical = ["ets", "theta", "mstl", "mstl-theta", "mstl-arima", "naive", "snaive", "mean", "stat-ens"]
     gm = lambda s: float(np.exp(np.log(s[(s > 0) & np.isfinite(s)]).mean()))
     out = []
@@ -214,11 +236,11 @@ def regime_grid(reps: int = 2_000) -> list[dict]:
         level = {m: gm(g[g.model.eq(m)].mase) for m in g.model.unique()}
         best = min((m for m in classical if m in level), key=level.get)
         r = {"cell": cell, "best_classical": best, **{m: round(v, 4) for m, v in level.items()}}
-        for ref in (best, "chronos2"):
+        for key, ref in (("best", best), ("chronos2", "chronos2"), ("stat-ens", "stat-ens")):  # best: chosen post hoc
             rows = A.complete_cases(c, ["tfm3", ref], ["mase"], c.cell.eq(cell))
             x = A.contrast(c, "tfm3", ref, "mase", rows, ["cell"], "cell", two_way=False, reps=reps)
-            r[f"tfm3_vs_{'best' if ref == best else ref}"] = round(x["ratio"], 4)
-            r[f"tfm3_vs_{'best' if ref == best else ref}_ci95"] = [round(v, 4) for v in x["ci95"]]
+            r[f"tfm3_vs_{key}"] = round(x["ratio"], 4)
+            r[f"tfm3_vs_{key}_ci95"] = [round(v, 4) for v in x["ci95"]]
         out.append(r)
     return out
 
@@ -239,6 +261,20 @@ def equal_context(tree: Path, reps: int = 2_000) -> list[dict]:
             x = A.contrast(b, a, m, metric, rows, ["domain", "horizon"], reps=reps)
             out.append({"a": a, "b": m, "comparison": what, "metric": metric, "ratio": round(x["ratio"], 4),
                         "ci95": [round(v, 4) for v in x["ci95"]], "n": x["n"]})
+    for metric in ("mase", "sql"):  # interaction: TimesFM-3's gain from 2,016 to 8,192 over Chronos-2's, jointly resampled
+        keys = ["task_id", "series_id"]
+        t = A.paired(b, "tfm3-c8192", "tfm3-c2016", metric, rows).set_index(keys)
+        c = A.paired(b, "chronos2-uni", "chronos2-c2016", metric, rows).set_index(keys)
+        pr = t.loc[t.index.intersection(c.index)].copy()
+        pr["d"] = pr.d - c.loc[pr.index, "d"]
+        pr = pr.reset_index()
+        design = A.Design(pr, ["domain", "horizon"], "domain")
+        est = design.estimate(pr.d.to_numpy())[0, 0]
+        s = A._summary(est, design.bootstrap(pr.d.to_numpy(), reps)[:, 0])
+        out.append({"a": "tfm3-c8192 / tfm3-c2016", "b": "chronos2-uni / chronos2-c2016",
+                    "comparison": "interaction: gain from 2,016 to 8,192, TimesFM-3 over Chronos-2", "metric": metric,
+                    "ratio": round(s["ratio"], 4), "ci95": [round(v, 4) for v in s["ci95"]], "p": round(s["p"], 4),
+                    "n": int(len(pr))})
     return out
 
 
@@ -301,24 +337,160 @@ def tier_a_families(reps: int = REPS) -> dict:
             "ours_ci95": ci(stats_["lo"]), "published_ci95": ci(stats_["lp"]), "ours_over_published_ci95": ci(stats_["diff"])}
 
 
-def main_extra(tree: Path) -> None:
-    c = pd.read_parquet(MAIN / "synthetic" / "metrics.parquet")
-    report = {"label": "second-round review-requested analyses (GPU runs of 2026-11-02, bundle 0.5.6); not pre-registered",
-              "R9_regime_grid": regime_grid(), "R10_equal_context": equal_context(tree), "R11_croston": croston(c),
-              "R12_tier_a_families": tier_a_families()}
-    (ROOT / "reports" / "robustness_extra.json").write_text(json.dumps(report, indent=1, default=float))
-    print(json.dumps(report, indent=1, default=float)[:8000])
+# ------------------------------------------------------------------ third round (no new forecasts)
+
+def _end(r) -> pd.Timestamp:
+    """Last forecast step of a window: hourly load, price and weather, daily river, business-daily FX and rates."""
+    if r.domain in ("fx", "rates"):
+        return r.origin + pd.offsets.BDay(int(r.horizon))
+    return r.origin + (pd.Timedelta(days=int(r.horizon)) if r.domain == "river" else pd.Timedelta(hours=int(r.horizon)))
+
+
+def non_overlapping(b: pd.DataFrame) -> pd.Series:
+    """Mask keeping, per series and horizon, the earliest window and then each window that starts after the last kept
+    one ends. Only the 28-day river and 20-business-day FX and rates windows (weekly origins) overlap; the others are
+    all kept."""
+    w = b[["series_id", "domain", "horizon", "origin"]].drop_duplicates()
+    keep = set()
+    for (_, _), g in w.groupby(["series_id", "horizon"]):
+        last = None
+        for r in g.sort_values("origin").itertuples():
+            if last is None or r.origin >= last:
+                keep.add((r.series_id, r.horizon, r.origin))
+                last = _end(r)
+    return pd.Series([k in keep for k in zip(b.series_id, b.horizon, b.origin)], index=b.index)
+
+
+def _horizon_class(pr: pd.DataFrame) -> pd.Series:
+    short = pr.groupby("domain").horizon.transform("min")
+    return np.where(pr.horizon.eq(short), "short", "long")
+
+
+def non_overlap(b: pd.DataFrame, reps: int = REPS) -> dict:
+    """R13: family P and H5 on non-overlapping windows (two-way bootstrap with Holm over family P), and the same contrasts
+    separately for each domain's short and long horizon (all windows and non-overlapping windows)."""
+    rows, keep = _rows(b), non_overlapping(b)
+    tests = [(n, a, m, met) for n, a, m in P_TESTS for met in ("mase", "sql")] + [("H5", "tfm3-uni", "naive", "mase")]
+    out, by_h = [], []
+    for name, a, m, metric in tests:
+        n_all = 0
+        for label, mask in (("all", rows[name]), ("non_overlapping", rows[name] & keep)):
+            pr = A.paired(b, a, m, metric, mask)
+            n_all = n_all or len(pr)
+            design = A.Design(pr, ["domain", "horizon"], "domain")
+            est = design.estimate(pr.d.to_numpy())[0, 0]
+            s = A._summary(est, design.bootstrap(pr.d.to_numpy(), reps)[:, 0], floor=0.90 if name == "H5" else None)
+            if label == "non_overlapping":
+                out.append({"test": f"{name}:{metric}", "windows": int(len(pr)), "dropped": int(n_all - len(pr)), "weeks": int(pr.week.nunique()),
+                            "ratio": round(s["ratio"], 4), "ci95": [round(v, 4) for v in s["ci95"]],
+                            "p": s["p_nonsup"] if name == "H5" else s["p"]})
+            pr["hclass"] = _horizon_class(pr)
+            for hc, g in pr.groupby("hclass"):
+                dg = A.Design(g, ["domain", "horizon"], "domain")
+                e = dg.estimate(g.d.to_numpy())[0, 0]
+                sg = A._summary(e, dg.bootstrap(g.d.to_numpy(), 2_000)[:, 0])
+                by_h.append({"test": f"{name}:{metric}", "windows_used": label, "horizons": hc, "windows": int(len(g)),
+                             "ratio": round(sg["ratio"], 4), "ci95": [round(v, 4) for v in sg["ci95"]]})
+    fam = [r for r in out if not r["test"].startswith("H5")]
+    for r, ph in zip(fam, A.holm([r["p"] for r in fam])):
+        r["p_holm"], r["resolved"] = round(ph, 4), bool(ph < 0.05)
+    return {"note": "post hoc; 28-day river and 20-business-day FX and rates windows thinned to non-overlapping origins",
+            "family_p_and_h5": out, "by_horizon": by_h}
+
+
+def loss_dependence(b: pd.DataFrame) -> list[dict]:
+    """R14: lag-one autocorrelation of the loss differential between consecutive origins of the same series (series means
+    removed), and the share of its variance that is common to all series of a domain in the same week."""
+    rows, out = _rows(b), []
+    for name, a, m in P_TESTS[:3]:
+        for metric in ("mase", "sql"):
+            pr = A.paired(b, a, m, metric, rows[name]).sort_values(["series_id", "horizon", "origin"])
+            for (dom, h), g in pr.groupby(["domain", "horizon"]):
+                x = g.d - g.groupby("series_id").d.transform("mean")
+                lag = x.groupby(g.series_id).shift(1)
+                ok = lag.notna()
+                wk = g.d - g.groupby("week").d.transform("mean")
+                out.append({"test": f"{name}:{metric}", "domain": dom, "horizon": int(h), "windows": int(len(g)),
+                            "origins": int(g.origin.nunique()),
+                            "lag1_autocorrelation": round(float(np.corrcoef(x[ok], lag[ok])[0, 1]), 3) if ok.sum() > 2 else None,
+                            "week_share_of_variance": round(float(1 - wk.var() / g.d.var()), 3)})
+    return out
+
+
+def sql_tails(b: pd.DataFrame) -> dict:
+    """R15: which windows the 1% trimming of P1 on SQL removes (it moves the ratio from 0.707 to about 0.80)."""
+    pr = A.paired(b, "tfm3-uni", "stat-ens", "sql", _rows(b)["P1"])
+    lo, hi = np.quantile(pr.d, [0.01, 0.99])
+    tails = pr[(pr.d < lo) | (pr.d > hi)]
+    return {"windows": int(len(pr)), "trimmed": int(len(tails)),
+            "lower_tail_by_domain": tails[tails.d < lo].domain.value_counts().to_dict(),
+            "upper_tail_by_domain": tails[tails.d > hi].domain.value_counts().to_dict(),
+            "lower_tail_median_ratio": round(float(np.exp(tails[tails.d < lo].d.median())), 4),
+            "upper_tail_median_ratio": round(float(np.exp(tails[tails.d > hi].d.median())), 4),
+            "share_of_windows_by_domain": pr.domain.value_counts().to_dict(),
+            "nested_without_trimmed_river": round(float(np.exp(_nested(pr[~(pr.index.isin(tails.index) & pr.domain.eq("river"))]))), 4)}
+
+
+def exclusions() -> dict:
+    """R16: scores excluded from the paired contrasts (non-finite or zero) and fallback forecasts, per tier."""
+    out = {}
+    for tier in ("B", "W", "synthetic"):
+        d = pd.read_parquet(MAIN / tier / "metrics.parquet")
+        bad = ~(np.isfinite(d.mase) & (d.mase > 0) & np.isfinite(d.sql) & (d.sql > 0))
+        out[tier] = {"scores": int(len(d)), "excluded": int(bad.sum()), "excluded_by_model": d[bad].model.value_counts().to_dict(),
+                     "fallbacks": int(d.fallback.sum())}
+    t = pd.read_parquet(ROOT / "data" / "processed" / "main" / "tasks.parquet")
+    out["B_windows_excluded_before_forecasting"] = {"windows": int(len(t)), "excluded": int(t.excluded.ne("").sum()),
+                                                    "reasons": t[t.excluded.ne("")].excluded.str.split(": ").str[1]
+                                                    .value_counts().to_dict()}
+    b = pd.read_parquet(MAIN / "B" / "metrics.parquet")
+    out["family_P_complete_cases"] = {"univariate_structured": int(b[(b["mode"] == "uni") & b.domain.isin(A.STRUCTURED)]
+                                                                   .groupby(["task_id", "series_id"]).ngroups),
+                                      "used": int(len(A.paired(b, "tfm3-uni", "stat-ens", "mase", _rows(b)["P1"])))}
+    return out
+
+
+EXTRA_METHODS = {
+    **METHODS,
+    "reps": {"R12, R13": 10_000, "R9, R10, R13 by_horizon": 2_000},
+    "R9": ("DGP: 10 + 3 sin(2 pi t/24) + 2 sin(2 pi t/168) + AR(1) noise (phi 0.5, innovation sd 0.5), 1,024 points, H 48; "
+           "upward level shift of size x the marginal noise sd (0.577) starting `lag` steps before the origin; 100 "
+           "replications per cell, seed 2026, independent draws per cell (no common random numbers); intervals over "
+           "replications; the best classical model is selected per cell after seeing the results, stat-ens is fixed"),
+    "R10": "hourly Tier B windows (load, price, weather) with all five configurations; interaction resampled jointly",
+    "R12": ("tasks resampled by source family (22 families in order of first appearance), simple mean of log skill "
+            "ratios, 10,000 draws, seed 17"),
+}
+
+
+def main_extra(tree: Path, parts: list[str] | None = None) -> None:
+    path = ROOT / "reports" / "robustness_extra.json"
+    report = json.loads(path.read_text()) if path.exists() else {}
+    report["label"] = "review-requested analyses of the second and third rounds; not pre-registered"
+    report["methods"] = EXTRA_METHODS
+    b = pd.read_parquet(MAIN / "B" / "metrics.parquet")
+    jobs = {"R9_regime_grid": lambda: regime_grid(), "R10_equal_context": lambda: equal_context(tree),
+            "R11_croston": lambda: croston(pd.read_parquet(MAIN / "synthetic" / "metrics.parquet")),
+            "R12_tier_a_families": lambda: tier_a_families(), "R13_non_overlap": lambda: non_overlap(b),
+            "R14_loss_dependence": lambda: loss_dependence(b), "R15_sql_tails": lambda: sql_tails(b),
+            "R16_exclusions": exclusions}
+    for key, job in jobs.items():
+        if not parts or key.split("_")[0] in parts:
+            report[key] = job()
+    path.write_text(json.dumps(report, indent=1, default=float))
+    print(json.dumps({k: v for k, v in report.items() if k not in ("methods", "R12_tier_a_families")}, indent=1, default=float)[:12000])
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reps", type=int, default=REPS)
     parser.add_argument("--extra", help="scratch tree with the Tier B forecasts for the equal-context comparison")
+    parser.add_argument("--parts", nargs="*", help="with --extra: recompute only these (e.g. R10 R13); keep the others")
     args = parser.parse_args()
     if args.extra:
-        return main_extra(Path(args.extra))
+        return main_extra(Path(args.extra), args.parts)
     b, w, c = (pd.read_parquet(MAIN / t / "metrics.parquet") for t in ("B", "W", "synthetic"))
-    report = {"label": "robustness and sensitivity analyses requested in review; not pre-registered",
+    report = {"label": "robustness and sensitivity analyses requested in review; not pre-registered", "methods": METHODS,
               "R1_aggregation": aggregation(b), "R2_small_clusters": small_g(b, args.reps), "R3_context": context(b),
               "R4_ablations_by_domain": ablations(b), "R5_did_by_difficulty": did_by_difficulty(w),
               "R6_intermittent": intermittent(c), "R7_tier_a": tier_a(args.reps),

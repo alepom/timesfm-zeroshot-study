@@ -51,8 +51,15 @@ def r3(x: float) -> str:
     return f"{x:,.0f}".replace(",", "{,}") if abs(x) >= 100 else f"{x:.3f}"  # broken ablations reach 10^4
 
 
-def ci(pair) -> str:
-    return "--" if not pair else f"[{r3(pair[0])}, {r3(pair[1])}]"
+def r4(x: float) -> str:
+    """Four decimals for ratios near 1, where three would print 1.000."""
+    if x is None or not np.isfinite(x):
+        return "--"
+    return r3(x) if abs(x) >= 100 else f"{x:.4f}"
+
+
+def ci(pair, fmt=r3) -> str:
+    return "--" if not pair else f"[{fmt(pair[0])}, {fmt(pair[1])}]"
 
 
 def pval(p: float) -> str:
@@ -122,12 +129,15 @@ def _cell_table(c: pd.DataFrame) -> list[dict]:
 
 
 def _compute_seconds() -> list[dict]:
-    """Wall-clock seconds per model and tier from the run records (GPU: Tesla T4; classical: 8 CPU cores)."""
+    """Wall-clock seconds per model and tier from the run records (GPU: Tesla T4; classical: 8 CPU cores), including model
+    loading; records of resumed runs with no task left to run are skipped."""
     out = {}
     for tier in ("B", "W", "synthetic"):
         for f in sorted(glob.glob(str(METRICS / tier / "run_*.json"))):
             rec = json.loads(Path(f).read_text())
             for run in rec.get("runs", []):
+                if not run.get("to_run"):  # a resumed run whose tasks were all cached: no work, not a zero cost
+                    continue
                 key = (tier, run["model_key"])
                 o = out.setdefault(key, {"tier": tier, "model": run["model_key"], "tasks": 0, "seconds": 0.0,
                                          "device": "GPU" if rec.get("environment", {}).get("gpu", {}).get("cuda_available") else "CPU"})
@@ -190,7 +200,8 @@ H_FORM = {"negative": "ratio $<$ 1", "equivalence": "within $\\pm$3\\%", "nonsup
 def table_family_h(conf: dict) -> None:
     rows = []
     for r in conf["family_H"]:
-        rows.append([r["test"], H_TEXT[r["test"]], H_FORM[r["direction"]], r3(r["ratio"]), ci(r.get("ci95")),
+        band = ci(r["ci90"], r4) + "$^{90}$" if r["direction"] == "equivalence" else ci(r.get("ci95"), r4)
+        rows.append([r["test"], H_TEXT[r["test"]], H_FORM[r["direction"]], r4(r["ratio"]), band,
                      pval(r["p_family_holm"]), "supported" if r["supported"] else "not supported"])
     write("table_family_h.tex", tabular("lllrlll", ["", "Contrast", "Prediction", "Ratio", "95\\% CI",
                                                       "$p_{\\mathrm{Holm}}$", "Decision"], rows))
@@ -257,7 +268,7 @@ def table_ablations(conf: dict) -> None:
         cells = [f"\\texttt{{{key}}}", txt]
         for tier in ("B", "C"):
             r = by.get(key, {}).get(tier)
-            cells += ["--", "--", "--"] if r is None else [r3(r["ratio"]), ci(r["ci95"]), pval(r["p_holm"])]
+            cells += ["--", "--", "--"] if r is None else [r4(r["ratio"]), ci(r["ci95"], r4), pval(r["p_holm"])]
         rows.append(cells)
     head = ["Configuration", "Change", "Ratio B", "95\\% CI", "$p_{\\mathrm{Holm}}$", "Ratio C", "95\\% CI",
             "$p_{\\mathrm{Holm}}$"]

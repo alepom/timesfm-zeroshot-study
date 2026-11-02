@@ -37,20 +37,21 @@ empirical coverage of the 80\% and 60\% central intervals.
 \paragraph{Estimand and uncertainty.} A contrast between configurations A and B is the paired log ratio
 $d = \log(\text{error}_A) - \log(\text{error}_B)$ on identical series and windows, averaged with equal weight within each domain
 $\times$ horizon cell, then over horizons and over domains, and reported as $\exp(\bar d)$: a ratio below 1 favours A. Uncertainty
-comes from a two-way cluster bootstrap with 10{,}000 replicates that resamples series (within domains) and ISO weeks of the forecast
-origin jointly \citep{cameron2011multiway}: each replicate draws multinomial weights for series and for weeks and multiplies them
-(a pigeonhole bootstrap), so the dependence within a series and the shocks common to several series in the same week are reflected.
+comes from a two-way cluster bootstrap with 10{,}000 replicates that resamples series (within domains) and ISO weeks of the first
+forecast step jointly \citep{cameron2011multiway}: each replicate draws multinomial weights for series and for weeks and multiplies them
+(a pigeonhole bootstrap, \citealp{owen2007pigeonhole}), so the dependence within a series and the shocks common to several series in the same week are reflected.
 Dependence between different series in different but overlapping windows is not, and with eight weekly clusters temporal
 inference is weak (Section~\ref{sec:robustness}). Synthetic data resample replications. Pairs where either error is zero or not
-finite are dropped (the log ratio is undefined). Intervals are percentile 95\% intervals; the series-only interval is reported as a sensitivity
-analysis.
+finite are dropped (the log ratio is undefined). Intervals are percentile 95\% intervals; $p$-values are two-sided, twice the smaller share of replicates on either side
+of zero, with a floor of $1/10{,}000$ (seed 17); the series-only interval is reported as a sensitivity analysis.
 
 \paragraph{Families and decisions.} Decisions use Holm-adjusted $p$-values \citep{holm1979} within a family at
-$\alpha = 0.05$; intervals are unadjusted. \emph{Family P} (primary, ten tests) holds the contrasts without covariates on
-post-release data: TimesFM~3 in univariate mode without covariates against the statistical ensemble (P1), Chronos-2 (P2) and
-TimesFM~2.5 (P3) on the same series and windows without covariates (on hourly data the context lengths differ;
-Section~\ref{sec:data}), the multivariate against the univariate mode on real group tasks (P4a), and the benchmark
-flags against the package defaults (P5), each on MASE and SQL. \emph{Family H} holds the primary test of each hypothesis H2--H5
+$\alpha = 0.05$; intervals are unadjusted. \emph{Family P} (primary, ten tests) holds five contrasts on
+post-release data, each on MASE and SQL: TimesFM~3 in univariate mode without covariates against the statistical ensemble (P1),
+Chronos-2 (P2) and TimesFM~2.5 (P3), all without covariates, on the same 3{,}855 univariate evaluations of the four structured
+domains (on hourly data the context lengths differ; Section~\ref{sec:data}); the multivariate against the univariate mode on the
+884 evaluations of the price, FX and FRED group tasks, which have no covariates (P4a); and the benchmark flags against the package
+defaults on the 3{,}855 univariate evaluations, both configurations with the covariates of load and river flow (P5). \emph{Family H} holds the primary test of each hypothesis H2--H5
 (seven tests). Equivalence (H4c, H4d) is claimed only if the 90\% interval lies inside the $\pm$3\% margin (two one-sided tests
 \citep{schuirmann1987tost}); H5 is a non-superiority test that is supported when the 95\% lower bound exceeds 0.90. A
 difference whose adjusted $p$ exceeds 0.05 is reported as \emph{not resolved}, never as a tie. Secondary families (S1--S6) have their

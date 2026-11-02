@@ -5,3 +5,4 @@
 1095 | classical context limit for daily data, protocol section 2
 780 | classical context limit for business-daily data, protocol section 2
 4943 | series-task evaluations in Tier B metrics (4,059 univariate + 884 group; checked 2026-11-02)
+1000 | scale factor of the TimesFM-3 property test (smoke test, appendix)

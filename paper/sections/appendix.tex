@@ -17,8 +17,9 @@ sealed with bundle 0.5.4); family S5 was recomputed with it, and every other res
 to the last digit. Families P and H do not involve this configuration.
 \end{enumerate}
 
-\paragraph{Correspondence between the frozen protocol and the paper.} Table~\ref{tab:adherence} lists every analysis item of
-the frozen protocol, where it is reported and whether it was carried out as planned, interpreted, changed or added.
+\paragraph{Correspondence between the frozen protocol and the paper.} Table~\ref{tab:adherence} lists the analysis and reporting items
+of the frozen protocol, where they are reported and whether they were carried out as planned, interpreted, changed, not produced or
+added.
 
 \begin{table}[!htbp]
 \centering
@@ -41,13 +42,22 @@ Exploratory: spikes, lineage, latency & Section~\ref{sec:postrelease}, App.~\ref
 Download date & App.~\ref{app:deviations} & deviation 1 \\
 Pipeline controls (Tier A) & Section~\ref{sec:reproduction} & as planned; Chronos-2 failures diagnosed afterwards (cross-learning),
 criterion not changed \\
+Property tests (\S3.5) & smoke-test records & as planned except variate permutation, not run: determinism exact; scale
+$\times 1000$ and shift $+10^4$ equivariant to $3\cdot10^{-7}$ and $7\cdot10^{-6}$ (relative); sign flip not equivariant (1.2\%)
+without symmetric averaging, exact with it; 1D and 2D input identical \\
+Metrics (\S4) & tables, released files & MASE, RMSSE, SQL, WQL, coverage and width as planned; WAPE and the PIT histogram not produced;
+win rate and skill score reported for Tier A only \\
+Exclusions (\S6) & Section~\ref{sec:data} & as planned: 13 of 4{,}149 Tier B tasks (river, a target value missing in the window); no
+missing score and no fallback in Tiers B and W; 13 zero MASE values (of 543{,}400 synthetic scores) leave the paired contrasts \\
 Robustness and re-specified baseline & Section~\ref{sec:robustness} & added after review, not pre-registered \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{Reporting items of the protocol not shown in the paper.} The series-only intervals of families H and S1--S4, the share
-of bootstrap replicates with an empty cell and the exclusion counts per rule are in the released analysis files, not in the tables.
+\paragraph{Reporting items of the protocol not shown in the paper.} The series-only intervals of the Tier B tests (family P, H5,
+S1, S3, S4 and S5 on Tier B), the share of bootstrap replicates with an empty cell and the exclusion counts per rule are in the
+released analysis files, not in the tables. For the Wikipedia contrasts (H2, S2) the series-only interval was not computed, and the
+synthetic contrasts are resampled over replications only, so for them the two intervals coincide.
 The descriptive contrasts (H1 on Tier B, near-random-walk series) use 2{,}000 bootstrap replicates instead of 10{,}000. The
 Tier B side of H1 uses the package defaults with the observed (oracle) covariates for load and river flow, as on Tier A. Family S5
 applies Holm over the tests of both tiers, our reading of ``each against \texttt{tfm3}, per tier'' (protocol §5.3).

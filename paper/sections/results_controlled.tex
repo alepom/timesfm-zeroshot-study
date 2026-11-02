@@ -19,10 +19,10 @@ under-forecasts the rise in almost every replication, and the best classical mod
 (ii) \emph{A regime change} near the origin, in one parametrisation (a level shift of five innovation standard deviations 24
 steps before the origin): TimesFM~3's relative MASE is 0.917 against 0.387 for both Chronos-2 and the best classical model, a
 failure specific to TimesFM~3 among the foundation models, although it still beats the seasonal naive forecast. With 24 points
-after the shift the situation is ambiguous between a burst and a new level; a grid of shift sizes and timings in Section~\ref{sec:robustness}
-shows that this is a systematic weakness, not a property of one cell. (iii) \emph{Level shifts} (D6, three of four cells) and the
+after the shift the situation is ambiguous between a burst and a new level; a grid of shift sizes and timings of the same process in
+Section~\ref{sec:robustness} shows that the weakness recurs across sizes and timings, not only in this cell. (iii) \emph{Level shifts} (D6, three of four cells) and the
 \emph{random walk}: TimesFM~3 is 1--5\% worse than the best classical model. (iv) On \emph{white noise} all models match the historic mean, which is close to the optimal forecast (the true mean is known
-only to the generator); no model does better, as a sound evaluation requires. On intermittent demand (D8) the
+only to the generator); no model does better. On intermittent demand (D8) the
 verdict depends on the metric. Every foundation model has about a 20\% lower MASE than the naive forecast, the best classical
 model on that metric, but MASE rewards a median forecast near zero; on the root mean squared scaled error the historic mean and
 AutoETS are better than TimesFM~3 (0.709 against 0.811 with 200 points and $H = 48$), while on the quantile loss the foundation
@@ -53,19 +53,21 @@ the spurious decline, the gate is closed and the forecast comes from the network
 
 \paragraph{Multivariate mode (H4, RQ5).} Joint forecasting helps when there is something to learn across variates: for the
 follower of a lead-lag pair with lag 24, MASE falls to \Hfoura{} (\HfouraLo--\HfouraHi) of the univariate forecast, and with a known
-future covariate (signal-to-noise 2) to \Hfourb{} (\HfourbLo--\HfourbHi). It costs nothing when there is nothing to learn: with
-eight independent series stacked as variates the ratio is \Hfourc{} and with a spurious past covariate \Hfourd{}, both equivalent
-within $\pm$3\% (Table~\ref{tab:familyh}). On a lead-lag pair with lag 24, Chronos-2 reaches a lower MASE than
-TimesFM~3 (Table~\ref{tab:tierc}); we did not measure its multivariate gain separately. On real data the gain is small: about 3\% lower SQL on the group tasks (P4a) and no resolved
-gain from oracle covariates (S3), whose relation to the target is weaker and less direct than in the synthetic cells.
+future covariate (signal-to-noise 2) to \Hfourb{} (\HfourbLo--\HfourbHi). In the two controls without a cross-series signal it costs no accuracy
+beyond the $\pm$3\% margin: with eight independent series stacked as variates the ratio is \Hfourc{} and with a spurious past
+covariate \Hfourd{}, both equivalent within $\pm$3\% (Table~\ref{tab:familyh}); other processes without a signal were not tested. On a lead-lag pair with lag 24, Chronos-2 reaches a lower MASE than
+TimesFM~3 (Table~\ref{tab:tierc}); we did not measure its multivariate gain separately. On real data the gain is about 3\% lower SQL on the group tasks (P4a), a decision that does not survive the small-cluster and
+non-overlapping-window checks, and no gain from oracle covariates is resolved (S3; the interval includes both gains and losses);
+their relation to the target is weaker and less direct than in the synthetic cells.
 
 \begin{table}[!htbp]
 \centering
 \caption{Family H: primary tests of the pre-declared hypotheses (Holm over seven tests). H4c and H4d are equivalence tests with a
-$\pm$3\% margin (two one-sided tests); H5 is a non-superiority test with floor 0.90.}
+$\pm$3\% margin (two one-sided tests): for them the table gives the 90\% interval (marked $^{90}$), and $p_{\mathrm{Holm}}$ adjusts the TOST $p$; H5 is a
+non-superiority test with floor 0.90 and a one-sided $p$. Ratios to four decimals.}
 \label{tab:familyh}
 \scriptsize
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{3pt}
 \input{generated/table_family_h.tex}
 \end{table}
 
@@ -89,8 +91,8 @@ sublayer, not the value of information from other series; that value is measured
 
 \begin{table}[!htbp]
 \centering
-\caption{Ablations (secondary family S5, Holm over the 16 tests of both tiers; with Holm within each tier,
-\texttt{tfm3-sym} on Tier C, $p = 0.006$, would also be resolved): ratio of MASE, ablated configuration / \texttt{tfm3}, on the
+\caption{Ablations (secondary family S5, Holm over the 16 tests of both tiers; ratios to four decimals; with Holm within each tier,
+\texttt{tfm3-sym} on Tier C, unadjusted $p = 0.006$, Holm-adjusted 0.023, would also be resolved): ratio of MASE, ablated configuration / \texttt{tfm3}, on the
 Tier B sample and on Tier C, on the tasks where the change can act.}
 \label{tab:ablations}
 \scriptsize

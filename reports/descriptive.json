@@ -1401,41 +1401,6 @@
   },
   {
    "tier": "synthetic",
-   "model": "tfm3",
-   "tasks": 0,
-   "seconds": 0.0,
-   "device": "GPU"
-  },
-  {
-   "tier": "synthetic",
-   "model": "tfm3-uni",
-   "tasks": 0,
-   "seconds": 0.0,
-   "device": "GPU"
-  },
-  {
-   "tier": "synthetic",
-   "model": "tfm3-eval",
-   "tasks": 0,
-   "seconds": 0.0,
-   "device": "GPU"
-  },
-  {
-   "tier": "synthetic",
-   "model": "tfm25",
-   "tasks": 0,
-   "seconds": 0.0,
-   "device": "GPU"
-  },
-  {
-   "tier": "synthetic",
-   "model": "chronos2",
-   "tasks": 0,
-   "seconds": 0.0,
-   "device": "GPU"
-  },
-  {
-   "tier": "synthetic",
    "model": "tirex2",
    "tasks": 7200,
    "seconds": 1890.3,
