@@ -11,7 +11,7 @@
 
 | Manifest | Contents | FreeTSA time (UTC) | OpenTimestamps |
 |---|---|---|---|
-| 2026-11-02 | issue 2026-11-02 seal (0d96ab18…) | 2026-11-02 10:28:11 | stamped 2026-11-02; Bitcoin attestation pending |
+| 2026-11-02 | issue 2026-11-02 seal (0d96ab18…) | 2026-11-02 10:28:11 | Bitcoin block 974245 (2026-11-02 10:42:58 UTC); also 974257 |
 | 2026-10-30 | protocol-frozen-v1 (9f15b38…), issue 2026-10-30 seal (f84a669d…) | 2026-10-30 13:29:45 | Bitcoin block 973830 (2026-10-30 13:48:06 UTC); also 973864, 973887 |
 
 Without a local Bitcoin node, `ots verify` cannot run; the proof was checked on 2026-10-31 by recomputing each attestation's
