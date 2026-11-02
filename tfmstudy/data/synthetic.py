@@ -157,13 +157,37 @@ CELLS: dict[str, tuple] = {
 # The pilot uses its own seeds (and reference-study replications 900+, unused by that study's 200),
 # so the main Tier C series stay unseen until the protocol is frozen.
 VARIANTS = {"synthetic": {"reps": REPS, "seed": SEED, "rep_offset": 0},
-            "synthetic_pilot": {"reps": 5, "seed": 99, "rep_offset": 900}}
+            "synthetic_pilot": {"reps": 5, "seed": 99, "rep_offset": 900},
+            # Review-requested grid of level shifts (not pre-registered), own seeds: period "regime".
+            "synthetic_regime": {"reps": 100, "seed": 2026, "rep_offset": 0, "regime_grid": True}}
+
+
+def _level_shift(size: float, lag: int):
+    """The regime_change process with a level shift of `size` marginal standard deviations of the AR(1) noise,
+    starting `lag` steps before the forecast origin (size 0: no shift, the control)."""
+    def gen(n, h, rng):
+        y = _two_seasons(n, h, rng)[0]
+        if size:
+            y[n - lag:] += size * 0.5 / np.sqrt(1 - 0.25)
+        return y[None]
+    return gen
+
+
+REGIME_CELLS = {f"regime:shift{s}:lag{lag}": ("C-regime", _level_shift(s, lag), 1024, 48, 24, "uni")
+                for s in (1, 2, 3, 5) for lag in (6, 24, 96, 336)}
+REGIME_CELLS["regime:shift0"] = ("C-regime", _level_shift(0, 0), 1024, 48, 24, "uni")
 
 
 def build(name: str = "synthetic") -> pd.DataFrame:
     v = VARIANTS[name]
     reps, seed, offset = v["reps"], v["seed"], v["rep_offset"]
     rows, arrays = [], []
+    if v.get("regime_grid"):
+        for cell, (family, gen, n, h, season, mode) in REGIME_CELLS.items():
+            for r in range(offset, offset + reps):
+                rows.append(_row(cell, family, r, n, h, season, mode, len(arrays)))
+                arrays.append({"target": np.asarray(gen(n, h, _rng(cell, r, seed))), "future_cov": None, "past_cov": None})
+        return _store(name, rows, arrays)
     # C-replication: the reference study's main horizon (H = 12, cells "...:h12") and its 48-step check
     # (same seeds; cells without suffix, also used for H3).
     for dgp in ("D6", "D7", "D8"):
@@ -180,6 +204,10 @@ def build(name: str = "synthetic") -> pd.DataFrame:
             rows.append(_row(cell, family, r, n, h, season, mode, len(arrays)))
             arrays.append({"target": np.asarray(target), "future_cov": fcov, "past_cov": pcov})
 
+    return _store(name, rows, arrays)
+
+
+def _store(name: str, rows: list, arrays: list) -> pd.DataFrame:
     tasks = pd.DataFrame(rows)
     data = pd.DataFrame({
         "array_id": range(len(arrays)),

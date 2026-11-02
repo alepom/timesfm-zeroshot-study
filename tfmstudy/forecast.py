@@ -37,6 +37,9 @@ CONFIGS = {
     "tfm3-uni": ("timesfm-3.0", {"mode": "univariate"}),
     # Secondary: same as tfm3-uni with the classical models' context length (protocol section 2).
     "tfm3-c2016": ("timesfm-3.0", {"mode": "univariate", "context": 2016}),
+    # Review-requested (not pre-registered): equal-context comparison with Chronos-2, which truncates at 8,192.
+    "tfm3-c8192": ("timesfm-3.0", {"mode": "univariate", "context": 8192}),
+    "chronos2-c2016": ("chronos-2", {"inputs": "uni", "context": 2016}),
     # Ablations (protocol section 3.6): one inference flag or one module attribute changed from tfm3.
     "tfm3-nodetrend": ("timesfm-3.0", {"mode": "multivariate", "model_overrides": {"use_linear_detrending": False}}),
     "tfm3-nocpmrevin": ("timesfm-3.0", {"mode": "multivariate", "model_overrides": {"use_iterative_cpm_revin": False}}),
@@ -141,7 +144,7 @@ def load_tasks(tier: str, period: str, data_dir: Path) -> tuple[pd.DataFrame, ca
     if tier == "synthetic":
         from .data import synthetic
 
-        name = "synthetic_pilot" if period == "pilot" else "synthetic"
+        name = {"pilot": "synthetic_pilot", "regime": "synthetic_regime"}.get(period, "synthetic")
         tasks = pd.read_parquet(data_dir / name / "tasks.parquet")
         arrays = synthetic.load_arrays(data_dir / name / "arrays.parquet")
 
