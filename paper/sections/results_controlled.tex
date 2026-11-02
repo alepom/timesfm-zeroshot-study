@@ -12,7 +12,7 @@ of each other.
 
 The failures are specific; each comes from one synthetic cell and is descriptive, without a test. (i) \emph{Logistic growth} (D7). With 200 points of context the series has already
 risen and starts to saturate; the true continuation is nearly flat, but TimesFM~3 forecasts a decline: its
-median forecast over steps 25--48 lies below the last observation in 199 of the 200 replications, and its MASE is 6.3 times that of
+median forecast over steps 25--48 lies below the last observation in 199 of the 200 replications, and its MASE over the 48 steps is 6.3 times that of
 the naive forecast (TimesFM~2.5: 10.9; Chronos-2: 4.4; TiRex-2: 3.2; we did not inspect the direction of their errors). The simulation study we replicate reports the same spurious
 decline \citep{ebrahim2026foundation}. With 48 points of context, which end before the steep part of the curve, TimesFM~3
 under-forecasts the rise in almost every replication, and the best classical model (AutoETS) is about four times more accurate.
@@ -20,8 +20,8 @@ under-forecasts the rise in almost every replication, and the best classical mod
 steps before the origin): TimesFM~3's relative MASE is 0.917 against 0.387 for both Chronos-2 and the best classical model, a
 failure specific to TimesFM~3 among the foundation models, although it still beats the seasonal naive forecast. With 24 points
 after the shift the situation is ambiguous between a burst and a new level; we did not vary the size or timing of the shift. (iii) \emph{Level shifts} (D6, three of four cells) and the
-\emph{random walk}: TimesFM~3 is 1--5\% worse than the best classical model. (iv) On \emph{white noise} all models match the historic mean,
-which is optimal; no model beats the optimal forecast, as a sound evaluation requires. On intermittent demand (D8) the
+\emph{random walk}: TimesFM~3 is 1--5\% worse than the best classical model. (iv) On \emph{white noise} all models match the historic mean, which is close to the optimal forecast (the true mean is known
+only to the generator); no model does better, as a sound evaluation requires. On intermittent demand (D8) the
 verdict depends on the metric. Every foundation model has about a 20\% lower MASE than the naive forecast, the best classical
 model on that metric, but MASE rewards a median forecast near zero; on the root mean squared scaled error the historic mean and
 AutoETS are better than TimesFM~3 (0.709 against 0.811 with 200 points and $H = 48$), while on the quantile loss the foundation
@@ -77,7 +77,8 @@ padding future covariates by repetition (\texttt{tfm3-edge}) by 0.7\%; clipping 
 are resolved but too small to matter in practice. Switching off the CPM refinement or the stitching, or adding symmetric averaging or
 z-normalisation, changes MASE by less than 0.3\% and none of these differences is resolved. On the 20\% sample of Tier B series no
 ablation has a resolved effect. The fixed steps of the inference path therefore matter in specific situations (the detrending gate,
-H3) but contribute little to average accuracy; the network does the work. Switching off the
+H3) but, among the tasks and losses analysed, change average accuracy little; an unresolved difference is not shown to be
+small, and equivalence was not tested. A reading, not a result: the network does most of the work. Switching off the
 variate attention is different in kind (re-run after a software error, Appendix~\ref{app:deviations}): it removes a trained sublayer
 from all 20 layers, and the forecasts become unusable, with MASE 795 times that of \texttt{tfm3} on Tier C and 10{,}881
 times on Tier B. Even for a single series the sublayer is part of the network (attention over one variate returns that

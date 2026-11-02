@@ -327,12 +327,10 @@ def table_calibration(desc: dict) -> None:
     rows = []
     for tier, label in (("B", "Tier B (structured, univariate tasks)"), ("W-post", "Tier W, W-post"),
                         ("C", "Tier C (all cells)")):
-        rows.append(f"\\multicolumn{{5}}{{l}}{{\\textit{{{label}}}}} \\\\")
+        rows.append(f"\\multicolumn{{4}}{{l}}{{\\textit{{{label}}}}} \\\\")
         for r in desc["calibration"][tier]:
-            rows.append([name(r["model"]), str(r["series"]),
-                         f"{r['coverage80']:.3f}", ci(r["wilson80"]), f"{r['coverage60']:.3f}"])
-    write("table_calibration.tex", tabular("lrrlr", ["Model", "Series", "Coverage 80\\%", "Wilson 95\\%",
-                                                       "Coverage 60\\%"], rows))
+            rows.append([name(r["model"]), str(r["series"]), f"{r['coverage80']:.3f}", f"{r['coverage60']:.3f}"])
+    write("table_calibration.tex", tabular("lrrr", ["Model", "Series", "Coverage 80\\%", "Coverage 60\\%"], rows))
 
 
 CELL_TEXT = {"rep:D6": "D6 level shift", "rep:D7": "D7 logistic", "rep:D8": "D8 intermittent"}

@@ -17,3 +17,12 @@ repository (it belongs to the model repository, non-commercial licence); the val
 | `max_variates`, `paired_token_skip_second` | `32`, `false` | declared but not read by the inference code |
 | `num_layers`, `model_dims`, `num_heads`, FFN `hidden_dims` | 20, 1280, 16, 1280 | as in mechanism §4.6 (≈ 330.7M parameters) |
 | `training`, `dropout` | `true`, `0.0` | `training` is a stored flag; with dropout 0 and `model.eval()` it has no effect at inference |
+
+## Weights history (checked 2026-11-02, Hugging Face API, read-only)
+
+The revision used, `43046b85…` (commit of 2026-09-02, "Test removing timesfm tag to check library_name"), is later than the
+start of the Tier B test windows (2026-09-01). The file list of every revision shows that `model.safetensors` (1,322,898,824
+bytes, LFS sha256 `a7592b0a8432baee…`) and `config.json` (git blob `c1de41214b9c…`) are identical from the first upload
+(`6455822fd470`, 2026-08-24 22:41 UTC, "Upload TimesFM 3.0 PyTorch model weights and config") to the revision used; the eight
+later commits change only README, LICENSE and metadata. The network evaluated is therefore the one published before the
+test windows began.

@@ -1,4 +1,4 @@
-\section{Results I: the published results reproduce}
+\section{Results I: the published results largely reproduce}
 \label{sec:reproduction}
 
 \paragraph{Per-task reproduction (RQ1).} With the benchmark flags (\texttt{tfm3-eval}), our SQL is within $\pm$3\% of Google's
@@ -22,7 +22,8 @@ SQL(Chronos-2), with our Chronos-2 (``ours'', no cross-learning) or fev's publis
 \end{table}
 
 \paragraph{The claim against Chronos-2.} Google's comparison sets its TimesFM~3 results against the Chronos-2 results published by
-fev. Our Chronos-2 failed the pipeline control on 16 of the 28 tasks (two further tasks failed the Seasonal Naive control), with a
+fev. Our Chronos-2 failed the pipeline control on 16 of the 28 tasks (two further tasks failed the Seasonal Naive control: \texttt{fred\_md\_2025/macro} by a large margin and
+\texttt{restaurant} marginally; we did not diagnose them), with a
 higher SQL than published on 12 of them, so we traced the cause. fev's
 published Chronos-2 results were produced with \emph{cross-learning} switched on: the series of a batch of up to 100 share
 information through Chronos-2's group attention. Running fev's own evaluation script on five failing tasks reproduces the published
@@ -34,8 +35,10 @@ series of one multivariate task jointly. Cross-learning lowered Chronos-2's SQL 
 TimesFM~3's lead is slightly larger, not smaller. The lead comes from the \AFailTasks{} tasks where the controls fail
 (\ASkillOursFail{} ours, \ASkillPublFail{} published); on the \AControlTasks{} tasks where our Chronos-2 matches fev's, the two
 models are at parity in both comparisons (\ASkillOursCtl{} and \ASkillPublCtl{}). With task-bootstrap intervals (an analysis requested in review), our ratio is 0.954
-(0.926--0.982) and the published 0.973 (0.945--1.000), and ours is 0.981 (0.965--0.996) times the published: the published lead is
-at the edge of what 28 tasks can resolve. The split by control outcome conditions on Chronos-2's own discrepancy from fev and is a
+(0.925--0.981) and the published 0.973 (0.943--0.999), and ours is 0.981 (0.965--0.996) times the published (10{,}000 resamples of
+tasks, seed 17): the published lead is at the edge of what 28 tasks can resolve, and tasks that share a source (ERCOT, SZ\_TAXI,
+UCI air quality) are treated as independent. The cross-learning diagnosis was confirmed directly on five of the 16 failing tasks;
+that it explains all 16 is an inference. The split by control outcome conditions on Chronos-2's own discrepancy from fev and is a
 diagnostic, not a moderator analysis. The published claim therefore holds on this
 sample; what a leaderboard does not show is that the two result sets were produced with different inference options, one of which
 favours Chronos-2 on most of the tasks it affects.

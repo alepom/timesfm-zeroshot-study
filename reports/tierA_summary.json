@@ -50,11 +50,14 @@
    "SQL": 0.6856444849518233,
    "MASE": 0.7544695837040492
   },
-  "vs_stat_ensemble_wins_SQL": 0.8571428571428571,
+  "vs_stat_ensemble_wins_SQL": 0.9230769230769231,
   "not_scored": [
    "boomlet_1209",
    "boomlet_619"
-  ]
+  ],
+  "vs_stat_ensemble_n": 26,
+  "vs_stat_ensemble_missing": 2,
+  "note_wins": "2026-11-02: share over tasks where fev reports the ensemble (was 0.8571 with missing counted as losses)"
  },
  "tfm3": {
   "controls_passed": {
@@ -107,7 +110,10 @@
    "SQL": 0.6608285181498339,
    "MASE": 0.7475136044548253
   },
-  "vs_stat_ensemble_wins_SQL": 0.8333333333333334,
-  "not_scored": []
+  "vs_stat_ensemble_wins_SQL": 0.8928571428571429,
+  "not_scored": [],
+  "vs_stat_ensemble_n": 28,
+  "vs_stat_ensemble_missing": 2,
+  "note_wins": "2026-11-02: share over tasks where fev reports the ensemble (was 0.8333 with missing counted as losses)"
  }
 }

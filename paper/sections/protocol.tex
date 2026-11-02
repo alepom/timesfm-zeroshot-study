@@ -5,10 +5,13 @@
 
 \paragraph{Freeze.} Research questions, hypotheses, series lists, metrics, contrasts, families and decision rules were written in a
 protocol and frozen by the git tag \texttt{protocol-frozen-v1} (commit \texttt{9f15b38}, 2026-10-28 17:59 UTC) before any data of
-the post-release test windows were downloaded; the download code refuses earlier dates. The protocol incorporates an independent
+the post-release test windows were downloaded; the download code refuses earlier dates. The freeze is internal: the hash of the
+frozen commit received its first public timestamp on 2026-10-30, after the download, so the order of freeze and download rests
+on the repository history, not on an external record. The protocol incorporates an independent
 adversarial review of its draft and a pilot on pre-release data (one year earlier) and on a separate synthetic set; the pilot is not
-part of the results. One deviation occurred: the post-release data were downloaded on the evening of the freeze day instead of the
-next day (Appendix~\ref{app:deviations}). Results that the protocol did not specify are labelled \emph{exploratory} or
+part of the results. Two deviations occurred (Appendix~\ref{app:deviations}): the post-release data were downloaded on the evening of
+the freeze day instead of the next day, and a software error voided one ablation, which was re-run. Interpretations of
+ambiguous protocol items are listed with them. Results that the protocol did not specify are labelled \emph{exploratory} or
 \emph{descriptive} wherever they appear.
 
 \paragraph{Research questions.} RQ1: do the published per-task TimesFM~3 results, and the claim they support, reproduce with the
@@ -27,19 +30,23 @@ TimesFM~3 does not improve on the random walk by more than 10\%.
 
 \paragraph{Metrics.} The point metric is MASE of the median forecast and the probabilistic metric is the scaled quantile loss (SQL)
 over the nine quantile levels, both as defined by fev-bench \citep{shchur2025fevbench}; scales are the in-sample seasonal
-differences of each context (season 24 for hourly, 7 for daily, 5 for business-daily data). We also record RMSSE, WAPE, WQL and the
+differences of each task's full context (season 24 for hourly, 7 for daily, 5 for business-daily data), the same for every model
+whatever context it is given, so the scale cancels in a paired ratio. We also record RMSSE, WAPE, WQL and the
 empirical coverage of the 80\% and 60\% central intervals.
 
 \paragraph{Estimand and uncertainty.} A contrast between configurations A and B is the paired log ratio
 $d = \log(\text{error}_A) - \log(\text{error}_B)$ on identical series and windows, averaged with equal weight within each domain
 $\times$ horizon cell, then over horizons and over domains, and reported as $\exp(\bar d)$: a ratio below 1 favours A. Uncertainty
 comes from a two-way cluster bootstrap with 10{,}000 replicates that resamples series (within domains) and ISO weeks of the forecast
-origin jointly \citep{cameron2011multiway}, so that overlapping windows and shocks common to several series are both reflected;
-synthetic data resample replications. Intervals are percentile 95\% intervals; the series-only interval is reported as a sensitivity
+origin jointly \citep{cameron2011multiway}: each replicate draws multinomial weights for series and for weeks and multiplies them
+(a pigeonhole bootstrap), so the dependence within a series and the shocks common to several series in the same week are reflected.
+Dependence between different series in different but overlapping windows is not, and with eight weekly clusters temporal
+inference is weak (Section~\ref{sec:robustness}). Synthetic data resample replications. Pairs where either error is zero or not
+finite are dropped (the log ratio is undefined). Intervals are percentile 95\% intervals; the series-only interval is reported as a sensitivity
 analysis.
 
 \paragraph{Families and decisions.} Decisions use Holm-adjusted $p$-values \citep{holm1979} within a family at
-$\alpha = 0.05$; intervals are unadjusted. \emph{Family P} (primary, ten tests) holds the information-matched contrasts on
+$\alpha = 0.05$; intervals are unadjusted. \emph{Family P} (primary, ten tests) holds the contrasts without covariates on
 post-release data: TimesFM~3 in univariate mode without covariates against the statistical ensemble (P1), Chronos-2 (P2) and
 TimesFM~2.5 (P3) on the same series and windows without covariates (on hourly data the context lengths differ;
 Section~\ref{sec:data}), the multivariate against the univariate mode on real group tasks (P4a), and the benchmark

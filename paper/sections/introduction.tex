@@ -33,12 +33,13 @@ inference options.
 \item Evidence on \emph{when not to use} the model: near-random-walk series, saturating trends, and recent regime changes.
 \end{itemize}
 
-\paragraph{Main findings.} The published results reproduce, including the lead over Chronos-2. On post-release data TimesFM~3 beats a classical ensemble
+\paragraph{Main findings.} On a 30-task sample the published results largely reproduce, including the lead over Chronos-2. On post-release data TimesFM~3 beats a classical ensemble
 clearly (\PoneMase{} in MASE, \PoneSql{} in SQL) and Chronos-2 narrowly (about 5\%); against TimesFM~2.5 the SQL difference is
 resolved and the MASE difference is not. The margin over classical methods is slightly smaller than on the benchmark, and we find no
-resolved sign of memorisation. On exchange rates, interest rates and oil prices it is worse than the random walk, and on saturating
-growth and, in a synthetic test, after a recent regime change it fails by large factors. Multivariate
-mode helps when there is a strong cross-series signal and is harmless otherwise. The fixed inference steps matter little on
+resolved sign of memorisation. On exchange rates, interest rates and oil prices it is worse than the random walk, like the other foundation models, and in
+single synthetic settings it fails by large factors on saturating growth and after a recent level shift. In synthetic data,
+multivariate mode helps when there is a strong cross-series signal and is equivalent within $\pm$3\% in the two controls without
+one. The fixed inference steps matter little on
 average.
 
 The rest of the paper reviews related work (Section~\ref{sec:related}), explains how TimesFM~3 works (Section~\ref{sec:mechanism}),

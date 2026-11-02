@@ -15,8 +15,11 @@ series lists fixed by rules on 2025 data: hourly electricity load in 12 European
 \citep{hersbach2020era5,zippenfenig2023openmeteo}), daily flow at 20 river gauges (USGS \citep{usgs2026nwis}), ten business-daily exchange rates
 against the euro (ECB \citep{ecb2026dataportal}), and eight Treasury yields with WTI and Brent prices (FRED \citep{fred2026}). Horizons are 24 and
 168 hours, 7 and 28 days, 5 and 20 business days. Load and river flow have a covariate whose \emph{observed} future values are
-supplied (temperature, precipitation): it is an oracle, used only in secondary analyses as an upper bound. Price, FX and FRED also
-form one group task each, in which all series of the domain are forecast jointly. Same-source data of earlier periods are part of
+supplied (temperature, precipitation): it is an oracle, an upper bound on any real forecast, and enters only the configurations with covariates (\texttt{tfm3}, \texttt{tfm3-eval}, \texttt{chronos2}, \texttt{tirex2}): P4a, P5, H1 and S3. Price, FX and FRED also
+form one group task each, in which all series of the domain are forecast jointly. The denominators differ by analysis and are
+not interchangeable: 4{,}136 forecast tasks produce 4{,}943 series-task evaluations (4{,}059 univariate and 884 in group mode),
+which cover 4{,}068 distinct series-windows; family P uses the 3{,}855 univariate evaluations on the four structured domains with
+complete cases for all compared models. Same-source data of earlier periods are part of
 the public pre-training corpora for load, price and weather; the model card describes the TimesFM~3 corpus only at the level of sources (GiftEvalPretrain without the
 datasets that overlap fev-bench, Wikipedia pageviews to November 2023, Google Trends to 2022, synthetic data
 \citep{timesfm2026hf}), so Tier B guarantees
@@ -42,9 +45,9 @@ previous day are downloaded for the load, price, river, FX, FRED and Wikipedia s
 observation, and the contexts, tasks, code bundle, run records and forecast files are hashed together; the combined SHA-256 is
 recorded before the scoring window (from two to nine days after the issue day) starts.
 
-\paragraph{Models.} Table~\ref{tab:models} lists the configurations. Every Hugging Face model is loaded by revision hash.
+\paragraph{Models.} Table~\ref{tab:models} lists the configurations. Every Hugging Face model is loaded by revision hash. The TimesFM~3 revision used is dated 2026-09-02, but its weights and configuration file are byte-identical to the first upload of 2026-08-24 (\texttt{model.safetensors} sha256 \texttt{a7592b0a\ldots}); the later commits change only documentation and metadata.
 TimesFM~3 runs in four configurations: package defaults in multivariate mode with covariates (\texttt{tfm3}), univariate without
-covariates (\texttt{tfm3-uni}, the configuration of the information-matched contrasts), the flags of Google's benchmark runners
+covariates (\texttt{tfm3-uni}, the configuration of the primary contrasts, without covariates), the flags of Google's benchmark runners
 (\texttt{tfm3-eval}), and univariate with the classical models' context of 2{,}016 points (\texttt{tfm3-c2016}). The comparison
 foundation models are TimesFM~2.5 \citep{das2024timesfm}, Chronos-2 \citep{ansari2025chronos2} and TiRex-2 \citep{podest2026tirex2}, each also
 in a univariate configuration where relevant. The classical models are StatsForecast \citep{garza2022statsforecast} implementations of

@@ -7,7 +7,7 @@ ratio 1.000, CI [1.000, 1.000], p = 1. H3 is **not supported**. The two configur
 **Why.** The detrending is used only if `std(detrended) < 0.5·std(original)` (R² > 0.75 of a linear fit on the context;
 model.py:510, see `reports/mechanism.md`). D7 places the logistic inflection at 0.6·(n + H). With n = 200 and H = 48 the
 inflection is at t ≈ 149: the 200-point context is a long flat start, the rise, and the start of saturation, and a line fits it with
-R² < 0.75 in **0 of 200** contexts. So the mechanism H3 targets is switched off in the cell chosen for the test. This is a design
+R² > 0.75 in **0 of 200** contexts. So the mechanism H3 targets is switched off in the cell chosen for the test. This is a design
 error of the protocol: the gate was documented but not checked on the chosen cell before the freeze. The result is reported as
 pre-registered and is not replaced.
 

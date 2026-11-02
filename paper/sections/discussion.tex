@@ -2,7 +2,7 @@
 \label{sec:discussion}
 
 \paragraph{What the evidence supports.} Three statements are well supported. First, Google's benchmark numbers are real: they
-reproduce with the public code and weights. Second, TimesFM~3's advantage over well-configured classical methods carries over to
+reproduce with the public code and weights. Second, TimesFM~3's advantage over the pre-specified classical ensemble carries over to
 data that did not exist when the model was released, with a margin (16\% in MASE, 29\% in SQL on the contrast without covariates)
 that is large in practical terms and somewhat smaller, for the median forecast, than on the benchmark. The SQL margin depends on how windows
 are weighted and on the river baseline (Section~\ref{sec:robustness}): with every window weighted equally it is 20\%, and with a
@@ -16,7 +16,7 @@ averaging) each model was run with.
 and the same pages three years later; the estimate (\Htwo) points in the predicted direction and the interval is compatible with an
 advantage of up to about \HtwoMde\%. The probe is narrow (one source, one model family, a corpus
 described only by its sources), and it cannot exclude smaller effects or memorisation of series types rather than windows. Because the 2026 windows are harder than the 2023 windows and the difference in differences varies with page difficulty
-(Section~\ref{sec:robustness}), the probe is uninformative beyond about \HtwoMde\% rather than evidence that exposure does not help.
+(Section~\ref{sec:robustness}), the probe does not identify an effect of memorisation; it is not evidence that exposure does not help.
 
 \paragraph{When to use it, and when not to (RQ7).} The controlled data separate the situations sharply.
 \begin{itemize}
@@ -24,8 +24,8 @@ described only by its sources), and it cannot exclude smaller effects or memoris
 classical methods, which lack the information to estimate seasonality. This is the main practical case for zero-shot forecasting.
 \item \emph{Strongly structured, long series} (load, prices, weather): in our domains and weeks, a 10--20\% gain over a classical
 ensemble at the cost of a GPU; the gain over the long context is real but modest (4\% from 2{,}016 to about 15{,}000 hourly points).
-\item \emph{Near-random-walk series} (exchange rates, interest rates, commodity prices): do not use it; the naive forecast is
-better, by 11\% in our data.
+\item \emph{Near-random-walk series} (exchange rates, interest rates, commodity prices): in our data its MASE was 11\% higher than that of the naive forecast, as were those of the
+other foundation models; use a random walk as the benchmark.
 \item \emph{Recent regime changes and saturating growth}: check the forecast against a simple baseline; these are the cases where
 TimesFM~3 fails by large factors in our synthetic tests.
 \item \emph{Covariates}: useful when the covariate drives the target strongly and its future is known; with real covariates of
@@ -37,17 +37,17 @@ hourly classical ensemble took about an hour on eight CPU cores. Zero-shot forec
 the costs that matter in practice are the GPU dependency and the licence (TimesFM~3's weights are licensed for non-commercial
 use only). Latency at batch sizes 1, 32 and 256 is reported in Appendix~\ref{app:hardware}.
 
-\paragraph{Practical implications for digital marketing and demand planning.} We did not evaluate marketing data, and we make no
-claim about it; the following maps our results onto common use cases. (i) \emph{Demand and inventory}: for intermittent demand (D8)
-the foundation models' quantiles are more accurate than the classical methods we ran, but their point forecasts are not better on
-squared error, and no Croston-type method was included; short histories of new products are the strongest case for zero-shot
-forecasting. (ii) \emph{Sales with promotions or advertising}: the closest analogue in our data is load with an oracle temperature,
-where even perfect knowledge of the covariate's future gives no resolved gain; covariate effects must be strong (as in our
-synthetic cells) to matter, so planned promotions should be tested, not assumed to help. (iii) \emph{Attention and traffic}
-(pageviews, search interest): the models forecast the level well but their intervals tend to be too narrow on spiky attention data
-(coverage 0.72--0.76 for a nominal 0.80, with wide uncertainty), so alerting thresholds based on them may fire too often, and they do not anticipate
-the onset of a spike (exploratory analysis in Section~\ref{sec:postrelease}): a viral peak or a campaign burst is visible to them only
-once it has started. (iv) \emph{Prices and
-financial series}: use a random walk as the benchmark and expect no gain. (v) \emph{Product launches and growth curves}: the
-spurious decline on saturating growth and the failure after regime changes are exactly the situations of a launch or a campaign;
-a naive or damped-trend baseline should run alongside. Finally, the non-commercial licence of TimesFM~3 matters for any business use.
+\paragraph{Practical implications for digital marketing and demand planning.} We did not evaluate marketing or sales data. The
+following are hypotheses that our results suggest for common use cases, to be validated on the user's own data with a loss that
+reflects the decision. (i) \emph{Demand and inventory}: for intermittent demand the foundation models' quantiles were more
+accurate than the classical methods we ran, their point forecasts were not better on squared error, and no Croston-type method was
+included; short histories, where classical methods lack data to estimate seasonality, were the clearest case for zero-shot
+forecasting in our synthetic cells. (ii) \emph{Sales with promotions or advertising}: in our data, observed future temperature
+for load and precipitation for rivers gave no resolved gain, and the interval is compatible with gains and losses; whether a
+planned promotion helps should be tested rather than assumed. (iii) \emph{Attention and traffic} (pageviews, search interest):
+the models' 80\% intervals covered 72--76\% of outcomes on Wikipedia pageviews, so alert thresholds built on them may fire more
+often than intended; in an exploratory analysis their upper quantile rarely reached the level of a spike before it started (9\%
+of such windows for TimesFM~3), which is not a test of spike detection. (iv) \emph{Prices and financial series}: on the exchange
+rates, yields and oil prices we evaluated, a random walk was the better benchmark. (v) \emph{Product launches and growth curves}:
+the spurious decline on one saturating synthetic process and the failure after one synthetic level shift suggest running a naive
+or damped-trend baseline alongside. The non-commercial licence of TimesFM~3 matters for any business use.

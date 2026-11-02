@@ -24,8 +24,8 @@ the contrasts without covariates match the inputs but not the context length (S4
 \item \textbf{Baselines.} The pre-registered classical ensemble uses a weekly season on daily river flow and on business-daily
 FX and rates and is fitted to raw flows; a re-specified ensemble improves the river results markedly (Section~\ref{sec:robustness}).
 No Croston-type method is included for intermittent demand.
-\item \textbf{Calibration intervals.} The Wilson intervals treat each series' mean coverage as one trial; they are a guide, not a
-test.
+\item \textbf{Calibration.} Coverage is reported without intervals. The protocol's Wilson intervals treat each series' mean coverage
+as a Bernoulli trial, which it is not, and were dropped after review.
 \item \textbf{Oracle covariates.} The real covariates (temperature, precipitation) are observed values, an upper bound on what a
 forecast could use.
 \item \textbf{Our ensemble is not fev's.} H1 compares TimesFM~3 with fev's ensemble on Tier A and with ours on Tier B, so it is

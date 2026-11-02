@@ -24,6 +24,7 @@
 \end{tikzpicture}
 \caption{Inference path of TimesFM~3 as implemented in the public PyTorch code (\texttt{timesfm} 3.0.2), read line by line
 (Section~\ref{sec:mechanism}). Shaded boxes are deterministic steps without parameters; four of them (detrending, CPM refinement,
-stitching, quantile sorting) shape every forecast but are not part of the network.}
+stitching, quantile sorting) can shape a forecast, some only conditionally (the detrending gate; CPM and stitching only beyond 64
+steps), but are not part of the network.}
 \label{fig:architecture}
 \end{figure}
