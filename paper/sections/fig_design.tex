@@ -2,22 +2,22 @@
 \centering
 \begin{tikzpicture}[
   font=\footnotesize, node distance=0.25cm,
-  tier/.style={draw, rounded corners=2pt, align=left, inner sep=4pt, text width=7.35cm, minimum height=1.55cm},
+  tier/.style={draw=vzaxis, rounded corners=3pt, align=left, inner sep=4pt, text width=7.35cm, minimum height=1.55cm},
   arr/.style={-{Stealth[length=1.8mm]}, thick}
 ]
-\node[tier, fill=black!4] (a) {\textbf{Tier A --- reproduction (RQ1, H1)}\\ 30 fev-bench tasks; Google's published CSV;
-  pipeline controls on Seasonal Naive and Chronos-2};
-\node[tier, fill=blue!8, right=of a] (b) {\textbf{Tier B --- post-release real data (RQ2, family P, H5)}\\ load, price, weather,
+\node[tier, fill=vzgraywash] (a) {\textbf{Tier A --- reproduction (RQ1, H1)}\\ 30 fev-bench tasks; Google's published CSV;
+  pipeline controls: Seasonal Naive, Chronos-2};
+\node[tier, fill=vzbluewash, right=of a] (b) {\textbf{Tier B --- post-release data (RQ2, P, H5)}\\ load, price, weather,
   river, FX, FRED; windows 2026-09-01 to 10-20, after the 2026-08-31 release};
-\node[tier, fill=blue!8, below=of a] (w) {\textbf{Tier W --- memorisation probe (H2)}\\ Wikipedia pageviews: same pages in 2023
+\node[tier, fill=vzbluewash, below=of a] (w) {\textbf{Tier W --- memorisation probe (H2)}\\ Wikipedia pageviews: same pages in 2023
   (W-seen) and 2026 (W-post); pages born after 2023 (W-new)};
-\node[tier, fill=blue!8, below=of b] (p) {\textbf{Tier P --- prospective check}\\ two issues (2026-10-30, 11-02); forecasts
+\node[tier, fill=vzbluewash, below=of b] (p) {\textbf{Tier P --- prospective check}\\ two issues (2026-10-30, 11-02); forecasts
   sealed by SHA-256 before the outcomes existed};
-\node[tier, fill=orange!12, below=of w] (c) {\textbf{Tier C --- controlled synthetic data (RQ3, H3, H4)}\\ 38 cells $\times$ 200
+\node[tier, fill=vzorangewash, below=of w] (c) {\textbf{Tier C --- controlled synthetic data (RQ3, H3, H4)}\\ 38 cells $\times$ 200
   replications: failure modes, multivariate structure, replication of a published simulation};
-\node[tier, fill=orange!12, below=of p] (abl) {\textbf{Ablations (RQ6)}\\ eight configurations, each switching one fixed step or
+\node[tier, fill=vzorangewash, below=of p] (abl) {\textbf{Ablations (RQ6)}\\ eight configurations, each switching one fixed step or
   option, on Tier C and a 20\% sample of Tier B};
-\node[draw, rounded corners=2pt, fill=black!2, align=center, text width=15.3cm, inner sep=4pt, below=0.45cm of $(c.south)!0.5!(abl.south)$]
+\node[draw=vzink2, rounded corners=3pt, fill=white, align=center, text width=15.3cm, inner sep=4pt, below=0.45cm of $(c.south)!0.5!(abl.south)$]
   (out) {\textbf{Same scoring for every tier:} MASE and SQL relative to Seasonal Naive $\cdot$ paired log ratios $\cdot$ two-way
   cluster bootstrap $\cdot$ Holm within pre-declared families $\cdot$ protocol frozen by a git tag before any post-release data};
 \end{tikzpicture}

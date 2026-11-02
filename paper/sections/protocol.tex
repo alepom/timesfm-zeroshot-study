@@ -2,12 +2,13 @@
 \label{sec:protocol}
 
 \input{sections/fig_design}
+\input{sections/fig_timeline}
 
 \paragraph{Freeze.} Research questions, hypotheses, series lists, metrics, contrasts, families and decision rules were written in a
 protocol and frozen by the git tag \texttt{protocol-frozen-v1} (commit \texttt{9f15b38}, 2026-10-28 17:59 UTC) before any data of
 the post-release test windows were downloaded; the download code refuses earlier dates. The freeze is internal: the hash of the
 frozen commit received its first public timestamp on 2026-10-30, after the download, so the order of freeze and download rests
-on the repository history, not on an external record. The protocol incorporates an independent
+on the repository history, not on an external record (Figure~\ref{fig:timeline}). The protocol incorporates an independent
 adversarial review of its draft and a pilot on pre-release data (one year earlier) and on a separate synthetic set; the pilot is not
 part of the results. Two deviations occurred (Appendix~\ref{app:deviations}): the post-release data were downloaded on the evening of
 the freeze day instead of the next day, and a software error voided one ablation, which was re-run. Interpretations of

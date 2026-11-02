@@ -174,7 +174,7 @@ it by 2\% on load; elsewhere every ablation changes MASE by less than 2.5\% in e
 differences are not interpretable.
 
 \paragraph{Level shifts.} A grid of 16 synthetic cells extends the single regime-change cell of Table~\ref{tab:tierc}, which
-is kept, as are the pre-registered tests (Table~\ref{tab:regime}; exploratory). The process is that of the original cell (two
+is kept, as are the pre-registered tests (Figure~\ref{fig:regime}; exploratory). The process is that of the original cell (two
 seasons of 24 and 168 steps plus AR(1) noise, 1{,}024 points, horizon 48) with an upward level shift of 1, 2, 3 or 5 marginal
 standard deviations of the noise, starting 6, 24, 96 or 336 steps before the origin; each cell has 100 replications drawn
 independently (seed 2026), plus a no-shift control. Without a shift TimesFM~3 is 8\% better than the best classical model. In each
@@ -201,16 +201,7 @@ quantiles are better than those of the probabilistic baselines we ran.
 tasks move together) gives intervals close to the task bootstrap: 0.924--0.982 for our ratio of TimesFM~3 to Chronos-2,
 0.942--1.000 for the published one, and 0.962--0.997 for ours relative to the published.
 
-\begin{table}[!htbp]
-\centering
-\caption{Level-shift grid (requested in review; not pre-registered): MASE of TimesFM~3 relative to the best classical model of each
-cell and to Chronos-2, by size of the shift (standard deviations of the noise) and steps between the shift and the origin; 100
-replications per cell, context 1{,}024, horizon 48. The best classical model is chosen per cell after seeing the results;
-the ratios to the fixed statistical ensemble are in \texttt{reports/robustness\_extra.json}.}
-\label{tab:regime}
-\scriptsize
-\input{generated/table_regime.tex}
-\end{table}
+\input{sections/fig_regime}
 
 \begin{table}[!htbp]
 \centering

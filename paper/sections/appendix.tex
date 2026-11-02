@@ -115,6 +115,20 @@ without stating which one is published as TiRex-2 \citep{podest2026tirex2}. We t
 Tier A and use the public TiRex-2 checkpoint everywhere else. We report this as a provenance note, without drawing conclusions about
 the training data; the evidence is released with the code.
 
+\section{Level-shift grid}
+\label{app:regime}
+
+\begin{table}[!htbp]
+\centering
+\caption{Level-shift grid (requested in review; not pre-registered): MASE of TimesFM~3 relative to the best classical model of each
+cell and to Chronos-2 (Figure~\ref{fig:regime}), by size of the shift (standard deviations of the noise) and steps between the shift and the origin; 100
+replications per cell, context 1{,}024, horizon 48. The best classical model is chosen per cell after seeing the results;
+the ratios to the fixed statistical ensemble are in \texttt{reports/robustness\_extra.json}.}
+\label{tab:regime}
+\scriptsize
+\input{generated/table_regime.tex}
+\end{table}
+
 \section{Hardware limits}
 \label{app:hardware}
 

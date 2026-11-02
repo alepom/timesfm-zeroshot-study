@@ -935,6 +935,7 @@
   "status": "post hoc, not pre-registered; intervals and p-values are unadjusted unless a Holm column is given",
   "R9": "DGP: 10 + 3 sin(2 pi t/24) + 2 sin(2 pi t/168) + AR(1) noise (phi 0.5, innovation sd 0.5), 1,024 points, H 48; upward level shift of size x the marginal noise sd (0.577) starting `lag` steps before the origin; 100 replications per cell, seed 2026, independent draws per cell (no common random numbers); intervals over replications; the best classical model is selected per cell after seeing the results, stat-ens is fixed",
   "R10": "hourly Tier B windows (load, price, weather) with all five configurations; interaction resampled jointly",
+  "R17": "per Tier B domain, univariate configurations, complete cases over tfm3-uni, stat-ens, chronos2-uni and naive; two-way bootstrap within the domain, 2,000 draws; descriptive, no multiplicity adjustment",
   "R12": "tasks resampled by source family (22 families in order of first appearance), simple mean of log skill ratios, 10,000 draws, seed 17"
  },
  "R13_non_overlap": {
@@ -2073,5 +2074,475 @@
    "univariate_structured": 3855,
    "used": 3855
   }
- }
+ },
+ "R17_by_domain": [
+  {
+   "domain": "fx",
+   "b": "stat-ens",
+   "metric": "mase",
+   "ratio": 1.1022,
+   "ci95": [
+    1.0184,
+    1.1947
+   ],
+   "n": 110,
+   "series": 10,
+   "weeks": 7
+  },
+  {
+   "domain": "fx",
+   "b": "stat-ens",
+   "metric": "sql",
+   "ratio": 1.0481,
+   "ci95": [
+    0.9649,
+    1.1487
+   ],
+   "n": 110,
+   "series": 10,
+   "weeks": 7
+  },
+  {
+   "domain": "fx",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "ratio": 1.0657,
+   "ci95": [
+    0.9875,
+    1.1637
+   ],
+   "n": 110,
+   "series": 10,
+   "weeks": 7
+  },
+  {
+   "domain": "fx",
+   "b": "chronos2-uni",
+   "metric": "sql",
+   "ratio": 1.0463,
+   "ci95": [
+    0.9733,
+    1.1443
+   ],
+   "n": 110,
+   "series": 10,
+   "weeks": 7
+  },
+  {
+   "domain": "fx",
+   "b": "naive",
+   "metric": "mase",
+   "ratio": 1.1339,
+   "ci95": [
+    1.0319,
+    1.2702
+   ],
+   "n": 110,
+   "series": 10,
+   "weeks": 7
+  },
+  {
+   "domain": "fx",
+   "b": "naive",
+   "metric": "sql",
+   "ratio": 1.0634,
+   "ci95": [
+    0.9549,
+    1.2138
+   ],
+   "n": 110,
+   "series": 10,
+   "weeks": 7
+  },
+  {
+   "domain": "load",
+   "b": "stat-ens",
+   "metric": "mase",
+   "ratio": 0.8919,
+   "ci95": [
+    0.8245,
+    0.9482
+   ],
+   "n": 684,
+   "series": 12,
+   "weeks": 8
+  },
+  {
+   "domain": "load",
+   "b": "stat-ens",
+   "metric": "sql",
+   "ratio": 0.8154,
+   "ci95": [
+    0.758,
+    0.87
+   ],
+   "n": 684,
+   "series": 12,
+   "weeks": 8
+  },
+  {
+   "domain": "load",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "ratio": 0.96,
+   "ci95": [
+    0.9119,
+    1.0075
+   ],
+   "n": 684,
+   "series": 12,
+   "weeks": 8
+  },
+  {
+   "domain": "load",
+   "b": "chronos2-uni",
+   "metric": "sql",
+   "ratio": 0.9614,
+   "ci95": [
+    0.9175,
+    1.0043
+   ],
+   "n": 684,
+   "series": 12,
+   "weeks": 8
+  },
+  {
+   "domain": "load",
+   "b": "naive",
+   "metric": "mase",
+   "ratio": 0.1835,
+   "ci95": [
+    0.1353,
+    0.2548
+   ],
+   "n": 684,
+   "series": 12,
+   "weeks": 8
+  },
+  {
+   "domain": "load",
+   "b": "naive",
+   "metric": "sql",
+   "ratio": 0.1692,
+   "ci95": [
+    0.1276,
+    0.2279
+   ],
+   "n": 684,
+   "series": 12,
+   "weeks": 8
+  },
+  {
+   "domain": "price",
+   "b": "stat-ens",
+   "metric": "mase",
+   "ratio": 0.8722,
+   "ci95": [
+    0.7781,
+    0.9501
+   ],
+   "n": 684,
+   "series": 12,
+   "weeks": 8
+  },
+  {
+   "domain": "price",
+   "b": "stat-ens",
+   "metric": "sql",
+   "ratio": 0.8006,
+   "ci95": [
+    0.738,
+    0.86
+   ],
+   "n": 684,
+   "series": 12,
+   "weeks": 8
+  },
+  {
+   "domain": "price",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "ratio": 0.9794,
+   "ci95": [
+    0.9303,
+    1.0281
+   ],
+   "n": 684,
+   "series": 12,
+   "weeks": 8
+  },
+  {
+   "domain": "price",
+   "b": "chronos2-uni",
+   "metric": "sql",
+   "ratio": 0.981,
+   "ci95": [
+    0.9361,
+    1.024
+   ],
+   "n": 684,
+   "series": 12,
+   "weeks": 8
+  },
+  {
+   "domain": "price",
+   "b": "naive",
+   "metric": "mase",
+   "ratio": 0.6098,
+   "ci95": [
+    0.529,
+    0.696
+   ],
+   "n": 684,
+   "series": 12,
+   "weeks": 8
+  },
+  {
+   "domain": "price",
+   "b": "naive",
+   "metric": "sql",
+   "ratio": 0.4466,
+   "ci95": [
+    0.3939,
+    0.5094
+   ],
+   "n": 684,
+   "series": 12,
+   "weeks": 8
+  },
+  {
+   "domain": "rates",
+   "b": "stat-ens",
+   "metric": "mase",
+   "ratio": 1.0924,
+   "ci95": [
+    1.0271,
+    1.1662
+   ],
+   "n": 94,
+   "series": 10,
+   "weeks": 7
+  },
+  {
+   "domain": "rates",
+   "b": "stat-ens",
+   "metric": "sql",
+   "ratio": 1.0909,
+   "ci95": [
+    1.0423,
+    1.1647
+   ],
+   "n": 94,
+   "series": 10,
+   "weeks": 7
+  },
+  {
+   "domain": "rates",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "ratio": 1.013,
+   "ci95": [
+    0.961,
+    1.0666
+   ],
+   "n": 94,
+   "series": 10,
+   "weeks": 7
+  },
+  {
+   "domain": "rates",
+   "b": "chronos2-uni",
+   "metric": "sql",
+   "ratio": 1.0082,
+   "ci95": [
+    0.9646,
+    1.0541
+   ],
+   "n": 94,
+   "series": 10,
+   "weeks": 7
+  },
+  {
+   "domain": "rates",
+   "b": "naive",
+   "metric": "mase",
+   "ratio": 1.0859,
+   "ci95": [
+    1.0184,
+    1.1667
+   ],
+   "n": 94,
+   "series": 10,
+   "weeks": 7
+  },
+  {
+   "domain": "rates",
+   "b": "naive",
+   "metric": "sql",
+   "ratio": 1.0912,
+   "ci95": [
+    1.0293,
+    1.1611
+   ],
+   "n": 94,
+   "series": 10,
+   "weeks": 7
+  },
+  {
+   "domain": "river",
+   "b": "stat-ens",
+   "metric": "mase",
+   "ratio": 0.7761,
+   "ci95": [
+    0.6359,
+    0.9216
+   ],
+   "n": 207,
+   "series": 20,
+   "weeks": 7
+  },
+  {
+   "domain": "river",
+   "b": "stat-ens",
+   "metric": "sql",
+   "ratio": 0.4933,
+   "ci95": [
+    0.3608,
+    0.6618
+   ],
+   "n": 207,
+   "series": 20,
+   "weeks": 7
+  },
+  {
+   "domain": "river",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "ratio": 0.9167,
+   "ci95": [
+    0.8299,
+    0.9959
+   ],
+   "n": 207,
+   "series": 20,
+   "weeks": 7
+  },
+  {
+   "domain": "river",
+   "b": "chronos2-uni",
+   "metric": "sql",
+   "ratio": 0.9248,
+   "ci95": [
+    0.8662,
+    0.984
+   ],
+   "n": 207,
+   "series": 20,
+   "weeks": 7
+  },
+  {
+   "domain": "river",
+   "b": "naive",
+   "metric": "mase",
+   "ratio": 0.8329,
+   "ci95": [
+    0.6547,
+    1.01
+   ],
+   "n": 207,
+   "series": 20,
+   "weeks": 7
+  },
+  {
+   "domain": "river",
+   "b": "naive",
+   "metric": "sql",
+   "ratio": 0.43,
+   "ci95": [
+    0.3054,
+    0.5979
+   ],
+   "n": 207,
+   "series": 20,
+   "weeks": 7
+  },
+  {
+   "domain": "weather",
+   "b": "stat-ens",
+   "metric": "mase",
+   "ratio": 0.8082,
+   "ci95": [
+    0.7621,
+    0.8488
+   ],
+   "n": 2280,
+   "series": 20,
+   "weeks": 8
+  },
+  {
+   "domain": "weather",
+   "b": "stat-ens",
+   "metric": "sql",
+   "ratio": 0.7743,
+   "ci95": [
+    0.7377,
+    0.8064
+   ],
+   "n": 2280,
+   "series": 20,
+   "weeks": 8
+  },
+  {
+   "domain": "weather",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "ratio": 0.9563,
+   "ci95": [
+    0.9284,
+    0.9841
+   ],
+   "n": 2280,
+   "series": 20,
+   "weeks": 8
+  },
+  {
+   "domain": "weather",
+   "b": "chronos2-uni",
+   "metric": "sql",
+   "ratio": 0.9581,
+   "ci95": [
+    0.9335,
+    0.983
+   ],
+   "n": 2280,
+   "series": 20,
+   "weeks": 8
+  },
+  {
+   "domain": "weather",
+   "b": "naive",
+   "metric": "mase",
+   "ratio": 0.5846,
+   "ci95": [
+    0.4986,
+    0.6622
+   ],
+   "n": 2280,
+   "series": 20,
+   "weeks": 8
+  },
+  {
+   "domain": "weather",
+   "b": "naive",
+   "metric": "sql",
+   "ratio": 0.5162,
+   "ci95": [
+    0.4449,
+    0.5831
+   ],
+   "n": 2280,
+   "series": 20,
+   "weeks": 8
+  }
+ ]
 }

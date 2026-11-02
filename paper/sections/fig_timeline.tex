@@ -1,0 +1,52 @@
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[x=0.143cm, y=1cm, font=\footnotesize,
+  lane/.style={font=\footnotesize\bfseries, text=vzink, anchor=east},
+  ev/.style={circle, fill=#1, draw=white, line width=1pt, inner sep=2.1pt},
+  seal/.style={diamond, fill=#1, draw=white, line width=1pt, inner sep=2.2pt},
+  lab/.style={font=\scriptsize, text=vzink2, align=#1},
+  band/.style={fill=#1, rounded corners=1.5pt}]
+% day 0 = 2026-08-20
+\foreach \y in {0,-0.8,-1.6,-2.4} \draw[vzgrid, line width=0.4pt] (0,\y) -- (89,\y);
+\foreach \d/\m in {12/1 Sep, 42/1 Oct, 73/1 Nov} {
+  \draw[vzaxis, line width=0.4pt] (\d,0.45) -- (\d,-3.05);
+  \node[font=\scriptsize, text=vzmuted, anchor=south] at (\d,0.45) {\m};}
+\node[lane] at (-0.8,0) {Model};
+\node[lane] at (-0.8,-0.8) {Test data};
+\node[lane] at (-0.8,-1.6) {Protocol};
+\node[lane, align=right] at (-0.8,-2.6) {Prospective\\check};
+% model
+\node[ev=vzmuted] (w) at (4,0) {};
+\node[ev=vzink] (r) at (11,0) {};
+\node[lab=left, anchor=west] at (12,0) {\textbf{TimesFM~3 released, 31 Aug}\quad (grey: weights first uploaded, 24 Aug)};
+% Tier B windows
+\fill[band=vzblue] (12,-0.92) rectangle (61,-0.68);
+\node[font=\scriptsize, text=white, anchor=center] at (36.5,-0.8) {Tier B windows, 1 Sep -- 20 Oct (six domains)};
+% protocol
+\node[ev=vzink] (f) at (69,-1.6) {};
+\node[lab=right, anchor=east] at (68,-1.6) {protocol frozen (git tag), 28 Oct;\\post-release data downloaded that evening};
+\node[ev=vzaqua] at (71,-1.6) {};
+\node[lab=left, anchor=west] at (72,-1.6) {first public\\timestamp, 30 Oct};
+% prospective issues
+\node[seal=vzorange] at (71,-2.3) {};
+\fill[band=vzorange!55] (73,-2.38) rectangle (80,-2.22);
+\node[ev=vzorange] at (82,-2.3) {};
+\node[lab=right, anchor=east] at (70,-2.3) {issue 1 sealed (SHA-256), 30 Oct};
+\node[lab=left, anchor=west] at (83,-2.3) {10 Nov};
+\node[seal=vzorange] at (74,-2.9) {};
+\fill[band=vzorange!55] (76,-2.98) rectangle (83,-2.82);
+\node[ev=vzorange] at (85,-2.9) {};
+\node[lab=right, anchor=east] at (73,-2.9) {issue 2 sealed, 2 Nov};
+\node[lab=left, anchor=west] at (86,-2.9) {13 Nov};
+% legend
+\node[font=\scriptsize, text=vzink2, anchor=north west, align=left] at (0,-3.25)
+  {\tikz[baseline=-0.6ex]{\pgfsetfillcolor{vzorange}\pgfsetstrokecolor{vzorange}\pgfsetplotmarksize{2.6pt}\pgfuseplotmark{diamond*}}~forecasts sealed \quad
+   \tikz[baseline=-0.6ex]\fill[vzorange!55, rounded corners=1pt] (0,-0.08) rectangle (0.5,0.08);~outcome window \quad
+   \tikz[baseline=-0.6ex]\fill[vzorange] (0,0) circle (2.1pt);~outcomes scored\\
+   \tikz[baseline=-0.6ex]\fill[vzaqua] (0,0) circle (2.1pt);~external timestamp (RFC~3161 and OpenTimestamps)};
+\end{tikzpicture}
+\caption{Chronology, 2026. Every Tier B test window starts after TimesFM~3's release; the protocol was frozen by a git tag
+before the post-release data were downloaded (an internal record; its first external timestamp is two days later); the two
+prospective issues were sealed by hash before their outcomes existed and are scored after the outcome windows close.}
+\label{fig:timeline}
+\end{figure}

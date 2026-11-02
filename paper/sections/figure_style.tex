@@ -1,0 +1,25 @@
+% Shared palette and plot style of the figures (categorical slots validated for colour-vision deficiency).
+\definecolor{vzblue}{HTML}{2A78D6}
+\definecolor{vzorange}{HTML}{EB6834}
+\definecolor{vzaqua}{HTML}{1BAF7A}
+\definecolor{vzred}{HTML}{E34948}
+\definecolor{vzink}{HTML}{0B0B0B}
+\definecolor{vzink2}{HTML}{52514E}
+\definecolor{vzmuted}{HTML}{898781}
+\definecolor{vzgrid}{HTML}{E1E0D9}
+\definecolor{vzaxis}{HTML}{C3C2B7}
+\definecolor{vzneutral}{HTML}{F0EFEC}
+\definecolor{vzbluewash}{HTML}{EAF2FC}
+\definecolor{vzorangewash}{HTML}{FDEFE9}
+\definecolor{vzaquawash}{HTML}{E8F7F1}
+\definecolor{vzgraywash}{HTML}{F6F5F2}
+\pgfplotsset{
+  vz axis/.style={
+    axis lines*=left, axis line style={vzaxis}, tick style={vzaxis}, major tick length=2pt,
+    tick label style={font=\footnotesize, text=vzink2}, label style={font=\footnotesize, text=vzink2},
+    xmajorgrids=true, ymajorgrids=false, grid style={vzgrid, line width=0.4pt},
+    title style={font=\footnotesize\bfseries, text=vzink}, every axis plot/.append style={line cap=round}},
+  vz dots/.style={only marks, mark size=2.1pt, error bars/x dir=both, error bars/x explicit,
+    error bars/error bar style={line width=1pt}, error bars/error mark=none},
+  colormap={vzdiverging}{rgb255(0cm)=(42,120,214); rgb255(1cm)=(240,239,236); rgb255(2cm)=(227,73,72)},
+}

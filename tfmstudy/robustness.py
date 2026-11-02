@@ -458,9 +458,27 @@ EXTRA_METHODS = {
            "replications per cell, seed 2026, independent draws per cell (no common random numbers); intervals over "
            "replications; the best classical model is selected per cell after seeing the results, stat-ens is fixed"),
     "R10": "hourly Tier B windows (load, price, weather) with all five configurations; interaction resampled jointly",
+    "R17": ("per Tier B domain, univariate configurations, complete cases over tfm3-uni, stat-ens, chronos2-uni and naive; "
+            "two-way bootstrap within the domain, 2,000 draws; descriptive, no multiplicity adjustment"),
     "R12": ("tasks resampled by source family (22 families in order of first appearance), simple mean of log skill "
             "ratios, 10,000 draws, seed 17"),
 }
+
+
+def by_domain(b: pd.DataFrame, reps: int = 2_000) -> list[dict]:
+    """R17: TimesFM-3 (univariate) against the classical ensemble, Chronos-2 and the random walk in each Tier B domain
+    (descriptive; feeds the overview figure). Complete cases over the four models, horizons averaged with equal weight."""
+    ms = ["tfm3-uni", "stat-ens", "chronos2-uni", "naive"]
+    out = []
+    for dom in sorted(b.domain.unique()):
+        rows = A.complete_cases(b, ms, ["mase", "sql"], (b["mode"] == "uni") & b.domain.eq(dom))
+        for ref in ms[1:]:
+            for metric in ("mase", "sql"):
+                r = A.contrast(b, "tfm3-uni", ref, metric, rows, ["horizon"], reps=reps)
+                out.append({"domain": dom, "b": ref, "metric": metric, "ratio": round(r["ratio"], 4),
+                            "ci95": [round(x, 4) for x in r["ci95"]], "n": r["n"], "series": r["clusters"],
+                            "weeks": r["weeks"]})
+    return out
 
 
 def main_extra(tree: Path, parts: list[str] | None = None) -> None:
@@ -473,7 +491,7 @@ def main_extra(tree: Path, parts: list[str] | None = None) -> None:
             "R11_croston": lambda: croston(pd.read_parquet(MAIN / "synthetic" / "metrics.parquet")),
             "R12_tier_a_families": lambda: tier_a_families(), "R13_non_overlap": lambda: non_overlap(b),
             "R14_loss_dependence": lambda: loss_dependence(b), "R15_sql_tails": lambda: sql_tails(b),
-            "R16_exclusions": exclusions}
+            "R16_exclusions": exclusions, "R17_by_domain": lambda: by_domain(b)}
     for key, job in jobs.items():
         if not parts or key.split("_")[0] in parts:
             report[key] = job()

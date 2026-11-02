@@ -111,6 +111,8 @@ def main() -> None:
                 allowed[lit.strip()] = reason.strip()
     bad = 0
     for f in sorted(SECTIONS.glob("*.tex")):
+        if f.name == "figure_style.tex":  # colour definitions, no reported numbers
+            continue
         for lit, ctx in literals(f.read_text()):
             src = known.get(lit)
             if src and args.all:

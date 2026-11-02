@@ -2,10 +2,11 @@
 \centering
 \begin{tikzpicture}[
   font=\footnotesize, node distance=0.22cm,
-  blk/.style={draw, rounded corners=2pt, align=center, inner sep=3pt, text width=3.35cm, minimum height=1.05cm},
-  fixed/.style={blk, fill=orange!12},
-  learned/.style={blk, fill=blue!8},
-  arr/.style={-{Stealth[length=1.8mm]}, thick}
+  blk/.style={draw=vzaxis, rounded corners=3pt, align=center, inner sep=3pt, text width=3.35cm, minimum height=1.05cm,
+    execute at begin node={\hyphenpenalty=10000\exhyphenpenalty=10000}},
+  fixed/.style={blk, fill=vzorangewash},
+  learned/.style={blk, fill=vzbluewash},
+  arr/.style={-{Stealth[length=1.8mm]}, thick, vzink2}
 ]
 \node[fixed] (in) {\textbf{API preprocessing}\\ interpolate gaps, keep last\\ 15{,}360 points, round $H$ to 64};
 \node[fixed, right=of in] (det) {\textbf{Linear detrending gate}\\ OLS line per variate, used\\ only if $R^2 > 0.75$};
@@ -18,7 +19,7 @@
 \draw[arr] (in) -- (det); \draw[arr] (det) -- (tok); \draw[arr] (tok) -- (tr); \draw[arr] (tr) -- (head);
 \draw[arr] (head) -- (cpm); \draw[arr] (cpm) -- (st); \draw[arr] (st) -- (out);
 \node[below=0.15cm of out.south west, anchor=north west, font=\scriptsize, text=black!70, text width=15.2cm]
-  {\colorbox{blue!8}{\strut learned} \colorbox{orange!12}{\strut fixed computation (no parameters)}\quad
+  {\colorbox{vzbluewash}{\strut learned} \colorbox{vzorangewash}{\strut fixed computation (no parameters)}\quad
    One forward pass: horizon positions enter as masked tokens (CPM); there is no autoregressive loop.
    For $H \le 64$ the whole forecast comes from the last context token.};
 \end{tikzpicture}

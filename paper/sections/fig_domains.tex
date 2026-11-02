@@ -1,0 +1,49 @@
+\begin{figure}[!t]
+\centering
+\input{generated/fig_domains_data.tex}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=3 by 1, horizontal sep=0.45cm, yticklabels at=edge left},
+  vz axis, width=0.36\textwidth, height=6.4cm, xmode=log, log basis x=10, domain ticks,
+  yticklabel style={font=\footnotesize, text=vzink, align=right},
+  xticklabel style={/pgf/number format/fixed}, clip=false]
+\nextgroupplot[title={vs classical ensemble}, xmin=0.33, xmax=1.4,
+  xtick={0.4,0.6,0.8,1}, xticklabels={0.4,0.6,0.8,1}]
+\fill[vzbluewash] (axis cs:0.33,-0.6) rectangle (axis cs:1,5.6);
+\draw[vzaxis, line width=0.4pt] (axis cs:0.33,1.5) -- (axis cs:1.4,1.5);
+\draw[vzink2, line width=0.6pt] (axis cs:1,-0.6) -- (axis cs:1,5.6);
+\addplot[vz dots, mark=*, color=vzblue] table[x=x, y=y, x error minus=em, x error plus=ep] {\domensmase};
+\addplot[vz dots, mark=diamond*, mark size=2.6pt, color=vzorange] table[x=x, y=y, x error minus=em, x error plus=ep] {\domenssql};
+\node[font=\scriptsize, text=vzblue!70!black, anchor=north west, align=left] at (axis cs:0.345,5.55) {TimesFM~3\\better};
+\nextgroupplot[title={vs Chronos-2}, xmin=0.8, xmax=1.25,
+  xtick={0.8,0.9,1,1.1,1.2}, xticklabels={0.8,0.9,1,1.1,1.2}]
+\fill[vzbluewash] (axis cs:0.8,-0.6) rectangle (axis cs:1,5.6);
+\draw[vzaxis, line width=0.4pt] (axis cs:0.8,1.5) -- (axis cs:1.25,1.5);
+\draw[vzink2, line width=0.6pt] (axis cs:1,-0.6) -- (axis cs:1,5.6);
+\addplot[vz dots, mark=*, color=vzblue] table[x=x, y=y, x error minus=em, x error plus=ep] {\domchrmase};
+\addplot[vz dots, mark=diamond*, mark size=2.6pt, color=vzorange] table[x=x, y=y, x error minus=em, x error plus=ep] {\domchrsql};
+\nextgroupplot[title={vs random walk}, xmin=0.11, xmax=1.4,
+  xtick={0.125,0.25,0.5,1}, xticklabels={0.125,0.25,0.5,1}]
+\fill[vzbluewash] (axis cs:0.11,-0.6) rectangle (axis cs:1,5.6);
+\draw[vzaxis, line width=0.4pt] (axis cs:0.11,1.5) -- (axis cs:1.4,1.5);
+\draw[vzink2, line width=0.6pt] (axis cs:1,-0.6) -- (axis cs:1,5.6);
+\addplot[vz dots, mark=*, color=vzblue] table[x=x, y=y, x error minus=em, x error plus=ep] {\domrwmase};
+\addplot[vz dots, mark=diamond*, mark size=2.6pt, color=vzorange] table[x=x, y=y, x error minus=em, x error plus=ep] {\domrwsql};
+\end{groupplot}
+\node[font=\footnotesize, text=vzink2, anchor=north] at ($(group c2r1.south)+(0,-0.55cm)$)
+  {error of TimesFM~3 / error of the reference (log scale; left of 1: TimesFM~3 better)};
+\node[font=\footnotesize, text=vzink2, anchor=north] at ($(group c2r1.south)+(0,-1.0cm)$)
+  {\tikz[baseline=-0.6ex]{\draw[vzblue, line width=1pt] (-0.22,0) -- (0.22,0); \fill[vzblue] (0,0) circle (2.1pt);}~MASE (point forecast)\qquad
+   \tikz[baseline=-0.6ex]{\draw[vzorange, line width=1pt] (-0.22,0) -- (0.22,0); \pgfsetfillcolor{vzorange}\pgfsetstrokecolor{vzorange}\pgfsetplotmarksize{2.6pt}\pgfuseplotmark{diamond*}}~SQL (probabilistic forecast)\qquad
+   bars: 95\% interval};
+\end{tikzpicture}
+\caption{TimesFM~3 on data published after its release, domain by domain (Tier B, univariate mode, 2026-09-01 to 10-20). Each
+point is the ratio of TimesFM~3's error to that of a reference on the same series and windows; bars are two-way cluster
+bootstrap 95\% intervals within the domain (10--20 series and 7--8 weeks per domain, so intervals are wide). It wins clearly
+against the classical ensemble on the four structured domains, narrowly against Chronos-2, and loses to the random walk on
+exchange rates, Treasury yields and oil prices (below the grey line), as every foundation model does. On river flow the
+pre-registered ensemble is poorly specified; against a re-specified one the SQL ratio is 0.742 instead of 0.493
+(Section~\ref{sec:robustness}). A descriptive breakdown, not
+pre-registered; the confirmatory tests pool the domains (Figure~\ref{fig:forest}, Table~\ref{tab:familyp}).}
+\label{fig:domains}
+\end{figure}

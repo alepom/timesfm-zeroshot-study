@@ -464,13 +464,67 @@ def forest(conf: dict) -> None:
     lines = []
     for i, (label, r) in enumerate(reversed(items)):
         lo, hi = r["ci95"]
-        lines.append(f"{r['ratio']:.4f} {i} {r['ratio'] - lo:.4f} {hi - r['ratio']:.4f}")
+        fam = 0 if r["test"].startswith("P") else 1  # filled marker: resolved (P) or supported (H) after Holm
+        ok = r["resolved"] if fam == 0 else r["supported"]
+        lines.append(f"{r['ratio']:.4f} {i} {r['ratio'] - lo:.4f} {hi - r['ratio']:.4f} {fam} {int(bool(ok))}")
     ticks = ",".join(str(i) for i in range(len(items)))
     labels = ",".join("{" + label + "}" for label, _ in reversed(items))
-    write("forest_data.tex", "\\pgfplotstableread{\nx y em ep\n" + "\n".join(lines) + "\n}\\forestdata\n"
+    write("forest_data.tex", "\\pgfplotstableread{\nx y em ep fam res\n" + "\n".join(lines) + "\n}\\forestdata\n"
           f"\\pgfplotsset{{forest ticks/.style={{ytick={{{ticks}}}, yticklabels={{{labels}}}, "
           f"ymin=-0.7, ymax={len(items) - 0.3}}}}}\n")
 
+
+DOMAIN_ORDER = ("load", "price", "weather", "river", "fx", "rates")
+DOMAIN_NAMES = {"load": "Electricity load", "price": "Electricity price", "weather": "Weather", "river": "River flow",
+                "fx": "Exchange rates", "rates": "Yields and oil"}
+
+
+def fig_domains() -> None:
+    """Overview figure: TimesFM-3 against three references in each Tier B domain (R17, descriptive)."""
+    path = ROOT / "reports" / "robustness_extra.json"
+    rows = json.loads(path.read_text()).get("R17_by_domain") if path.exists() else None
+    if not rows:
+        return
+    out = []
+    for ref, key in (("stat-ens", "ens"), ("chronos2-uni", "chr"), ("naive", "rw")):
+        lines = []
+        for i, dom in enumerate(reversed(DOMAIN_ORDER)):
+            for metric, off in (("mase", 0.14), ("sql", -0.14)):
+                r = next(x for x in rows if x["domain"] == dom and x["b"] == ref and x["metric"] == metric)
+                lo, hi = r["ci95"]
+                lines.append(f"{metric} {r['ratio']:.4f} {i + off:.2f} {r['ratio'] - lo:.4f} {hi - r['ratio']:.4f}")
+        mase = "\n".join(l.split(" ", 1)[1] for l in lines if l.startswith("mase"))
+        sql = "\n".join(l.split(" ", 1)[1] for l in lines if l.startswith("sql"))
+        out.append(f"\\pgfplotstableread{{\nx y em ep\n{mase}\n}}\\dom{key}mase\n"
+                   f"\\pgfplotstableread{{\nx y em ep\n{sql}\n}}\\dom{key}sql\n")
+    labels = ",".join("{" + DOMAIN_NAMES[d] + "}" for d in reversed(DOMAIN_ORDER))
+    out.append(f"\\pgfplotsset{{domain ticks/.style={{ytick={{{','.join(str(i) for i in range(len(DOMAIN_ORDER)))}}}, "
+               f"yticklabels={{{labels}}}, ymin=-0.6, ymax={len(DOMAIN_ORDER) - 0.4}}}}}\n")
+    write("fig_domains_data.tex", "".join(out))
+
+
+def fig_regime() -> None:
+    """Heat maps of the level-shift grid (R9): log of TimesFM-3 MASE over the best classical model and over Chronos-2."""
+    path = ROOT / "reports" / "robustness_extra.json"
+    if not path.exists():
+        return
+    grid = {r["cell"]: r for r in json.loads(path.read_text())["R9_regime_grid"]}
+    out = []
+    for key, name_ in (("tfm3_vs_best", "regimebest"), ("tfm3_vs_chronos2", "regimechr")):
+        lines, labels = [], []
+        for j, size in enumerate((1, 2, 3, 5)):
+            for i, lag in enumerate((6, 24, 96, 336)):
+                r = grid[f"regime:shift{size}:lag{lag}"][key]
+                lines.append(f"{i} {j} {math.log(r):.4f}")
+                ink = "white" if abs(math.log(r)) > 0.55 else "vzink"  # white on the saturated cells
+                labels.append(f"\\node[font=\\footnotesize, text={ink}] at (axis cs:{i},{j}) {{{r:.2f}}};")
+            lines.append("")
+        out.append(f"\\pgfplotstableread{{\nx y c\n" + "\n".join(lines).strip() + f"\n}}\\{name_}\n"
+                   + _macro(f"{name_}labels", "".join(labels)) + "\n")
+    ctrl = grid["regime:shift0"]
+    out.append(_macro("RegimeControlBest", f"{ctrl['tfm3_vs_best']:.2f}") + "\n"
+               + _macro("RegimeControlChr", f"{ctrl['tfm3_vs_chronos2']:.2f}") + "\n")
+    write("fig_regime_data.tex", "".join(out))
 
 VERSION = "1.0.0"
 DOI = None  # assigned by Zenodo at publication
@@ -515,6 +569,8 @@ def main() -> None:
     table_family_s6(json.loads(S6.read_text()) if S6.exists() else None)
     numbers(conf, desc)
     forest(conf)
+    fig_domains()
+    fig_regime()
     meta()
     print("written:", ", ".join(sorted(p.name for p in GEN.glob("*.tex"))))
 

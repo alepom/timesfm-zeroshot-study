@@ -1,0 +1,33 @@
+\begin{figure}[!htbp]
+\centering
+\input{generated/fig_regime_data.tex}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=2 by 1, horizontal sep=0.5cm, yticklabels at=edge left},
+  width=0.40\textwidth, height=0.40\textwidth, scale only axis=false,
+  xmin=-0.5, xmax=3.5, ymin=-0.5, ymax=3.5, axis line style={draw=none}, tick style={draw=none},
+  xtick={0,1,2,3}, xticklabels={6,24,96,336}, ytick={0,1,2,3}, yticklabels={1 sd,2 sd,3 sd,5 sd},
+  tick label style={font=\footnotesize, text=vzink2}, label style={font=\footnotesize, text=vzink2},
+  title style={font=\footnotesize\bfseries, text=vzink},
+  colormap name=vzdiverging, point meta min=-1.0986, point meta max=1.0986, enlargelimits=false]
+\nextgroupplot[title={vs best classical model}, ylabel={size of the upward shift}]
+\addplot[matrix plot*, mesh/cols=4, point meta=explicit, draw=white, line width=1.6pt] table[x=x, y=y, meta=c] {\regimebest};
+\regimebestlabels
+\nextgroupplot[title={vs Chronos-2},
+  colorbar, colorbar style={width=0.22cm, ytick={-1.0986,-0.6931,0,0.6931,1.0986}, yticklabels={0.33,0.5,1,2,3},
+    tick label style={font=\scriptsize, text=vzink2}, axis line style={draw=none}, tick style={draw=none},
+    ylabel={TimesFM~3 / reference, MASE}, ylabel style={font=\scriptsize, text=vzink2}}]
+\addplot[matrix plot*, mesh/cols=4, point meta=explicit, draw=white, line width=1.6pt] table[x=x, y=y, meta=c] {\regimechr};
+\regimechrlabels
+\end{groupplot}
+\node[font=\footnotesize, text=vzink2, anchor=north] at ($(group c1r1.south east)!0.5!(group c2r1.south west)+(0,-0.45cm)$)
+  {steps between the shift and the forecast origin};
+\end{tikzpicture}
+\caption{Level-shift grid (requested in review; not pre-registered): MASE of TimesFM~3 relative to the best classical model of each
+cell (left) and to Chronos-2 (right), by size of the upward shift (standard deviations of the noise) and steps between the shift
+and the forecast origin; 100 replications per cell, context 1{,}024, horizon 48. Red: TimesFM~3 worse; blue: better. Without a shift
+the ratios are \RegimeControlBest{} and \RegimeControlChr. The best classical model is chosen per cell after seeing the results;
+exact values are in Table~\ref{tab:regime} (Appendix) and the ratios to the fixed statistical ensemble in
+\texttt{reports/robustness\_extra.json}.}
+\label{fig:regime}
+\end{figure}

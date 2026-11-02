@@ -3,24 +3,27 @@
 \input{generated/forest_data.tex}
 \begin{tikzpicture}
 \begin{axis}[
-  width=0.62\textwidth, height=9.2cm,
+  vz axis, width=0.62\textwidth, height=9.2cm,
   xmode=log, log basis x=10, xmin=0.4, xmax=1.3,
   xtick={0.5,0.6,0.7,0.8,0.9,1,1.1,1.2}, xticklabels={0.5,0.6,0.7,0.8,0.9,1,1.1,1.2},
-  forest ticks, yticklabel style={font=\scriptsize, align=right},
-  xlabel={ratio of errors, A / B (log scale; $<1$: A better)}, xlabel style={font=\footnotesize},
-  tick label style={font=\footnotesize},
-  axis lines*=left, ymajorgrids=false, xmajorgrids=true, grid style={black!10},
+  forest ticks, yticklabel style={font=\scriptsize, text=vzink, align=right},
+  xlabel={ratio of errors, A / B (log scale; $<1$: A better)},
   clip=false]
-\addplot[black!40, dashed] coordinates {(1,-0.7) (1,10.7)};
-\addplot[only marks, mark=*, mark size=1.6pt, black,
-  error bars/.cd, x dir=both, x explicit, error bar style={line width=0.8pt}]
-  table[x=x, y=y, x error minus=em, x error plus=ep] {\forestdata};
+\fill[vzbluewash] (axis cs:0.4,5.5) rectangle (axis cs:1.3,10.7);
+\draw[vzink2, line width=0.6pt] (axis cs:1,-0.7) -- (axis cs:1,10.7);
+\node[font=\scriptsize\bfseries, text=vzblue!70!black, anchor=north west] at (axis cs:0.41,10.6) {family P (post-release data)};
+\node[font=\scriptsize\bfseries, text=vzink2, anchor=north west] at (axis cs:0.41,5.4) {family H};
+\addplot[vz dots, mark=*, color=vzblue, mark options={fill=vzblue}]
+  table[x=x, y=y, x error minus=em, x error plus=ep, restrict expr to domain={\thisrow{res}}{1:1}] {\forestdata};
+\addplot[vz dots, mark=*, color=vzblue, mark options={fill=white, line width=1pt}]
+  table[x=x, y=y, x error minus=em, x error plus=ep, restrict expr to domain={\thisrow{res}}{0:0}] {\forestdata};
 \end{axis}
 \end{tikzpicture}
 \caption{Primary (family P, MASE) and hypothesis (family H) contrasts: estimate and two-way cluster bootstrap 95\% interval
 (unadjusted). P-tests are on post-release Tier B data: P1--P3 without covariates on the same series and windows (context lengths differ on
 hourly data), P4a on the group tasks (no covariates), P5 between two configurations with the covariates of load and river flow; H4a--H4d are on controlled
 multivariate data; H5 is on exchange rates, Treasury yields and oil prices. H3 is omitted (its cell never activates the mechanism
-it tests, Section~\ref{sec:controlled}). Decisions use Holm-adjusted $p$-values (Tables~\ref{tab:familyp} and~\ref{tab:familyh}).}
+it tests, Section~\ref{sec:controlled}). Filled points: difference resolved (family P) or hypothesis supported (family H) after Holm correction within the family
+(for H4c and H4d, equivalence within $\pm$3\%; for H5, non-superiority at 0.90); open points: not resolved or not supported. Decisions use Holm-adjusted $p$-values (Tables~\ref{tab:familyp} and~\ref{tab:familyh}).}
 \label{fig:forest}
 \end{figure}
