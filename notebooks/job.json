@@ -54,6 +54,31 @@
    "name": "P1-secondary",
    "job": "forecast",
    "extra_args": "--tier P --period prospective-2026-10-30 --models chronos2,tirex2-uni,tirex2"
+  },
+  {
+   "name": "P2-primary",
+   "job": "forecast",
+   "extra_args": "--tier P --period prospective-2026-11-02 --models tfm3-uni,chronos2-uni,tfm25,tfm3,tfm3-eval"
+  },
+  {
+   "name": "P2-secondary",
+   "job": "forecast",
+   "extra_args": "--tier P --period prospective-2026-11-02 --models chronos2,tirex2-uni,tirex2"
+  },
+  {
+   "name": "C-novarattn",
+   "job": "forecast",
+   "extra_args": "--tier synthetic --period main --models tfm3-novarattn"
+  },
+  {
+   "name": "B-novarattn",
+   "job": "forecast",
+   "extra_args": "--tier B --period main --models tfm3-novarattn"
+  },
+  {
+   "name": "latency",
+   "job": "latency",
+   "extra_args": ""
   }
  ]
 }
