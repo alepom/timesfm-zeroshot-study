@@ -1,0 +1,7 @@
+TimesFM-3 zero-shot study (Alessio Pomaro) - public timestamp manifest, 2026-11-02
+Every line below is a hash computed before the outcomes of Tier P issue 2 existed
+(scoring window: target timestamps 2026-11-04T00:00Z to 2026-11-11T00:00Z).
+
+Tier P issue 2026-11-02 combined seal (sha256): 0d96ab18a802cf36ae56cfac87b019788a879f5a009cf385e5697137da3aa299
+SEAL_prospective-2026-11-02.json (sha256): 67db776a6c7aeb882f87ef418d6d006915cd7ac8b1fc96143aae909bcaee1129
+ISSUE_prospective-2026-11-02.json (sha256): abc797b2fe821bbdc95f6cc3084c28c9275b175b75ea65c288066bc994a97ac9
