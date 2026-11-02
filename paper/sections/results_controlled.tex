@@ -66,7 +66,7 @@ $\pm$3\% margin (two one-sided tests); H5 is a non-superiority test with floor 0
 \label{sec:ablations}
 
 Each ablation changes one fixed step or option of \texttt{tfm3} and is compared with it on the tasks where the change can act
-(Table~\ref{tab:ablations}). The effects are small. On the synthetic data, switching off the detrending raises MASE by 0.7\% and
+(Table~\ref{tab:ablations}). Apart from the variate attention, discussed at the end, the effects are small. On the synthetic data, switching off the detrending raises MASE by 0.7\% and
 padding future covariates by repetition (\texttt{tfm3-edge}) by 0.7\%; clipping at zero lowers it by 0.05\%; all three differences
 are resolved but too small to matter in practice. Switching off the CPM refinement or the stitching, or adding symmetric averaging or
 z-normalisation, changes MASE by less than 0.3\% and none of these differences is resolved. On the 20\% sample of Tier B series no
