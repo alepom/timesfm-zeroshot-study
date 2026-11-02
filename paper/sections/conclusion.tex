@@ -2,9 +2,9 @@
 
 In the domains and periods evaluated, TimesFM~3 forecasts post-release data more accurately than the pre-specified classical
 ensemble, and the point-forecast advantage survives other aggregations, stricter inference, a shorter context and a re-specified
-baseline for river flow. Its lead over Chronos-2 is small, sensitive to inferential choices and, on hourly data, absent when its
-context is cut to that of the classical models; over TimesFM~2.5 it is resolved only for the quantile loss. On a 30-task sample
+baseline for river flow. Its lead over Chronos-2 is small, sensitive to inferential choices and, on hourly data, grows with the
+length of the context, from parity at 2{,}016 points; over TimesFM~2.5 it is resolved only for the quantile loss. On a 30-task sample
 the published benchmark results largely reproduce, although the published comparison with Chronos-2 mixes inference options. The
 Wikipedia comparison does not identify an effect of memorisation. On exchange rates, yields and oil prices every foundation model
-we ran was worse than the random walk, and single synthetic cases of saturating growth and level shifts show failures worth
-guarding against with simple baselines. Zero-shot forecasting has gone far, but not everywhere.
+we ran was worse than the random walk, and saturating growth and recent level shifts in synthetic data show failures worth guarding
+against with simple baselines. Zero-shot forecasting has gone far, but not everywhere.

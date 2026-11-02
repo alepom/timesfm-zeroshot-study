@@ -19,7 +19,8 @@ under-forecasts the rise in almost every replication, and the best classical mod
 (ii) \emph{A regime change} near the origin, in one parametrisation (a level shift of five innovation standard deviations 24
 steps before the origin): TimesFM~3's relative MASE is 0.917 against 0.387 for both Chronos-2 and the best classical model, a
 failure specific to TimesFM~3 among the foundation models, although it still beats the seasonal naive forecast. With 24 points
-after the shift the situation is ambiguous between a burst and a new level; we did not vary the size or timing of the shift. (iii) \emph{Level shifts} (D6, three of four cells) and the
+after the shift the situation is ambiguous between a burst and a new level; a grid of shift sizes and timings in Section~\ref{sec:robustness}
+shows that this is a systematic weakness, not a property of one cell. (iii) \emph{Level shifts} (D6, three of four cells) and the
 \emph{random walk}: TimesFM~3 is 1--5\% worse than the best classical model. (iv) On \emph{white noise} all models match the historic mean, which is close to the optimal forecast (the true mean is known
 only to the generator); no model does better, as a sound evaluation requires. On intermittent demand (D8) the
 verdict depends on the metric. Every foundation model has about a 20\% lower MASE than the naive forecast, the best classical

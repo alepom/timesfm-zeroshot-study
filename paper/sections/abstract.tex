@@ -6,10 +6,11 @@ training corpus, on two prospective issues sealed by hash before their outcomes 
 We also reproduce Google's published fev-bench results and read the model's inference code, which has no technical report. On a 30-task sample the
 published results largely reproduce. On post-release data TimesFM~3 has a 16\% lower MASE and a 29\% lower scaled quantile loss than a
 classical ensemble (15\% and 22\% with a re-specified ensemble for river flow), about 5\% lower errors than Chronos-2, a lead that on
-hourly data disappears when TimesFM~3 is given the classical models' shorter context, and a lower probabilistic error than TimesFM~2.5; its published benchmark lead over Chronos-2 also
+hourly data grows with the context (level at 2{,}016 points, about 2\% at 8{,}192), and a lower probabilistic error than TimesFM~2.5; its published benchmark lead over Chronos-2 also
 reproduces, and is slightly larger when neither model shares information across series, an option the published Chronos-2 results
 use. The Wikipedia probe finds no resolved difference but does not identify an effect of memorisation. Like every foundation model we ran, TimesFM~3 is worse than the random walk on exchange
-rates, interest rates and oil prices (by 11\%). In single synthetic settings (descriptive) it forecasts a spurious decline on
-saturating growth and fails after a recent level shift. In synthetic data, multivariate mode helps when a strong cross-series
+rates, interest rates and oil prices (by 11\%). In synthetic data it forecasts a spurious decline on a saturating
+process and, across a grid of level shifts, is worse than the best classical method after any shift of two or more standard
+deviations in the last 96 steps. In synthetic data, multivariate mode helps when a strong cross-series
 signal exists and is equivalent within 3\% in two controls without one; on real data its gain is small. The fixed steps of the inference path contribute little
 on average.

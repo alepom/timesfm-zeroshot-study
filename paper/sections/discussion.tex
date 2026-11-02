@@ -40,8 +40,8 @@ use only). Latency at batch sizes 1, 32 and 256 is reported in Appendix~\ref{app
 \paragraph{Practical implications for digital marketing and demand planning.} We did not evaluate marketing or sales data. The
 following are hypotheses that our results suggest for common use cases, to be validated on the user's own data with a loss that
 reflects the decision. (i) \emph{Demand and inventory}: for intermittent demand the foundation models' quantiles were more
-accurate than the classical methods we ran, their point forecasts were not better on squared error, and no Croston-type method was
-included; short histories, where classical methods lack data to estimate seasonality, were the clearest case for zero-shot
+accurate than the classical methods we ran, their point forecasts were not better on squared error, and Croston-type methods did not
+improve on the historic mean; short histories, where classical methods lack data to estimate seasonality, were the clearest case for zero-shot
 forecasting in our synthetic cells. (ii) \emph{Sales with promotions or advertising}: in our data, observed future temperature
 for load and precipitation for rivers gave no resolved gain, and the interval is compatible with gains and losses; whether a
 planned promotion helps should be tested rather than assumed. (iii) \emph{Attention and traffic} (pageviews, search interest):
@@ -49,5 +49,5 @@ the models' 80\% intervals covered 72--76\% of outcomes on Wikipedia pageviews, 
 often than intended; in an exploratory analysis their upper quantile rarely reached the level of a spike before it started (9\%
 of such windows for TimesFM~3), which is not a test of spike detection. (iv) \emph{Prices and financial series}: on the exchange
 rates, yields and oil prices we evaluated, a random walk was the better benchmark. (v) \emph{Product launches and growth curves}:
-the spurious decline on one saturating synthetic process and the failure after one synthetic level shift suggest running a naive
+the spurious decline on a saturating synthetic process and the failures after recent synthetic level shifts suggest running a naive
 or damped-trend baseline alongside. The non-commercial licence of TimesFM~3 matters for any business use.

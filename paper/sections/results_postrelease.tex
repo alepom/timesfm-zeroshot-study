@@ -106,9 +106,10 @@ oracle future covariates; S4: TimesFM~3 restricted to the classical models' cont
 \subsection{Robustness (requested in review; not pre-registered)}
 \label{sec:robustness}
 
-Two internal reviews asked for checks that the protocol did not plan. They do not change any pre-registered decision; they show
+Three reviews of the draft (two internal, one external) asked for checks that the protocol did not plan; two of them
+needed new GPU runs, made on 2026-11-02 with bundle 0.5.6. They do not change any pre-registered decision; they show
 which conclusions depend on choices of aggregation, inference, baseline and context. Code and results are released
-(\texttt{tfmstudy/robustness.py}, \texttt{tfmstudy/alt\_baseline.py}).
+(\texttt{tfmstudy/robustness.py}, \texttt{tfmstudy/alt\_baseline.py}, \texttt{reports/robustness\_extra.json}).
 
 \paragraph{Aggregation.} Table~\ref{tab:robustness} recomputes family P with other averaging schemes. The MASE contrasts are stable:
 P1 lies between 0.824 and 0.872 and P2 and P3 between 0.94 and 0.98 under every scheme. The SQL advantage over the ensemble is not:
@@ -130,11 +131,14 @@ stay resolved after Holm correction. P2 on MASE is resolved with time blocks but
 0.077): it should be read as fragile.
 
 \paragraph{Context length.} On the three hourly domains, TimesFM~3 restricted to the 2{,}016 points the classical models see is
-level with Chronos-2 (MASE 1.004, 0.980--1.027; SQL 1.008), while with its full context it is ahead (0.965 and 0.967). Its hourly
-lead over Chronos-2, which truncates at 8{,}192 points, therefore disappears when TimesFM~3 is restricted to 2{,}016 points; this
-does not isolate the step from 8{,}192 to about 15{,}000 points (both models at equal context lengths would require new GPU runs),
-and a ratio near 1 is not a test of equivalence. Against the classical ensemble
-the restricted model keeps most of its advantage (MASE 0.891, SQL 0.830), so P1 is not a context effect.
+level with Chronos-2 (MASE 1.004, 0.980--1.027; SQL 1.008), while with its full context it is ahead (0.965 and 0.967). A second GPU run
+(2026-11-02) compared the two models at equal context lengths. With both at 2{,}016 points they are level (MASE 0.994,
+0.966--1.021; SQL 0.999); with both at 8{,}192 points, Chronos-2's own limit, TimesFM~3 leads by about 2\% (MASE 0.976,
+0.954--0.997; SQL 0.979, 0.959--0.999); with its full context the lead is 3--4\%. Going from 2{,}016 to 8{,}192 points lowers
+TimesFM~3's MASE by 2.8\% and Chronos-2's by 1.0\% (0.972 and 0.990), and the context beyond 8{,}192 adds about 1\% for
+TimesFM~3 (0.989). The hourly lead over Chronos-2 therefore grows with the context: TimesFM~3 makes better use of long histories,
+and the two are level on short ones (a ratio near 1 is not a test of equivalence). Against the classical ensemble the restricted
+model keeps most of its advantage (MASE 0.891, SQL 0.830), so P1 is not a context effect.
 
 \paragraph{The memorisation probe and difficulty.} The 2026 windows are harder than the 2023 windows for both models
 (geometric-mean MASE of TimesFM~3 0.414 against 0.279; Chronos-2 0.432 against 0.297), and the difference in differences varies
@@ -150,6 +154,36 @@ linear detrending lowers TimesFM~3's MASE on FX by 6\% (0.943; on the 19 of 44 w
 about half of its shortfall against the random walk there (1.126); on Treasury yields it has no effect (1.000). Padding future covariates by repetition (\texttt{tfm3-edge}) lowers MASE by 8\% on river flow (0.919, 33 windows) and raises
 it by 2\% on load; elsewhere every ablation changes MASE by less than 2.5\% in every domain; repeated GPU runs differ by up to about 0.1\% on some windows, so smaller
 differences are not interpretable.
+
+\paragraph{Level shifts.} A grid of 16 synthetic cells (the regime-change process with level shifts of 1, 2, 3 and 5 standard
+deviations of its noise, starting 6, 24, 96 or 336 steps before the origin, 100 new replications each, plus a no-shift control)
+replaces the single regime-change cell (Table~\ref{tab:regime}). Without a shift TimesFM~3 is 8\% better than the best classical
+model. After a shift of two or more standard deviations in the last 96 steps it is worse than the best classical model in every
+cell, by 17\% to 194\%; when the shift is 336 steps old it is again better (0.759--0.917). Against Chronos-2 the failure is
+specific to shifts 24 and 96 steps old (1.12 to 2.43 for two or more standard deviations); six steps after a shift every foundation
+model is far behind the classical models, and TimesFM~3 is level with Chronos-2 or slightly ahead except for the largest shift.
+Recent level shifts are therefore a systematic weakness, larger for TimesFM~3 than for Chronos-2 once the shift is a day to a few
+days old.
+
+\paragraph{Intermittent demand with Croston-type methods.} On the four D8 cells, Croston's method (optimised and with the
+Syntetos--Boylan correction), ADIDA, IMAPA and TSB do not improve on the historic mean in squared error (RMSSE 0.713--0.737 against
+0.709 with 200 points and $H = 48$) and all beat TimesFM~3 on it (0.811), while TimesFM~3 has the lowest MASE (0.657 against
+0.920--0.937). The conclusion on intermittent demand is unchanged: the foundation models' quantiles and median are better, their
+point forecasts are not better in squared error.
+
+\paragraph{Tier A by source family.} Resampling the 28 Tier A tasks by source family (22 families; for example the three ERCOT
+tasks move together) gives intervals close to the task bootstrap: 0.924--0.982 for our ratio of TimesFM~3 to Chronos-2,
+0.942--1.000 for the published one, and 0.962--0.997 for ours relative to the published.
+
+\begin{table}[!htbp]
+\centering
+\caption{Level-shift grid (requested in review; not pre-registered): MASE of TimesFM~3 relative to the best classical model of each
+cell and to Chronos-2, by size of the shift (standard deviations of the noise) and steps between the shift and the origin; 100
+replications per cell, context 1{,}024, horizon 48.}
+\label{tab:regime}
+\scriptsize
+\input{generated/table_regime.tex}
+\end{table}
 
 \begin{table}[!htbp]
 \centering

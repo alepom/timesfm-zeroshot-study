@@ -201,10 +201,122 @@ def tier_a(reps: int = REPS) -> dict:
             "ours_over_published": round(float(np.exp((lo - lp).mean())), 4), "ours_over_published_ci95": ci((lo - lp)[idx].mean(1))}
 
 
+# ------------------------------------------------------------------ second round (GPU runs of 2026-11-02, bundle 0.5.6)
+
+def regime_grid(reps: int = 2_000) -> list[dict]:
+    """R9: level-shift grid (period 'regime'): TimesFM-3 against the best classical model and against Chronos-2, per cell."""
+    from .evaluate import score
+    c = score("synthetic", "regime", ROOT / "results" / "forecast", ROOT / "data" / "processed")
+    classical = ["ets", "theta", "mstl", "mstl-theta", "mstl-arima", "naive", "snaive", "mean", "stat-ens"]
+    gm = lambda s: float(np.exp(np.log(s[(s > 0) & np.isfinite(s)]).mean()))
+    out = []
+    for cell, g in c.groupby("cell"):
+        level = {m: gm(g[g.model.eq(m)].mase) for m in g.model.unique()}
+        best = min((m for m in classical if m in level), key=level.get)
+        r = {"cell": cell, "best_classical": best, **{m: round(v, 4) for m, v in level.items()}}
+        for ref in (best, "chronos2"):
+            rows = A.complete_cases(c, ["tfm3", ref], ["mase"], c.cell.eq(cell))
+            x = A.contrast(c, "tfm3", ref, "mase", rows, ["cell"], "cell", two_way=False, reps=reps)
+            r[f"tfm3_vs_{'best' if ref == best else ref}"] = round(x["ratio"], 4)
+            r[f"tfm3_vs_{'best' if ref == best else ref}_ci95"] = [round(v, 4) for v in x["ci95"]]
+        out.append(r)
+    return out
+
+
+def equal_context(tree: Path, reps: int = 2_000) -> list[dict]:
+    """R10: TimesFM-3 and Chronos-2 at equal context (2,016 and 8,192 points) on the hourly Tier B domains."""
+    from .evaluate import score
+    b = score("B", "main", tree, ROOT / "data" / "processed")
+    hourly = b["mode"].eq("uni") & b.domain.isin(["load", "price", "weather"])
+    models = ["tfm3-uni", "tfm3-c8192", "tfm3-c2016", "chronos2-uni", "chronos2-c2016"]
+    rows = A.complete_cases(b, models, ["mase", "sql"], hourly)
+    out = []
+    for a, m, what in (("tfm3-c2016", "chronos2-c2016", "both at 2,016"), ("tfm3-c8192", "chronos2-uni", "both at 8,192"),
+                       ("tfm3-uni", "chronos2-uni", "native (about 15,000 vs 8,192)"),
+                       ("tfm3-uni", "tfm3-c8192", "TimesFM-3: full vs 8,192"), ("tfm3-c8192", "tfm3-c2016", "TimesFM-3: 8,192 vs 2,016"),
+                       ("chronos2-uni", "chronos2-c2016", "Chronos-2: 8,192 vs 2,016")):
+        for metric in ("mase", "sql"):
+            x = A.contrast(b, a, m, metric, rows, ["domain", "horizon"], reps=reps)
+            out.append({"a": a, "b": m, "comparison": what, "metric": metric, "ratio": round(x["ratio"], 4),
+                        "ci95": [round(v, 4) for v in x["ci95"]], "n": x["n"]})
+    return out
+
+
+def croston(c: pd.DataFrame) -> list[dict]:
+    """R11: Croston-type methods on the intermittent-demand cells (point forecasts: MASE and RMSSE)."""
+    from statsforecast.models import ADIDA, IMAPA, TSB, CrostonOptimized, CrostonSBA
+    from .forecast import load_tasks
+    tasks, make = load_tasks("synthetic", "main", ROOT / "data" / "processed")
+    tasks = tasks[tasks.cell.str.startswith("rep:D8")]
+    methods = {"croston-opt": lambda: CrostonOptimized(), "croston-sba": lambda: CrostonSBA(), "adida": lambda: ADIDA(),
+               "imapa": lambda: IMAPA(), "tsb": lambda: TSB(alpha_d=0.2, alpha_p=0.2)}
+    rows = []
+    for r in tasks.itertuples():
+        task, truth, season = make(r)
+        y, t = task.target[0].astype(float), truth[0].astype(float)
+        diffs = np.diff(y)
+        scale_mase, scale_rmsse = np.mean(np.abs(diffs)), np.sqrt(np.mean(diffs ** 2))
+        for name, mk in methods.items():
+            f = mk().forecast(y=y, h=task.horizon)["mean"]
+            rows.append({"cell": r.cell, "model": name, "mase": np.mean(np.abs(t - f)) / scale_mase,
+                         "rmsse": np.sqrt(np.mean((t - f) ** 2)) / scale_rmsse})
+    d = pd.DataFrame(rows)
+    gm = lambda s: float(np.exp(np.log(s[(s > 0) & np.isfinite(s)]).mean()))
+    out = []
+    for cell, g in d.groupby("cell"):
+        ref = c[c.cell.eq(cell)]
+        r = {"cell": cell}
+        for model in list(methods) + ["tfm3", "chronos2", "mean", "ets"]:
+            s = g[g.model.eq(model)] if model in methods else ref[ref.model.eq(model)]
+            r[model] = {k: round(gm(s[k]), 4) for k in ("mase", "rmsse")}
+        out.append(r)
+    return out
+
+
+FAMILY = {"boomlet": "boomlet"}
+
+
+def _family(task: str) -> str:
+    import re
+    base = re.sub(r"_(\d+)?[A-Z]+$", "", task.split("/")[0])
+    return "boomlet" if base.startswith("boomlet") else base
+
+
+def tier_a_families(reps: int = REPS) -> dict:
+    """R12: Tier A ratios with tasks resampled by source family (tasks of the same source move together)."""
+    t = pd.read_csv(ROOT / "reports" / "tierA_reproduction.csv")
+    t = t[t.model.eq("tfm3-eval")][["task_name", "skill_ours", "skill_published"]].dropna()
+    t["family"] = t.task_name.map(_family)
+    t["lo"], t["lp"] = np.log(t.skill_ours), np.log(t.skill_published)
+    fams = t.family.unique()
+    rng = np.random.default_rng(A.SEED)
+    draws = rng.integers(0, len(fams), size=(reps, len(fams)))
+    by = {f: g for f, g in t.groupby("family")}
+    stats_ = {k: [] for k in ("lo", "lp", "diff")}
+    for row in draws:
+        s = pd.concat([by[fams[i]] for i in row])
+        stats_["lo"].append(s.lo.mean()); stats_["lp"].append(s.lp.mean()); stats_["diff"].append((s.lo - s.lp).mean())
+    ci = lambda x: [round(float(np.exp(np.quantile(x, 0.025))), 4), round(float(np.exp(np.quantile(x, 0.975))), 4)]
+    return {"tasks": int(len(t)), "families": int(len(fams)), "family_of_task": dict(zip(t.task_name, t.family)),
+            "ours_ci95": ci(stats_["lo"]), "published_ci95": ci(stats_["lp"]), "ours_over_published_ci95": ci(stats_["diff"])}
+
+
+def main_extra(tree: Path) -> None:
+    c = pd.read_parquet(MAIN / "synthetic" / "metrics.parquet")
+    report = {"label": "second-round review-requested analyses (GPU runs of 2026-11-02, bundle 0.5.6); not pre-registered",
+              "R9_regime_grid": regime_grid(), "R10_equal_context": equal_context(tree), "R11_croston": croston(c),
+              "R12_tier_a_families": tier_a_families()}
+    (ROOT / "reports" / "robustness_extra.json").write_text(json.dumps(report, indent=1, default=float))
+    print(json.dumps(report, indent=1, default=float)[:8000])
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reps", type=int, default=REPS)
+    parser.add_argument("--extra", help="scratch tree with the Tier B forecasts for the equal-context comparison")
     args = parser.parse_args()
+    if args.extra:
+        return main_extra(Path(args.extra))
     b, w, c = (pd.read_parquet(MAIN / t / "metrics.parquet") for t in ("B", "W", "synthetic"))
     report = {"label": "robustness and sensitivity analyses requested in review; not pre-registered",
               "R1_aggregation": aggregation(b), "R2_small_clusters": small_g(b, args.reps), "R3_context": context(b),

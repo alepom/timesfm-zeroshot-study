@@ -284,6 +284,27 @@ def table_robustness() -> None:
     write("table_robustness.tex", tabular("lrrrrrrrlrl", head, rows))
 
 
+def table_regime() -> None:
+    """Review-requested level-shift grid: TimesFM-3 MASE relative to the best classical model and to Chronos-2."""
+    path = ROOT / "reports" / "robustness_extra.json"
+    if not path.exists():
+        return
+    grid = {r["cell"]: r for r in json.loads(path.read_text())["R9_regime_grid"]}
+    lags = (6, 24, 96, 336)
+    rows = []
+    for size in (1, 2, 3, 5):
+        cells = [grid[f"regime:shift{size}:lag{lag}"] for lag in lags]
+        rows.append([f"{size} sd"] + [r3(c["tfm3_vs_best"]) for c in cells] + [r3(c["tfm3_vs_chronos2"]) for c in cells])
+    ctrl = grid["regime:shift0"]
+    rows.append(["none (control)", f"\\multicolumn{{4}}{{c}}{{{r3(ctrl['tfm3_vs_best'])}}}",
+                 f"\\multicolumn{{4}}{{c}}{{{r3(ctrl['tfm3_vs_chronos2'])}}}"])
+    head = ["Shift"] + [f"{lag}" for lag in lags] + [f"{lag}" for lag in lags]
+    body = tabular("lrrrrrrrr", head, rows)
+    body = body.replace("\\toprule\n", "\\toprule\n & \\multicolumn{4}{c}{vs best classical, steps since the shift} & "
+                        "\\multicolumn{4}{c}{vs Chronos-2, steps since the shift} \\\\\n\\cmidrule(lr){2-5}\\cmidrule(lr){6-9}\n", 1)
+    write("table_regime.tex", body)
+
+
 def table_latency() -> None:
     """Protocol section 7: seconds per call and series per second on the T4, by model and call size."""
     lat = pd.read_csv(ROOT / "reports" / "latency.csv")
@@ -477,6 +498,7 @@ def main() -> None:
     table_tier_a()
     table_latency()
     table_robustness()
+    table_regime()
     table_calibration(desc)
     table_tier_c(desc)
     table_family_s6(json.loads(S6.read_text()) if S6.exists() else None)
