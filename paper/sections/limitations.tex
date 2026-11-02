@@ -25,8 +25,8 @@ forecast could use.
 descriptive.
 \item \textbf{Design error in H3.} The pre-registered cell never activates the mechanism it tests; the exploratory results on the
 other cells are not adjusted for multiplicity.
-\item \textbf{A software error in one ablation} (variate attention) was found after the confirmatory analysis; the ablation is
-re-run and reported separately (Appendix~\ref{app:deviations}).
+\item \textbf{A software error in one ablation} (variate attention) was found after the confirmatory analysis; the ablation was
+re-run with the corrected code and family S5 recomputed (Appendix~\ref{app:deviations}).
 \item \textbf{Hardware.} All neural models ran on a single 15\,GB T4 in fp32; two Tier A tasks did not fit with symmetric averaging,
 and TiRex-2 ran on its slower kernels and is limited to 320 steps.
 \item \textbf{Prospective tier.} Two overlapping issues give inference over series, not over time; they check the direction of the

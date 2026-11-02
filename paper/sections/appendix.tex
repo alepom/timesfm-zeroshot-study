@@ -12,8 +12,9 @@ each of the 20 layers. Its forecasts therefore equalled those of \texttt{tfm3} u
 drafting this paper, after the confirmatory analysis, because the ablation's ratio was exactly 1 on cells where multivariate mode
 changes the error by up to 55\%. The other module ablations read their flags at run time and are valid. The override now sets the
 flag on every submodule that has it, the smoke test checks that each switch changes a multivariate forecast, and the ablation is
-re-run on the same tasks with the corrected code; family S5 is recomputed with it. Families P and H do not involve this
-configuration.
+re-run on the same tasks with the corrected code (bundle 0.5.5, on 2026-11-02, after the second prospective issue had been
+sealed with bundle 0.5.4); family S5 was recomputed with it, and every other result of the confirmatory analysis is unchanged
+to the last digit. Families P and H do not involve this configuration.
 \end{enumerate}
 
 \paragraph{Reporting items of the protocol not shown in the paper.} The series-only intervals of families H and S1--S4, the share
@@ -83,5 +84,20 @@ deterministically at about 14.3\,GiB, because symmetric averaging doubles the ba
 GPU cache was released between tasks. TiRex-2 used its non-fused sLSTM kernels (the fused kernels need an Ampere GPU) and is not
 run beyond 320 steps.
 
-\textit{[Latency at batch sizes 1, 32 and 256 (256 hourly Tier B series, horizon 24, about 15{,}000 context points): pending the
-GPU job run after the second prospective issue.]}
+\paragraph{Latency (protocol §7).} Table~\ref{tab:latency} reports the time to forecast 256 hourly Tier B series (horizon 24,
+about 15{,}000 context points) in calls of 1, 32 and 256 series on the T4, after one warm-up call per call size. Chronos-2 is the
+fastest at every call size (about 16 series per second) and needs under 1\,GB of GPU memory. TimesFM~3 forecasts about one series
+per second one at a time and 5.7 in calls of 256, with a peak of 8.2\,GB; with Google's benchmark flags it is about half as fast,
+and a call of 256 series does not fit in the T4's memory. TimesFM~2.5 is slow on single series (about 6 seconds per call) because
+it is compiled for each context-length bucket, and reaches about 5 series per second in batches. On this hardware none of the
+models is a bottleneck for daily or hourly planning at the scale of this study.
+
+\begin{table}[!htbp]
+\centering
+\caption{Latency on a Tesla T4 (fp32): seconds per call and series per second for calls of 1, 32 and 256 series (256 hourly
+series, horizon 24), and peak GPU memory.}
+\label{tab:latency}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\input{generated/table_latency.tex}
+\end{table}

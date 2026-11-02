@@ -71,8 +71,13 @@ padding future covariates by repetition (\texttt{tfm3-edge}) by 0.7\%; clipping 
 are resolved but too small to matter in practice. Switching off the CPM refinement or the stitching, or adding symmetric averaging or
 z-normalisation, changes MASE by less than 0.3\% and none of these differences is resolved. On the 20\% sample of Tier B series no
 ablation has a resolved effect. The fixed steps of the inference path therefore matter in specific situations (the detrending gate,
-H3) but contribute little to average accuracy; the network does the work. The variate-attention
-ablation is withdrawn: a software error left the attention switched on (Appendix~\ref{app:deviations}), and it is being re-run.
+H3) but contribute little to average accuracy; the network does the work. Switching off the
+variate attention is different in kind (re-run after a software error, Appendix~\ref{app:deviations}): it removes a trained sublayer
+from all 20 layers, and the forecasts become unusable, with MASE 795 times that of \texttt{tfm3} on Tier C and 10{,}881
+times on Tier B. Even for a single series the sublayer is part of the network (attention over one variate returns that
+variate's value projection, which is added to the residual stream), so this ablation measures the network's dependence on the
+sublayer, not the value of information from other series; that value is measured by the multivariate against univariate contrasts
+(H4, P4a).
 
 \begin{table}[!htbp]
 \centering

@@ -46,11 +46,13 @@ def name(key: str) -> str:
 
 
 def r3(x: float) -> str:
-    return "--" if x is None or not np.isfinite(x) else f"{x:.3f}"
+    if x is None or not np.isfinite(x):
+        return "--"
+    return f"{x:,.0f}".replace(",", "{,}") if abs(x) >= 100 else f"{x:.3f}"  # broken ablations reach 10^4
 
 
 def ci(pair) -> str:
-    return "--" if not pair else f"[{pair[0]:.3f}, {pair[1]:.3f}]"
+    return "--" if not pair else f"[{r3(pair[0])}, {r3(pair[1])}]"
 
 
 def pval(p: float) -> str:
@@ -245,9 +247,6 @@ ABLATION_TEXT = {"tfm3-nodetrend": "linear detrending off", "tfm3-nocpmrevin": "
                  "tfm3-znorm": "z-normalised inputs", "tfm3-edge": "covariate edge handling"}
 
 
-INVALID_ABLATIONS = {"tfm3-novarattn"}  # emptied once the corrected re-run is scored
-
-
 def table_ablations(conf: dict) -> None:
     by = {}
     for r in conf["family_S5"]:
@@ -255,9 +254,6 @@ def table_ablations(conf: dict) -> None:
         by.setdefault(key, {})[tier] = r
     rows = []
     for key, txt in ABLATION_TEXT.items():
-        if key in INVALID_ABLATIONS:  # protocol deviation 2: the switch was not applied; re-run with bundle 0.5.5
-            rows.append([f"\\texttt{{{key}}}", txt, "\\multicolumn{6}{l}{\\textit{withdrawn, re-run pending (Appendix~\\ref{app:deviations})}}"])
-            continue
         cells = [f"\\texttt{{{key}}}", txt]
         for tier in ("B", "C"):
             r = by.get(key, {}).get(tier)
@@ -266,6 +262,23 @@ def table_ablations(conf: dict) -> None:
     head = ["Configuration", "Change", "Ratio B", "95\\% CI", "$p_{\\mathrm{Holm}}$", "Ratio C", "95\\% CI",
             "$p_{\\mathrm{Holm}}$"]
     write("table_ablations.tex", tabular("llrllrll", head, rows))
+
+
+def table_latency() -> None:
+    """Protocol section 7: seconds per call and series per second on the T4, by model and call size."""
+    lat = pd.read_csv(ROOT / "reports" / "latency.csv")
+    rows = []
+    for key, g in lat.groupby("model", sort=False):
+        cells = [name(key)]
+        for size in (1, 32, 256):
+            r = g[g.batch_size.eq(size)].iloc[0]
+            cells += ["\\multicolumn{2}{c}{out of memory}"] if isinstance(r.get("error"), str) else \
+                [f"{r.seconds_per_call:.2f}", f"{r.series_per_second:.1f}"]
+        cells.append(f"{g.peak_gpu_gb.max():.1f}")
+        rows.append(cells)
+    head = ["Model", "s/call (1)", "series/s (1)", "s/call (32)", "series/s (32)", "s/call (256)", "series/s (256)",
+            "Peak GB"]
+    write("table_latency.tex", tabular("lrrrrrrr", head, rows))
 
 
 def table_tier_a() -> None:
@@ -444,6 +457,7 @@ def main() -> None:
     table_secondary(conf)
     table_ablations(conf)
     table_tier_a()
+    table_latency()
     table_calibration(desc)
     table_tier_c(desc)
     table_family_s6(json.loads(S6.read_text()) if S6.exists() else None)
