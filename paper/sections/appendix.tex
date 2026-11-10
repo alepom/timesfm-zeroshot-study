@@ -15,6 +15,12 @@ flag on every submodule that has it, the smoke test checks that each switch chan
 re-run on the same tasks with the corrected code (bundle 0.5.5, on 2026-11-02, after the second prospective issue had been
 sealed with bundle 0.5.4); family S5 was recomputed with it, and every other result of the confirmatory analysis is unchanged
 to the last digit. Families P and H do not involve this configuration.
+\item \textbf{Tier P exclusion rule on business-day calendars (found 2026-11-10).} The protocol excludes a task with fewer than 80\%
+of its window steps observed. For the ECB and FRED series the frozen scoring code counted only the steps that had a published
+row, so the share was 100\% by construction and the rule could not apply. An independent recomputation of the issue-1 scores
+found it after the outcomes were downloaded: the two oil prices had 2 of 5 window business days published. The code now counts
+every business day of the window as a step (a day without a published row is unobserved), which is what the protocol states;
+the two tasks are excluded, a test covers the case, and no other score changes. Family S6 does not use FX or FRED series.
 \end{enumerate}
 
 \paragraph{Correspondence between the frozen protocol and the paper.} Table~\ref{tab:adherence} lists the analysis and reporting items
@@ -40,6 +46,7 @@ S6 (Tier P) & Section~\ref{sec:prospective} & issue 1 scored 2026-11-10; pooled 
 Calibration (RQ4) & Table~\ref{tab:calibration} & changed after review: Wilson intervals dropped, coverage descriptive \\
 Exploratory: spikes, lineage, latency & Section~\ref{sec:postrelease}, App.~\ref{app:hardware} & as planned, labelled exploratory \\
 Download date & App.~\ref{app:deviations} & deviation 1 \\
+Tier P exclusion rule & Section~\ref{sec:prospective} & deviation 3 (business-day calendars) \\
 Pipeline controls (Tier A) & Section~\ref{sec:reproduction} & as planned; Chronos-2 failures diagnosed afterwards (cross-learning),
 criterion not changed \\
 Property tests (\S3.5) & smoke-test records & as planned except variate permutation, not run: determinism exact; scale

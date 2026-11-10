@@ -65,6 +65,11 @@ def scored(tmp_path_factory):
     # one task loses its outcomes: it must be excluded at scoring, not scored on nothing
     gone = json.loads(tasks.iloc[0].targets)
     out = out[~out.series_id.isin(gone)]
+    # a business-day series with only its first two window days published: also excluded (fewer than 80% observed)
+    late = tasks[tasks.domain.isin(["fx", "rates"]) & tasks["mode"].eq("uni")].iloc[0]
+    sid = json.loads(late.targets)[0]
+    keep = out[out.series_id.eq(sid) & (out.timestamp >= late.score_from)].sort_values("timestamp").timestamp.iloc[:2]
+    out = out[~out.series_id.eq(sid) | (out.timestamp < late.score_from) | out.timestamp.isin(keep)]
     out.to_parquet(processed / PERIOD / "outcomes.parquet", index=False)
     old = P.PROCESSED
     P.PROCESSED = processed
@@ -72,14 +77,14 @@ def scored(tmp_path_factory):
         df = P.score(ISSUE, results)
     finally:
         P.PROCESSED = old
-    return df, tasks, run, tasks.iloc[0].task_id
+    return df, tasks, run, (tasks.iloc[0].task_id, late.task_id)
 
 
 def test_scoring_covers_every_task_and_model(scored):
     df, tasks, run, dropped_id = scored
     excluded = pd.read_csv(run / "excluded_at_scoring.csv")
-    assert excluded.task_id.tolist() == [dropped_id]
-    assert set(df.task_id) == set(tasks.task_id) - {dropped_id}
+    assert sorted(excluded.task_id) == sorted(dropped_id)
+    assert set(df.task_id) == set(tasks.task_id) - set(dropped_id)
     assert set(df.model) == {p.name for p in RUN.iterdir() if p.is_dir()} | {"stat-ens"}
     s6_models = {"tfm3-uni", "stat-ens", "chronos2-uni", "tfm25", "naive"}  # S6 needs these on every task
     assert df.groupby("task_id").model.apply(lambda m: s6_models <= set(m)).all()

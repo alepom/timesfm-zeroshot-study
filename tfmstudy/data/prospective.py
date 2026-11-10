@@ -200,6 +200,14 @@ def truth_for(task, context: pd.Series | None, outcome: pd.Series) -> tuple[np.n
     return values, in_window
 
 
+def _window_steps(task) -> int:
+    """Number of forecast steps that should fall in the scoring window: fixed timestamps on hourly and daily
+    calendars, business days on the ECB and FRED calendars (a step with no published row counts as unobserved)."""
+    freq = {"h": "h", "D": "D"}.get(catalog.DOMAINS[task.domain]["freq"], "B")
+    stamps = pd.date_range(task.origin, periods=task.horizon + 1, freq=freq)[1:]
+    return int(((stamps >= task.score_from) & (stamps < task.score_to)).sum())
+
+
 def score(issue_date: str, results: Path) -> pd.DataFrame:
     """Per-(task, model, series) metrics on the scoring window, like `evaluate.score` (protocol section 3.4).
 
@@ -225,8 +233,7 @@ def score(issue_date: str, results: Path) -> pd.DataFrame:
         targets = json.loads(row.targets)
         aligned = [truth_for(row, None, by_id.get(t, none)) for t in targets]
         truth = np.stack([np.where(win, val, np.nan) for val, win in aligned])
-        window = aligned[0][1]
-        observed = np.isfinite(truth[:, window]).mean() if window.any() else 0.0
+        observed = np.isfinite(truth).sum() / (len(targets) * _window_steps(row)) if _window_steps(row) else 0.0
         if observed < MIN_OBSERVED:
             dropped.append({"task_id": row.task_id, "observed_share": float(observed)})
             continue

@@ -3,8 +3,8 @@
  "reps": 2000,
  "issues": {
   "2026-10-30": {
-   "tasks_scored": 385,
-   "excluded_at_scoring": 0,
+   "tasks_scored": 383,
+   "excluded_at_scoring": 2,
    "groups": [
     {
      "group": "structured",
@@ -320,45 +320,45 @@
      "domain": "rates",
      "b": "stat-ens",
      "metric": "mase",
-     "ratio": 1.0418,
+     "ratio": 1.1032,
      "ci95": [
-      0.9475,
-      1.1341
+      1.0233,
+      1.1763
      ],
-     "n": 10
+     "n": 8
     },
     {
      "domain": "rates",
      "b": "stat-ens",
      "metric": "sql",
-     "ratio": 1.1111,
+     "ratio": 1.1719,
      "ci95": [
-      1.0001,
-      1.2095
+      1.1017,
+      1.2432
      ],
-     "n": 10
+     "n": 8
     },
     {
      "domain": "rates",
      "b": "chronos2-uni",
      "metric": "mase",
-     "ratio": 0.9715,
+     "ratio": 0.9686,
      "ci95": [
-      0.8736,
-      1.0517
+      0.8503,
+      1.062
      ],
-     "n": 10
+     "n": 8
     },
     {
      "domain": "rates",
      "b": "chronos2-uni",
      "metric": "sql",
-     "ratio": 0.9979,
+     "ratio": 0.9997,
      "ci95": [
-      0.9335,
-      1.0704
+      0.9332,
+      1.0665
      ],
-     "n": 10
+     "n": 8
     },
     {
      "domain": "river",
