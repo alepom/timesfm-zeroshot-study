@@ -20,8 +20,8 @@ Public timestamp: RFC~3161 time of the manifest that lists the combined hash.}
 \toprule
 Issue day & Sealed (UTC) & Public timestamp & Scoring window & Tasks & Combined SHA-256 \\
 \midrule
-2026-10-30 & 2026-10-30 08:10 & 2026-10-30 13:29 & 11-01 to 11-08 & 385 & \texttt{f84a669d33e07ffb\ldots 349843f3} \\
-2026-11-02 & 2026-11-02 08:33 & 2026-11-02 10:28 & 11-04 to 11-11 & 385 & \texttt{0d96ab18a802cf36\ldots 3aa299} \\
+2026-10-30 & 2026-10-30 08:10 & 2026-10-30 13:29 & [11-01, 11-08) & 385 & \texttt{f84a669d33e07ffb\ldots 349843f3} \\
+2026-11-02 & 2026-11-02 08:33 & 2026-11-02 10:28 & [11-04, 11-11) & 385 & \texttt{0d96ab18a802cf36\ldots 3aa299} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -30,7 +30,8 @@ Issue day & Sealed (UTC) & Public timestamp & Scoring window & Tasks & Combined 
 frozen one with two corrections, both declared: a fix of 2026-10-31, made before any outcome existed, which excludes a task whose
 series has no published outcome instead of failing; and the count of window steps on business-day calendars, corrected after the
 issue-1 outcomes were downloaded so that the 80\% rule applies as the protocol states (deviation 3, Appendix~\ref{app:deviations}).
-Of the 385 tasks of issue 1, 383 were scored; the two oil prices, with 2 of 5 window business days published, were excluded. On
+Of the 385 tasks of issue 1, 383 were scored; the two univariate oil-price tasks, with 2 of 5 window business days published, were
+excluded (the group task that contains both is above the threshold and kept). On
 hourly and daily calendars the share counts the steps of the forecast that fall inside the window: one river task with a stale
 origin (2026-10-26, horizon 10 days) covers only 5 of the 7 window days, all observed, and is kept. Neither case affects S6, which
 uses load, price, river and Wikipedia only. An independent re-implementation of the scoring from the protocol text reproduced every
@@ -41,7 +42,7 @@ Table~\ref{tab:tierpissues} gives each issue separately. On the structured domai
 than the statistical ensemble (SQL ratio 0.754, 0.656--0.856) but not a lower absolute error (MASE 1.066, 0.948--1.191). The
 difference comes from electricity prices: there TimesFM~3's MASE is 1.609 times the ensemble's (1.347--1.944) and 1.374 times
 Chronos-2's, against 0.846 on load and 0.891 on river flow. In Tier B, price horizons were 24 and 168 hours; in Tier P the scored
-steps lie between 49 and 216 hours after the origin, beyond the 64 steps of a single output patch, in a single week. In ten of
+steps lie between 49 and 216 hours after the origin, mostly beyond the 64 steps of a single output patch, in a single week. In ten of
 the twelve markets the mean price of the last day before the origin was well above that of the week before, and the window stayed
 high; TimesFM~3's median was below the window mean in all twelve, close to the earlier level, while forecasts that follow the latest
 level (the naive forecast, MSTL) were closer on average. This

@@ -124,8 +124,7 @@ P1 on SQL is 0.797.
 \paragraph{A re-specified classical baseline.} The pre-registered ensemble fits AutoETS, AutoARIMA and AutoTheta with a weekly
 season to daily river flow and to business-daily FX and rates, none of which has a weekly cycle, and fits raw, skewed flows. With
 the same models without a season, fitted to $\log(1+y)$ for river flow, the ensemble's SQL on rivers falls to 0.665 of its value
-(MASE 0.920) and its 80\% coverage moves from 0.891 to 0.798. TimesFM~3 still leads on rivers (MASE 0.844, 0.684--1.004; SQL 0.742,
-0.604--0.897), and P1 with the re-specified river ensemble is 0.854 (0.804--0.900) in MASE and 0.782 (0.737--0.824) in SQL. On FX and
+(MASE 0.920) and its 80\% coverage moves from 0.891 to 0.798. TimesFM~3 still leads on rivers in SQL (0.742, 0.604--0.897); in MASE the estimate is 0.844 (0.684--1.004), not resolved, and P1 with the re-specified river ensemble is 0.854 (0.804--0.900) in MASE and 0.782 (0.737--0.824) in SQL. On FX and
 rates the re-specification changes nothing (1.002).
 
 \paragraph{Few time clusters.} Family P rests on eight weekly clusters. With a delete-one-cluster jackknife over series and weeks
@@ -169,7 +168,8 @@ periods, which is not independent of the ratios it stratifies. A placebo on the 
 
 \paragraph{Ablations by domain.} The pooled S5 estimates average over windows where a step is inactive. By domain, switching off the
 linear detrending lowers TimesFM~3's MASE on FX by 6\% (0.943; on the 19 of 44 windows where the forecast changes, 0.872), which is
-about half of its shortfall against the random walk there (1.126); on Treasury yields it has no effect (1.000). Padding future covariates by repetition (\texttt{tfm3-edge}) lowers MASE by 8\% on river flow (0.919, 33 windows) and raises
+about half of its shortfall against the random walk there (1.126 pooled over windows, the estimator of this paragraph; 1.134 with
+horizons weighted equally, Figure~\ref{fig:domains}); on Treasury yields it has no effect (1.000). Padding future covariates by repetition (\texttt{tfm3-edge}) lowers MASE by 8\% on river flow (0.919, 33 windows) and raises
 it by 2\% on load; elsewhere every ablation changes MASE by less than 2.5\% in every domain; repeated GPU runs differ by up to about 0.1\% on some windows, so smaller
 differences are not interpretable.
 

@@ -39,7 +39,8 @@ inference options.
 clearly (\PoneMase{} in MASE, \PoneSql{} in SQL) and Chronos-2 narrowly (about 5\%); against TimesFM~2.5 the SQL difference is
 resolved and the MASE difference is not. The margin over classical methods is slightly smaller than on the benchmark, and the Wikipedia
 probe neither resolves a difference nor identifies an effect of memorisation. On exchange rates, interest rates and oil prices it is worse than the random walk, like the other foundation models (Figure~\ref{fig:domains}), and in
-synthetic data it fails by large factors on a saturating process and after recent upward level shifts (a grid of 16 settings of one process). In synthetic data,
+synthetic data it fails on a saturating process (about four times the error of the best classical model) and after recent upward
+level shifts (17\% to 194\% worse in a grid of 16 settings of one process). In synthetic data,
 multivariate mode helps when there is a strong cross-series signal and is equivalent within $\pm$3\% in the two controls without
 one. The fixed inference steps matter little on
 average.
