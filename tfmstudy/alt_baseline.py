@@ -1,4 +1,4 @@
-"""Sensitivity analysis requested in review: a re-specified classical ensemble for river, FX and rates (not pre-registered).
+"""Sensitivity analysis added after the freeze: a re-specified classical ensemble for river, FX and rates (not pre-registered).
 
     python -m tfmstudy.alt_baseline --tree <scratch dir>   (the dir must hold main/B/{tfm3-uni,chronos2-uni,naive,snaive})
 
@@ -58,7 +58,7 @@ def compare(tree: Path, reps: int = 2_000) -> dict:
     main = pd.read_parquet(ROOT / "results/forecast/main/B/metrics.parquet")
     main = main[main.domain.isin(DOMAINS) & main["mode"].eq("uni")]
     both = pd.concat([main, alt[alt.model.eq("stat-ens")].assign(model="stat-ens-alt")], ignore_index=True)
-    out = {"label": "sensitivity analysis requested in review; not pre-registered", "contrasts": []}
+    out = {"label": "sensitivity analysis added after the freeze; not pre-registered", "contrasts": []}
     for doms, a, b in ((("river",), "tfm3-uni", "stat-ens"), (("river",), "tfm3-uni", "stat-ens-alt"),
                        (("river",), "stat-ens-alt", "stat-ens"), (("river",), "stat-ens-alt", "naive"),
                        (("fx", "rates"), "stat-ens-alt", "stat-ens"), (("fx", "rates"), "stat-ens-alt", "naive"),

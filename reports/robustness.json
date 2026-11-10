@@ -1,5 +1,5 @@
 {
- "label": "robustness and sensitivity analyses requested in review; not pre-registered",
+ "label": "robustness and sensitivity analyses added after the freeze; not pre-registered",
  "methods": {
   "estimator": "nested equal-weight mean of the per-window log ratio (cells domain x horizon, then horizons, then domains)",
   "bootstrap": "two-way multiplicative-weight (pigeonhole) cluster bootstrap: series clusters drawn with replacement within domain strata, times ISO weeks of the first forecast step drawn with replacement (Owen 2007, Ann. Appl. Stat. 1:386-411); one-way over replications on synthetic data",

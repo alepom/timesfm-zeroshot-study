@@ -1,4 +1,4 @@
-"""Robustness and sensitivity analyses requested in review (not pre-registered; reported as such).
+"""Robustness and sensitivity analyses added after the freeze (not pre-registered; reported as such).
 
     python -m tfmstudy.robustness            -> reports/robustness.json
 
@@ -508,7 +508,7 @@ def main() -> None:
     if args.extra:
         return main_extra(Path(args.extra), args.parts)
     b, w, c = (pd.read_parquet(MAIN / t / "metrics.parquet") for t in ("B", "W", "synthetic"))
-    report = {"label": "robustness and sensitivity analyses requested in review; not pre-registered", "methods": METHODS,
+    report = {"label": "robustness and sensitivity analyses added after the freeze; not pre-registered", "methods": METHODS,
               "R1_aggregation": aggregation(b), "R2_small_clusters": small_g(b, args.reps), "R3_context": context(b),
               "R4_ablations_by_domain": ablations(b), "R5_did_by_difficulty": did_by_difficulty(w),
               "R6_intermittent": intermittent(c), "R7_tier_a": tier_a(args.reps),
