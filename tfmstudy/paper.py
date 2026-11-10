@@ -227,6 +227,66 @@ def table_family_s6(s6: dict | None) -> None:
                                                       "$p_{\\mathrm{Holm}}$", "Decision"], rows))
 
 
+TIER_P = ROOT / "reports" / "tier_p_issues.json"
+
+
+def tier_p_issues(reps: int = DESCRIPTIVE_REPS) -> dict | None:
+    """Tier P issue by issue (descriptive; the confirmatory S6 pools both issues): the S6 contrasts and, per domain,
+    TimesFM-3 uni against the statistical ensemble and Chronos-2; series clusters only, as in S6."""
+    paths = sorted(METRICS.parent.glob("prospective-*/P/metrics.parquet"))
+    if not paths:
+        return None
+    out = {"label": "Tier P per issue, descriptive (the pre-registered S6 pools both issues)", "reps": reps, "issues": {}}
+    for path in paths:
+        p = pd.read_parquet(path)
+        day = str(p.issue.iloc[0])
+        excluded = pd.read_csv(path.parent / "excluded_at_scoring.csv") if (path.parent / "excluded_at_scoring.csv").stat().st_size > 1 else pd.DataFrame()
+        rec = {"tasks_scored": int(p.task_id.nunique()), "excluded_at_scoring": int(len(excluded)), "groups": [], "domains": []}
+        groups = {"structured": p.domain.isin(["load", "price", "river"]), "wiki": p.domain.eq("wiki")}
+        for gname, g in groups.items():
+            rows = analysis.complete_cases(p, ["tfm3-uni", "stat-ens", "chronos2-uni", "tfm25", "naive"], ["mase", "sql"],
+                                           g & p["mode"].eq("uni"))
+            for ref in ("stat-ens", "chronos2-uni", "tfm25", "naive"):
+                for metric in ("mase", "sql"):
+                    r = analysis.contrast(p, "tfm3-uni", ref, metric, rows, ["domain", "horizon"], "domain", two_way=False, reps=reps)
+                    rec["groups"].append({"group": gname, "b": ref, "metric": metric, "ratio": round(r["ratio"], 4),
+                                          "ci95": [round(x, 4) for x in r["ci95"]], "n": r["n"]})
+        for dom in sorted(p.domain.unique()):
+            if dom == "wiki":
+                continue
+            rows = analysis.complete_cases(p, ["tfm3-uni", "stat-ens", "chronos2-uni"], ["mase", "sql"],
+                                           p.domain.eq(dom) & p["mode"].eq("uni"))
+            for ref in ("stat-ens", "chronos2-uni"):
+                for metric in ("mase", "sql"):
+                    r = analysis.contrast(p, "tfm3-uni", ref, metric, rows, ["horizon"], None, two_way=False, reps=reps)
+                    rec["domains"].append({"domain": dom, "b": ref, "metric": metric, "ratio": round(r["ratio"], 4),
+                                           "ci95": [round(x, 4) for x in r["ci95"]], "n": r["n"]})
+        out["issues"][day] = rec
+    TIER_P.write_text(json.dumps(out, indent=1))
+    return out
+
+
+def table_tier_p_issues(tp: dict | None) -> None:
+    """Descriptive table of Tier P by issue: ratio and series-cluster interval for each S6 contrast."""
+    if not tp:
+        write("table_tier_p_issues.tex", "\\textit{[Tier P outcomes not yet scored.]}")
+        return
+    days = sorted(tp["issues"])
+    rows = []
+    for group, label in (("structured", "Load, price, river"), ("wiki", "Wikipedia")):
+        rows.append(f"\\multicolumn{{{2 + 2 * len(days)}}}{{l}}{{\\textit{{{label}}}}} \\\\")
+        for ref in ("stat-ens", "chronos2-uni", "tfm25", "naive"):
+            cells = []
+            for day in days:
+                for metric in ("mase", "sql"):
+                    r = next(x for x in tp["issues"][day]["groups"] if x["group"] == group and x["b"] == ref and x["metric"] == metric)
+                    cells.append(f"{r3(r['ratio'])} {ci(r['ci95'])}")
+            n = next(x for x in tp["issues"][days[0]]["groups"] if x["group"] == group and x["b"] == ref)["n"]
+            rows.append([f"vs {S6_REF[ref]}", str(n)] + cells)
+    head = ["TimesFM-3 uni", "$n$"] + [f"{d[5:]} {m}" for d in days for m in ("MASE", "SQL")]
+    write("table_tier_p_issues.tex", tabular("ll" + "l" * 2 * len(days), head, rows))
+
+
 def table_secondary(conf: dict) -> None:
     rows = ["\\multicolumn{6}{l}{\\textit{S1: family P contrasts by domain (MASE)}} \\\\"]
     for r in conf["family_S1"]:
@@ -567,6 +627,7 @@ def main() -> None:
     table_calibration(desc)
     table_tier_c(desc)
     table_family_s6(json.loads(S6.read_text()) if S6.exists() else None)
+    table_tier_p_issues(tier_p_issues())
     numbers(conf, desc)
     forest(conf)
     fig_domains()

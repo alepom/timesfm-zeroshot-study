@@ -26,7 +26,35 @@ Issue day & Sealed (UTC) & Public timestamp & Scoring window & Tasks & Combined 
 \end{tabular}
 \end{table}
 
-\textit{[Results to be added after the outcomes of both issues are published (planned 2026-11-10 and 2026-11-13).]}
+\paragraph{Scoring.} Outcomes were downloaded with a fresh cache on the planned dates (issue 1: 2026-11-10). The scoring code is the
+frozen one except a fix of 2026-10-31, made before any outcome existed, which excludes a task whose series has no published
+outcome instead of failing, as the protocol requires. All 385 tasks of issue 1 were scored; none had fewer than 80\% of its scored
+steps observed. Two readings of that rule matter. For calendars with fixed timestamps (hourly, daily) the share is computed over the
+steps of the forecast that fall inside the window; one river task with a stale origin (2026-10-26, horizon 10 days) covers only 5 of
+the 7 window days, all observed, and is kept. For business-day series a step is an observation, so the share is 100\% by
+construction; the two oil prices had 2 of 5 business days published at download. Neither affects S6, which uses load, price, river
+and Wikipedia only.
+
+\paragraph{Issue 1 (descriptive).} The pre-registered decision (S6) pools both issues and is reported below once issue 2 is scored;
+Table~\ref{tab:tierpissues} gives each issue separately. On the structured domains of issue 1 TimesFM~3 has a lower quantile loss
+than the statistical ensemble (SQL ratio 0.754, 0.656--0.856) but not a lower absolute error (MASE 1.066, 0.948--1.191). The
+difference comes from electricity prices: there TimesFM~3's MASE is 1.609 times the ensemble's (1.347--1.944) and 1.374 times
+Chronos-2's, against 0.846 on load and 0.891 on river flow. In Tier B, price horizons were 24 and 168 hours; in Tier P the scored
+steps lie between 49 and 216 hours after the origin, beyond the 64 steps of a single output patch, in a single week. On
+Wikipedia TimesFM~3 is well ahead of the ensemble (MASE 0.752, SQL 0.424) and level with Chronos-2 and TimesFM~2.5 (ratios 0.994 to
+1.006). One week and 44 structured series are a check of direction, not an estimate; whether the price result recurs in issue 2,
+whose window overlaps issue 1 in four of seven days, is not an independent replication.
+
+\textit{[Draft of 2026-11-10: issue 2 and the pooled S6 decision to be added on 2026-11-13.]}
+
+\begin{table}[!htbp]
+\centering
+\caption{Tier P by issue (descriptive): ratio of TimesFM~3 in univariate mode to each reference, with series-cluster bootstrap 95\%
+intervals; the S6 decision is made on the pooled issues (Table~\ref{tab:familys6}).}
+\label{tab:tierpissues}
+\scriptsize
+\input{generated/table_tier_p_issues.tex}
+\end{table}
 
 \begin{table}[!htbp]
 \centering

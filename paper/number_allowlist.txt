@@ -6,3 +6,4 @@
 780 | classical context limit for business-daily data, protocol section 2
 4943 | series-task evaluations in Tier B metrics (4,059 univariate + 884 group; checked 2026-11-02)
 1000 | scale factor of the TimesFM-3 property test (smoke test, appendix)
+216 | last scored step (hours) of the issue-1 price tasks: origin 2026-10-29 23:00 UTC, window ends 11-08 00:00
