@@ -40,9 +40,10 @@ Table~\ref{tab:tierpissues} gives each issue separately. On the structured domai
 than the statistical ensemble (SQL ratio 0.754, 0.656--0.856) but not a lower absolute error (MASE 1.066, 0.948--1.191). The
 difference comes from electricity prices: there TimesFM~3's MASE is 1.609 times the ensemble's (1.347--1.944) and 1.374 times
 Chronos-2's, against 0.846 on load and 0.891 on river flow. In Tier B, price horizons were 24 and 168 hours; in Tier P the scored
-steps lie between 49 and 216 hours after the origin, beyond the 64 steps of a single output patch, in a single week. In the
-largest markets the price level rose sharply in the last days before the origin and stayed high in the window; forecasts that
-follow the latest level (the naive forecast, MSTL) were closer than TimesFM~3's, whose median stayed nearer the earlier level. This
+steps lie between 49 and 216 hours after the origin, beyond the 64 steps of a single output patch, in a single week. In ten of
+the twelve markets the mean price of the last day before the origin was well above that of the week before, and the window stayed
+high; TimesFM~3's median was below the window mean in all twelve, close to the earlier level, while forecasts that follow the latest
+level (the naive forecast, MSTL) were closer. This
 resembles the weakness after recent level shifts in the synthetic grid (Figure~\ref{fig:regime}); it is a reading of a few
 series, not a test. On
 Wikipedia TimesFM~3 is well ahead of the ensemble (MASE 0.752, SQL 0.424) and level with Chronos-2 and TimesFM~2.5 (ratios 0.994 to
