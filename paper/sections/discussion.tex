@@ -28,8 +28,8 @@ zero-shot forecasting most clearly. We did not evaluate real new series.
 \item \emph{Strongly structured, long series} (load, prices, weather): in our domains and weeks, a 10--20\% gain over a classical
 ensemble at the cost of a GPU (in the first prospective week, descriptively, prices went the other way after a sharp rise in
 level just before the origin, Section~\ref{sec:prospective}); the gain over the long context is real but modest (4\% from 2{,}016 to about 15{,}000 hourly points).
-\item \emph{Near-random-walk series} (exchange rates, interest rates, commodity prices): in our data its MASE was 11\% higher than that of the naive forecast, as were those of the
-other foundation models; use a random walk as the benchmark.
+\item \emph{Near-random-walk series} (exchange rates, interest rates, commodity prices): in our data its MASE was 11\% higher than that of the naive forecast, and the point estimates of the
+other foundation models were 7--10\% higher; use a random walk as the benchmark.
 \item \emph{Recent regime changes and saturating growth}: check the forecast against a simple baseline; in our synthetic tests
 (upward level shifts of two or more noise standard deviations a few steps to a few days before the origin, and a logistic curve near
 saturation) TimesFM~3 was 17\% to 194\% worse than the best classical model after the shifts and about four times worse on the

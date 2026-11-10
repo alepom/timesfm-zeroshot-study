@@ -129,4 +129,4 @@ def test_s6_entry_point_and_paper_table(scored, tmp_path, monkeypatch):
     tex = (tmp_path / "table_family_s6.tex").read_text()
     assert tex.count("\\\\") == 16 + 2 + 1  # 16 tests, 2 group headers, 1 header row
     paper.table_family_s6(None)
-    assert "not yet scored" in (tmp_path / "table_family_s6.tex").read_text()
+    assert "after issue 2" in (tmp_path / "table_family_s6.tex").read_text()

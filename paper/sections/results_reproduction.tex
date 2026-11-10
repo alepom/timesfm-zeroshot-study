@@ -3,7 +3,8 @@
 
 \paragraph{Per-task reproduction (RQ1).} With the benchmark flags (\texttt{tfm3-eval}), our SQL is within $\pm$3\% of Google's
 published value on \AReproShare\% of the \ATasks{} tasks we could score (Table~\ref{tab:tiera}); the median deviation is zero to four
-decimals and the deviations show no systematic sign. The two remaining tasks of the sample (\texttt{boomlet\_619},
+decimals and the deviations show no systematic sign (sign test $p = \ASignP{}$ on all scored tasks, \ASignPCtl{} on the
+\AControlTasks{} tasks that pass both pipeline controls). The two remaining tasks of the sample (\texttt{boomlet\_619},
 \texttt{boomlet\_1209}) exhaust the 15\,GB of the T4 GPU under symmetric averaging, which doubles the batch, and are not scored;
 the package defaults (\texttt{tfm3}) run on all 30. The five tasks outside the $\pm$3\% band (deviations from $-10.6\%$ to
 $+6.1\%$; four of the five in our favour) all have covariates: the median absolute deviation is 0.001\% on tasks without covariates
@@ -41,7 +42,7 @@ UCI air quality) are treated as independent. The cross-learning diagnosis was co
 that it explains all 16 is an inference. The split by control outcome conditions on Chronos-2's own discrepancy from fev and is a
 diagnostic, not a moderator analysis. The published claim therefore holds on this
 sample; what a leaderboard does not show is that the two result sets were produced with different inference options, one of which
-favours Chronos-2 on most of the tasks it affects.
+favours Chronos-2 on four of the five tasks where we tested it.
 
 \paragraph{Against classical methods (H1, Tier A side).} With Google's inputs, TimesFM~3 (\texttt{tfm3}) has a geometric-mean
 MASE of \HoneAMase{} and SQL of \HoneASql{} relative to fev's published statistical ensemble over the \HoneATasks{} tasks for which fev reports the ensemble, and a lower

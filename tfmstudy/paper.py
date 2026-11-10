@@ -213,7 +213,7 @@ S6_REF = {"stat-ens": "Stat.\\ ensemble", "chronos2-uni": "Chronos-2 uni", "tfm2
 def table_family_s6(s6: dict | None) -> None:
     """Tier P (protocol section 5.5): TimesFM-3 uni against four references, two domain groups, two metrics."""
     if s6 is None:
-        write("table_family_s6.tex", "\\textit{[Tier P outcomes not yet scored.]}")
+        write("table_family_s6.tex", "\\textit{[Pooled S6 decision: after issue 2 is scored on 2026-11-13.]}")
         return
     rows = []
     for group, label in (("structured", "Load, price, river"), ("wiki", "Wikipedia")):
@@ -485,6 +485,8 @@ def numbers(conf: dict, desc: dict) -> None:
     m += [_macro("AReproShare", f"{100 * a['all_tasks']['reproduced_share']:.0f}"),
           _macro("ATasks", str(a["all_tasks"]["tasks"])),
           _macro("AControlTasks", str(a["controls_passed"]["tasks"])),
+          _macro("ASignP", f"{a['all_tasks']['sign_test_p']:.2f}"),
+          _macro("ASignPCtl", f"{a['controls_passed']['sign_test_p']:.2f}"),
           _macro("ASkillOurs", r3(a["all_tasks"]["skill_ours"])), _macro("ASkillPubl", r3(a["all_tasks"]["skill_published"])),
           _macro("ASkillOursCtl", r3(a["controls_passed"]["skill_ours"])),
           _macro("ASkillPublCtl", r3(a["controls_passed"]["skill_published"])),
@@ -597,13 +599,16 @@ def meta() -> None:
                "{\\normalsize\\texttt{info@alessiopomaro.it}}\\\\ {\\normalsize ORCID: "
                "\\href{https://orcid.org/0009-0008-6975-996X}{0009-0008-6975-996X}}"),
         _macro("PaperVersionLine", f"Preprint, version {VERSION} --- {doi} --- \\today"),
-        _macro("PaperStatus", "Preprint. Not peer reviewed."),
+        _macro("PaperStatus", "Preprint. Not peer reviewed." + ("" if S6.exists() else
+              " Draft: the second prospective issue and the pooled Tier P test (S6) are not yet scored.")),
     ]) + "\n")
     write("availability.tex",
           "Code, the frozen protocol, data manifests, the post-release data where licences allow (otherwise the download code "
           "with request timestamps and hashes), per-series and per-window quantile forecasts of every configuration, metrics and "
           "analysis outputs are released under the licences listed in the repository (MIT for code; CC BY 4.0 for the paper, "
-          "documentation and forecasts). Repository: \\url{https://github.com/alepom/timesfm-zeroshot-study} "
+          "documentation and the forecasts of the other models). Forecasts produced by TimesFM~3 are Outputs under the TimesFM "
+          "Non-Commercial License v1.0, which does not permit their use for commercial or production purposes; they are released "
+          "under CC BY-NC 4.0, and their use remains subject to Google's licence. Repository: \\url{https://github.com/alepom/timesfm-zeroshot-study} "
           f"(tag \\texttt{{v{VERSION}}}). The protocol was frozen by the git tag \\texttt{{protocol-frozen-v1}} "
           "(commit \\texttt{9f15b38}) before any post-release data were downloaded; the two prospective issues were sealed "
           "by SHA-256 hashes before their outcomes existed (Section~\\ref{sec:prospective}). TimesFM~3 weights are not "

@@ -8,7 +8,9 @@ univariate mode has a MASE \PoneMase{} times that of the statistical ensemble (9
 \PoneSql{} times (\PoneSqlLo--\PoneSqlHi); both differences are resolved (Table~\ref{tab:familyp}, Figure~\ref{fig:forest}). Against
 the other foundation models the margins are an order of magnitude smaller: \PtwoMase{} (MASE) and \PtwoSql{} (SQL) against
 Chronos-2, both resolved, and \PthreeSql{} (SQL, resolved) and \PthreeMase{} (MASE, not resolved after Holm correction) against its
-predecessor TimesFM~2.5. Joint forecasting of the real group tasks (P4a: price, FX, FRED) lowers SQL by about 3\% (resolved; the
+predecessor TimesFM~2.5. The last decision is close to the threshold: re-run with 20 bootstrap seeds, its Holm-adjusted $p$ ranges
+from 0.042 to 0.073 (0.066 with the pre-registered seed) and falls below 0.05 for 3 of the 20; every other decision of family P is
+the same under all 20 seeds. Joint forecasting of the real group tasks (P4a: price, FX, FRED) lowers SQL by about 3\% (resolved; the
 MASE difference is not resolved; the SQL decision does not survive the small-cluster and non-overlapping-window checks of
 Section~\ref{sec:robustness}). The flags of Google's benchmark runners (P5) change neither metric by more than about 1\%, at
 twice the compute; neither difference is resolved.
@@ -44,8 +46,8 @@ classical methods survives on new data, slightly reduced for the median forecast
 of the random walk (\HfiveLo--\HfiveHi): H5 is supported. The interval lies entirely above 1, so the model is \emph{worse} than the naive
 forecast rather than not much better (a reading of the interval, not a further test). It is also worse than the statistical ensemble on these series (\NrwStatEns,
 \NrwStatEnsLo--\NrwStatEnsHi; descriptive), while the difference from Chronos-2 is not resolved (\NrwChronos,
-\NrwChronosLo--\NrwChronosHi). The pattern is not specific to TimesFM~3: every foundation model we ran is worse than the random walk on these series
-(Chronos-2 1.068, TiRex-2 1.086, TimesFM~2.5 1.098; descriptive), while the statistical ensemble is close to it (1.011). Note that
+\NrwChronosLo--\NrwChronosHi). The pattern is not specific to TimesFM~3: every foundation model we ran has a higher MASE than the random walk on these series
+(Chronos-2 1.068, TiRex-2 1.086, TimesFM~2.5 1.098; descriptive point estimates, without intervals), while the statistical ensemble is close to it (1.011). Note that
 H5, a non-superiority test, would be supported by any model that does not beat the random walk; the informative part is the
 direction of the interval. For a martingale with symmetric innovations the last value is the optimal median forecast, so on such series no model should
 beat it by a resolved margin; real financial series are not proven martingales, but the negative controls in Tier C behave the same way (Section~\ref{sec:controlled}).
@@ -109,7 +111,7 @@ oracle future covariates; S4: TimesFM~3 restricted to the classical models' cont
 \subsection{Robustness (requested in review; not pre-registered)}
 \label{sec:robustness}
 
-Three reviews of the draft (two internal, one external, the latter in two rounds) asked for checks that the protocol did not plan;
+Three reviews of the draft (two internal, by AI sub-agents, and one external in two rounds) asked for checks that the protocol did not plan;
 two of them needed new GPU runs, made on 2026-11-02 with bundle 0.5.6, and the others reuse the existing forecasts. They do not change
 any pre-registered decision; they show which conclusions depend on choices of aggregation, inference, baseline and context. Their
 intervals and $p$-values are unadjusted unless a Holm adjustment is stated, and none has the status of a pre-registered test. Code and results are released

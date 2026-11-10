@@ -35,14 +35,15 @@
 \node[lab=left, anchor=west] at (83,-2.3) {10 Nov};
 \node[seal=vzorange] at (74,-2.9) {};
 \fill[band=vzorange!55] (76,-2.98) rectangle (83,-2.82);
-\node[ev=vzorange] at (85,-2.9) {};
+\node[circle, fill=white, draw=vzorange, line width=1pt, inner sep=2.1pt] at (85,-2.9) {}; % planned: switch to ev=vzorange once scored
 \node[lab=right, anchor=east] at (73,-2.9) {issue 2 sealed, 2 Nov};
 \node[lab=left, anchor=west] at (86,-2.9) {13 Nov};
 % legend
 \node[font=\scriptsize, text=vzink2, anchor=north west, align=left] at (0,-3.25)
   {\tikz[baseline=-0.6ex]{\pgfsetfillcolor{vzorange}\pgfsetstrokecolor{vzorange}\pgfsetplotmarksize{2.6pt}\pgfuseplotmark{diamond*}}~forecasts sealed \quad
-   \tikz[baseline=-0.6ex]\fill[vzorange!55, rounded corners=1pt] (0,-0.08) rectangle (0.5,0.08);~outcome window \quad
-   \tikz[baseline=-0.6ex]\fill[vzorange] (0,0) circle (2.1pt);~outcomes scored\\
+   \tikz[baseline=-0.6ex]\fill[vzorange!55, rounded corners=1pt] (0,-0.08) rectangle (0.5,0.08);~outcome window\quad
+   \tikz[baseline=-0.6ex]\fill[vzorange] (0,0) circle (2.1pt);~outcomes scored\quad
+   \tikz[baseline=-0.6ex]\draw[vzorange, line width=1pt] (0,0) circle (2.1pt);~planned\\
    \tikz[baseline=-0.6ex]\fill[vzaqua] (0,0) circle (2.1pt);~external timestamp (RFC~3161 and OpenTimestamps)};
 \end{tikzpicture}
 \caption{Chronology, 2026. Every Tier B test window starts after TimesFM~3's release; the protocol was frozen by a git tag

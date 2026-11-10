@@ -7,3 +7,9 @@
 4943 | series-task evaluations in Tier B metrics (4,059 univariate + 884 group; checked 2026-11-02)
 1000 | scale factor of the TimesFM-3 property test (smoke test, appendix)
 216 | last scored step (hours) of the issue-1 price tasks: origin 2026-10-29 23:00 UTC, window ends 11-08 00:00
+1.31 | Ebrahim et al. (arXiv:2610.00589) abstract: worst-case error at most 1.31 times the best method, 12-step horizon
+0.042 | family P seed sensitivity (20 seeds, 10,000 replicates): min Holm p of P3 MASE (audit 2026-11-10)
+0.073 | family P seed sensitivity: max Holm p of P3 MASE over seeds 1-20 (audit 2026-11-10)
+0.066 | P3 MASE Holm p at seed 17 (confirmatory_main.json 0.0656)
+0.044 | adjusted DiD W-post vs W-new with cell weights re-equalised per replicate (10,000 reps, seed 17; audit 2026-11-10)
+12420 | forecast steps of Tier P issue 1 per model (quantile-crossing count, audit 2026-11-10: chronos2 11, tirex2 8, others 0)

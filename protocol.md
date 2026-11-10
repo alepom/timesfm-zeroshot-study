@@ -308,3 +308,14 @@ The smoke test and the pilot used synthetic data and pre-release data only; they
    invalid `tfm3-novarattn` forecasts are kept but not reported; `tfm3-novarattn` is re-run on the same Tier B and Tier C tasks
    after the second prospective issue is sealed (so that both issues use bundle 0.5.4), and family S5 is recomputed with the
    corrected forecasts. Families P and H do not involve this configuration.
+3. **2026-11-10, Tier P exclusion rule on business-day calendars.** §3.4 excludes a task with fewer than 80% of its window steps
+   observed. For the ECB and FRED series the scoring code counted only the window steps that had a published row, so the share was
+   100% by construction and the rule could not apply. Found after the issue-1 outcomes were downloaded, by a re-implementation of
+   the scoring written from this protocol. Fix (commit 82cd4b7): the denominator is the number of forecast steps inside the window
+   on every calendar (business days for ECB and FRED); a step without a published value is unobserved. On issue 1 the two
+   univariate oil-price tasks (2 of 5 window business days published) are excluded; no other score changes. Family S6 does not use
+   FX or FRED series.
+
+Correction of the frozen code that is not a deviation: on 2026-10-31 (commit 295fc34), before any Tier P outcome existed, a test
+on synthetic outcomes showed that `prospective score` stopped with an error when a series had no published outcome at all; it now
+excludes such a task and lists it, as the 80% rule requires.
