@@ -25,10 +25,10 @@ families P and H. The equivalence margin $\log 1.03$ corresponds to ratios from 
 the contrasts without covariates match the inputs but not the context length (S4 measures the effect for TimesFM~3).
 \item \textbf{Baselines.} The pre-registered classical ensemble uses a weekly season on daily river flow and on business-daily
 FX and rates and is fitted to raw flows; a re-specified ensemble improves the river results markedly (Section~\ref{sec:robustness}).
-Croston-type methods were added for intermittent demand only after review and give point forecasts only; no
+Croston-type methods were added for intermittent demand only after the freeze and give point forecasts only; no
 probabilistic baseline designed for intermittent demand was run.
 \item \textbf{Calibration.} Coverage is reported without intervals. The protocol's Wilson intervals treat each series' mean coverage
-as a Bernoulli trial, which it is not, and were dropped after review. Marginal coverage says nothing about conditional calibration,
+as a Bernoulli trial, which it is not, and were dropped. Marginal coverage says nothing about conditional calibration,
 and the differences in coverage between models are not tested.
 \item \textbf{Data vintages.} Tier B data were downloaded after the test windows ended. Some sources revise recent values (provisional
 river flows, for example), so the contexts may differ from what was available at each origin; Tier B is a retrospective

@@ -108,10 +108,10 @@ oracle future covariates; S4: TimesFM~3 restricted to the classical models' cont
 \input{generated/table_secondary.tex}
 \end{table}
 
-\subsection{Robustness (requested in review; not pre-registered)}
+\subsection{Robustness (added after the freeze; not pre-registered)}
 \label{sec:robustness}
 
-Three reviews of the draft (two internal, by AI sub-agents, and one external in two rounds) asked for checks that the protocol did not plan;
+After the confirmatory analysis we added checks that the protocol did not plan;
 two of them needed new GPU runs, made on 2026-11-02 with bundle 0.5.6, and the others reuse the existing forecasts. They do not change
 any pre-registered decision; they show which conclusions depend on choices of aggregation, inference, baseline and context. Their
 intervals and $p$-values are unadjusted unless a Holm adjustment is stated, and none has the status of a pre-registered test. Code and results are released
@@ -207,7 +207,7 @@ tasks move together) gives intervals close to the task bootstrap: 0.924--0.982 f
 
 \begin{table}[!htbp]
 \centering
-\caption{Robustness of family P (requested in review; not pre-registered). Ratios under the pre-registered nested equal weights,
+\caption{Robustness of family P (added after the freeze; not pre-registered). Ratios under the pre-registered nested equal weights,
 pooled over windows, per series, as a ratio of mean errors, as the median log ratio, and without river flow; Holm-adjusted $p$ and
 decision under a delete-one-cluster jackknife with $t_7$ critical values and under the two-way bootstrap with two-week time blocks.}
 \label{tab:robustness}
