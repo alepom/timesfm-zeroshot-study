@@ -38,7 +38,8 @@ differences of each task's full context (season 24 for hourly, 7 for daily, 5 fo
 whatever context it is given, so the scale cancels in a paired ratio. We also record RMSSE, WQL and the
 empirical coverage of the 80\% and 60\% central intervals (WAPE on Tier A only, from fev). Quantiles are scored as each package returns
 them: TimesFM~3, TimesFM~2.5 and the classical models return sorted quantiles, Chronos-2 and TiRex-2 are not re-sorted, and their
-quantiles cross on 11 and 8 of the 12{,}420 forecast steps of the first prospective issue, too few to change a result. Every model
+quantiles cross on 11 and 8 of the 12{,}420 forecast steps of the first prospective issue and on 12 and 0 in the second, too few to
+change a result. Every model
 receives its inputs as 32-bit floats; re-fitting the classical models on 64-bit inputs can change the model that AutoARIMA selects
 on some series.
 

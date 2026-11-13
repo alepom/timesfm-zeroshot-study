@@ -5,7 +5,9 @@
 largely reproduce with the public code and weights (Section~\ref{sec:reproduction} lists the two tasks we could not run, the
 deviations on tasks with covariates and the failed pipeline controls). Second, TimesFM~3's advantage over the pre-specified classical ensemble carries over to
 data that did not exist when the model was released, with a margin (16\% in MASE, 29\% in SQL on the contrast without covariates)
-that is large in practical terms and somewhat smaller, for the median forecast, than on the benchmark. The SQL margin depends on how windows
+that is large in practical terms and somewhat smaller, for the median forecast, than on the benchmark. In the two prospective
+weeks the probabilistic part of this advantage was confirmed and the point-forecast part was not, on load, prices and river flow
+(Section~\ref{sec:prospective}). The SQL margin depends on how windows
 are weighted and on the river baseline (Section~\ref{sec:robustness}): with every window weighted equally it is 20\%, and with a
 re-specified ensemble for river flow 22\%. Third, the advantage over the strongest other
 foundation models is small: about 5\% over Chronos-2 on post-release data, and over TimesFM~2.5 resolved only in SQL. On the
@@ -26,8 +28,8 @@ described only by its sources), and it cannot exclude smaller effects or memoris
 ahead of the classical methods we ran, which lack the information to estimate seasonality; this is where our results favour
 zero-shot forecasting most clearly. We did not evaluate real new series.
 \item \emph{Strongly structured, long series} (load, prices, weather): in our domains and weeks, a 10--20\% gain over a classical
-ensemble at the cost of a GPU (in the two prospective weeks prices went the other way after a rise in level, and on load, prices and river flow
-together the point-forecast advantage was not confirmed, Section~\ref{sec:prospective}); the gain over the long context is real but modest (4\% from 2{,}016 to about 15{,}000 hourly points).
+ensemble at the cost of a GPU (in the two prospective weeks, on prices, TimesFM~3's MASE was about 1.5 times the ensemble's after a rise in level, as was
+TimesFM~2.5's, Section~\ref{sec:prospective}); the gain over the long context is real but modest (4\% from 2{,}016 to about 15{,}000 hourly points).
 \item \emph{Near-random-walk series} (exchange rates, interest rates, commodity prices): in our data its MASE was 11\% higher than that of the naive forecast, and the point estimates of the
 other foundation models were 7--10\% higher; use a random walk as the benchmark.
 \item \emph{Recent regime changes and saturating growth}: check the forecast against a simple baseline; in our synthetic tests

@@ -281,9 +281,9 @@ def table_tier_p_issues(tp: dict | None) -> None:
                 for metric in ("mase", "sql"):
                     r = next(x for x in tp["issues"][day]["groups"] if x["group"] == group and x["b"] == ref and x["metric"] == metric)
                     cells.append(f"{r3(r['ratio'])} {ci(r['ci95'])}")
-            n = next(x for x in tp["issues"][days[0]]["groups"] if x["group"] == group and x["b"] == ref)["n"]
-            rows.append([f"vs {S6_REF[ref]}", str(n)] + cells)
-    head = ["TimesFM-3 uni", "$n$"] + [f"{d[5:]} {m}" for d in days for m in ("MASE", "SQL")]
+            n = "/".join(str(next(x for x in tp["issues"][d]["groups"] if x["group"] == group and x["b"] == ref)["n"]) for d in days)
+            rows.append([f"vs {S6_REF[ref]}", n] + cells)
+    head = ["TimesFM-3 uni", "Tasks"] + [f"{d[5:]} {m}" for d in days for m in ("MASE", "SQL")]
     write("table_tier_p_issues.tex", tabular("ll" + "l" * 2 * len(days), head, rows))
 
 

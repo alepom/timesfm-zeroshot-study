@@ -8,7 +8,7 @@ published: an RFC~3161 token from FreeTSA and an OpenTimestamps proof anchored i
 repository; those of the first issue also cover the hash of the frozen protocol commit. The analysis (secondary family S6) pools both issues and tests TimesFM~3 in
 univariate mode against the statistical ensemble, Chronos-2, TimesFM~2.5 and the naive forecast, on MASE and SQL, separately on the
 structured domains and on Wikipedia, with series clusters only. With two overlapping issues, Tier P generalises over series, not
-over time: it checks the direction of the Tier B results, not their size.
+over time: it checks the direction of the Tier B and Tier W results, not their size.
 
 \begin{table}[h]
 \centering
@@ -45,26 +45,37 @@ statistical ensemble (MASE 0.743, 0.703--0.783; SQL 0.419, 0.382--0.458) and of 
 Chronos-2 and TimesFM~2.5 (ratios 0.984 to 0.991, none resolved). On load, price and river flow its quantile loss is lower than the
 ensemble's (SQL 0.750, 0.648--0.861, resolved) but its absolute error is not (MASE 1.073, 0.977--1.175, not resolved); against
 Chronos-2 and TimesFM~2.5 no difference is resolved (ratios 0.978 to 1.001), and against the naive forecast both metrics are
-resolved in its favour. Read as the protocol intends, as a check of the direction of Tier B, the two prospective weeks confirm the
+resolved in its favour. Read as the protocol intends, as a check of the direction of Tiers B and W, the two prospective weeks confirm the
 probabilistic advantage over the classical ensemble on both groups and the point-forecast advantage on Wikipedia, but not the
-point-forecast advantage on the structured domains: the Tier B ratio (\PoneMase{}, which also includes weather) lies outside the
-Tier P interval. The Tier B margins over Chronos-2 and TimesFM~2.5 (4--6\%) lie inside the Tier P intervals, which are too wide to
-confirm or contradict them.
+point-forecast advantage on the structured domains, whose point estimate is above 1. Descriptively, the Tier B ratios of the same
+three domains (S1: load 0.892, price 0.872, river flow 0.776) all lie below the Tier P interval. The Tier B margins over Chronos-2
+and TimesFM~2.5 (4--6\%) are not confirmed either; they lie inside the Tier P intervals, which are too wide to confirm or
+contradict them.
 
 \paragraph{By issue (descriptive).} Table~\ref{tab:tierpissues} gives each issue separately; the two issues agree in direction on
 every contrast against the ensemble and the naive forecast. The MASE result on the structured domains comes from electricity
 prices in both issues: there TimesFM~3's MASE is 1.609 (1.347--1.944) and 1.467 (1.210--1.729) times the ensemble's and 1.374 and
 1.221 times Chronos-2's, against 0.846 and 0.803 on load and 0.891 and 1.066 on river flow (in SQL, 0.469 and 0.449 on river flow).
 In Tier B, price horizons were 24 and 168 hours; in Tier P the scored steps lie between 49 and 216 hours after the origin, mostly
-beyond the 64 steps of a single output patch. Before issue 1, in ten of the twelve markets the mean price of the last day before the
-origin was well above that of the week before, and the window stayed high; TimesFM~3's median was below the window mean in all
-twelve, close to the earlier level. During the window of issue 2 prices rose further: the window mean was above the last day before
+beyond the 64 steps of a single output patch. Before issue 1 the mean price of the last day before the origin was above that of the week before in all twelve
+markets (by 40\% to 194\% in ten), and the window stayed high; TimesFM~3's median was below the window mean in all twelve and lay
+between the two levels, nearer the earlier one in nine. During the window of issue 2 prices rose further: the window mean was above the last day before
 the origin in all twelve markets, and TimesFM~3's median was below it in eleven. In both issues forecasts that follow the latest
-level (the naive forecast, MSTL) were closer on average. This resembles the weakness after recent level shifts in the synthetic
+level (the naive forecast, MSTL) were closer on average, and TimesFM~2.5 erred as much as TimesFM~3 (geometric-mean MASE on
+prices 2.23 and 2.51, against 2.36 and 2.52). This resembles the weakness after recent level shifts in the synthetic
 grid (Figure~\ref{fig:regime}); it is a reading of twelve series in two overlapping weeks, not a test, and the per-domain results
 were not pre-registered. On Wikipedia the second issue favours TimesFM~3 slightly against TimesFM~2.5 (MASE 0.977, 0.959--0.996), a
 difference that the pooled, Holm-adjusted test does not resolve. Two overlapping weeks and 44 structured series are a check of
 direction, not an estimate.
+
+\begin{table}[!htbp]
+\centering
+\caption{Tier P, secondary family S6 (both issues pooled; series clusters; Holm over the 16 tests). Ratios are TimesFM~3 in
+univariate mode against each reference.}
+\label{tab:familys6}
+\scriptsize
+\input{generated/table_family_s6.tex}
+\end{table}
 
 \begin{table}[!htbp]
 \centering
@@ -75,11 +86,3 @@ intervals; the S6 decision is made on the pooled issues (Table~\ref{tab:familys6
 \input{generated/table_tier_p_issues.tex}
 \end{table}
 
-\begin{table}[!htbp]
-\centering
-\caption{Tier P, secondary family S6 (both issues pooled; series clusters; Holm over the 16 tests). Ratios are TimesFM~3 in
-univariate mode against each reference.}
-\label{tab:familys6}
-\scriptsize
-\input{generated/table_family_s6.tex}
-\end{table}
