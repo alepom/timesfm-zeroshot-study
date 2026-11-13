@@ -422,6 +422,19 @@ def table_calibration(desc: dict) -> None:
         rows.append(f"\\multicolumn{{4}}{{l}}{{\\textit{{{label}}}}} \\\\")
         for r in desc["calibration"][tier]:
             rows.append([name(r["model"]), str(r["series"]), f"{r['coverage80']:.3f}", f"{r['coverage60']:.3f}"])
+    # Tier P (both issues, univariate tasks of load, price, river and Wikipedia): the scoring records the 80% interval only
+    paths = sorted((ROOT / "results" / "forecast").glob("prospective-*/P/metrics.parquet"))
+    if paths:
+        p = pd.concat([pd.read_parquet(f) for f in paths], ignore_index=True)
+        p = p[p["mode"].eq("uni")]
+        for doms, label in ((["load", "price", "river"], "Tier P, both issues: load, price, river"),
+                            (["wiki"], "Tier P, both issues: Wikipedia")):
+            rows.append(f"\\multicolumn{{4}}{{l}}{{\\textit{{{label}}}}} \\\\")
+            for m in ["tfm3-uni", "tfm25", "chronos2-uni", "tirex2-uni", "stat-ens"]:
+                sub = p[(p.model == m) & p.domain.isin(doms)]
+                if not sub.empty:
+                    cov = sub.groupby("series_id").coverage80.mean().dropna()
+                    rows.append([name(m), str(int(cov.size)), f"{cov.mean():.3f}", "---"])
     write("table_calibration.tex", tabular("lrrr", ["Model", "Series", "Coverage 80\\%", "Coverage 60\\%"], rows))
 
 

@@ -26,7 +26,7 @@ Issue day & Sealed (UTC) & Public timestamp & Scoring window & Tasks & Combined 
 \end{tabular}
 \end{table}
 
-\paragraph{Scoring.} Outcomes were downloaded with a fresh cache on the planned dates (issue 1: 2026-11-10). The scoring code is the
+\paragraph{Scoring.} Outcomes were downloaded with a fresh cache on the planned dates, 2026-11-10 and 2026-11-13. The scoring code is the
 frozen one with two corrections, both declared: a fix of 2026-10-31 (Appendix~\ref{app:deviations}), made before any outcome existed, which excludes a task whose
 series has no published outcome instead of failing; and the count of window steps on business-day calendars, corrected after the
 issue-1 outcomes were downloaded so that the 80\% rule applies as the protocol states (deviation 3, Appendix~\ref{app:deviations}).
@@ -36,24 +36,35 @@ every calendar the share counts the forecast steps that fall inside the window, 
 unobserved. One river task with a stale origin (2026-10-26, horizon 10 days) has only 5 of its forecast steps inside the window;
 all 5 are observed, and 6 of the 7 window days are, so it is kept under either count and enters S6 scored on 5 days. The oil tasks
 are not part of S6, which uses load, price, river and Wikipedia only. A re-implementation of the scoring written from the protocol
-text by a separate AI agent, without the study code, reproduced every issue-1 score.
+text by a separate AI agent, without the study code, reproduced every issue-1 score. Of the 385 tasks of issue 2, 384 were
+scored: one univariate river task (USGS gauge 09380000, whose values after 2026-11-06 were not yet published) had 3 of its 7
+window days observed and was excluded. S6 therefore uses 44 structured tasks of issue 1 and 43 of issue 2, on 44 series.
 
-\paragraph{Issue 1 (descriptive).} The pre-registered decision (S6) pools both issues and is reported below once issue 2 is scored;
-Table~\ref{tab:tierpissues} gives each issue separately. On the structured domains of issue 1 TimesFM~3 has a lower quantile loss
-than the statistical ensemble (SQL ratio 0.754, 0.656--0.856) but not a lower absolute error (MASE 1.066, 0.948--1.191). The
-difference comes from electricity prices: there TimesFM~3's MASE is 1.609 times the ensemble's (1.347--1.944) and 1.374 times
-Chronos-2's, against 0.846 on load and 0.891 on river flow. In Tier B, price horizons were 24 and 168 hours; in Tier P the scored
-steps lie between 49 and 216 hours after the origin, mostly beyond the 64 steps of a single output patch, in a single week. In ten of
-the twelve markets the mean price of the last day before the origin was well above that of the week before, and the window stayed
-high; TimesFM~3's median was below the window mean in all twelve, close to the earlier level, while forecasts that follow the latest
-level (the naive forecast, MSTL) were closer on average. This
-resembles the weakness after recent level shifts in the synthetic grid (Figure~\ref{fig:regime}); it is a reading of a few
-series, not a test. On
-Wikipedia TimesFM~3 is well ahead of the ensemble (MASE 0.752, SQL 0.424) and level with Chronos-2 and TimesFM~2.5 (ratios 0.994 to
-1.006). One week and 44 structured series are a check of direction, not an estimate; whether the price result recurs in issue 2,
-whose window overlaps issue 1 in four of seven days, is not an independent replication.
+\paragraph{Pooled decision (S6).} With both issues pooled (Table~\ref{tab:familys6}), on Wikipedia TimesFM~3 is ahead of the
+statistical ensemble (MASE 0.743, 0.703--0.783; SQL 0.419, 0.382--0.458) and of the naive forecast, all resolved, and level with
+Chronos-2 and TimesFM~2.5 (ratios 0.984 to 0.991, none resolved). On load, price and river flow its quantile loss is lower than the
+ensemble's (SQL 0.750, 0.648--0.861, resolved) but its absolute error is not (MASE 1.073, 0.977--1.175, not resolved); against
+Chronos-2 and TimesFM~2.5 no difference is resolved (ratios 0.978 to 1.001), and against the naive forecast both metrics are
+resolved in its favour. Read as the protocol intends, as a check of the direction of Tier B, the two prospective weeks confirm the
+probabilistic advantage over the classical ensemble on both groups and the point-forecast advantage on Wikipedia, but not the
+point-forecast advantage on the structured domains: the Tier B ratio (\PoneMase{}, which also includes weather) lies outside the
+Tier P interval. The Tier B margins over Chronos-2 and TimesFM~2.5 (4--6\%) lie inside the Tier P intervals, which are too wide to
+confirm or contradict them.
 
-\textit{[Draft of 2026-11-10: issue 2 and the pooled S6 decision to be added on 2026-11-13.]}
+\paragraph{By issue (descriptive).} Table~\ref{tab:tierpissues} gives each issue separately; the two issues agree in direction on
+every contrast against the ensemble and the naive forecast. The MASE result on the structured domains comes from electricity
+prices in both issues: there TimesFM~3's MASE is 1.609 (1.347--1.944) and 1.467 (1.210--1.729) times the ensemble's and 1.374 and
+1.221 times Chronos-2's, against 0.846 and 0.803 on load and 0.891 and 1.066 on river flow (in SQL, 0.469 and 0.449 on river flow).
+In Tier B, price horizons were 24 and 168 hours; in Tier P the scored steps lie between 49 and 216 hours after the origin, mostly
+beyond the 64 steps of a single output patch. Before issue 1, in ten of the twelve markets the mean price of the last day before the
+origin was well above that of the week before, and the window stayed high; TimesFM~3's median was below the window mean in all
+twelve, close to the earlier level. During the window of issue 2 prices rose further: the window mean was above the last day before
+the origin in all twelve markets, and TimesFM~3's median was below it in eleven. In both issues forecasts that follow the latest
+level (the naive forecast, MSTL) were closer on average. This resembles the weakness after recent level shifts in the synthetic
+grid (Figure~\ref{fig:regime}); it is a reading of twelve series in two overlapping weeks, not a test, and the per-domain results
+were not pre-registered. On Wikipedia the second issue favours TimesFM~3 slightly against TimesFM~2.5 (MASE 0.977, 0.959--0.996), a
+difference that the pooled, Holm-adjusted test does not resolve. Two overlapping weeks and 44 structured series are a check of
+direction, not an estimate.
 
 \begin{table}[!htbp]
 \centering

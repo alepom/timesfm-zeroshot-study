@@ -38,7 +38,9 @@ inference options.
 \paragraph{Main findings.} On a 30-task sample the published results largely reproduce, including the lead over Chronos-2. On the four structured post-release domains TimesFM~3 beats a classical ensemble
 clearly (\PoneMase{} in MASE, \PoneSql{} in SQL) and Chronos-2 narrowly (about 5\%); against TimesFM~2.5 the SQL difference is
 resolved and the MASE difference is not. The margin over classical methods is, descriptively, slightly smaller than on the benchmark, and the Wikipedia
-probe neither resolves a difference nor identifies an effect of memorisation. On exchange rates, interest rates and oil prices it is worse than the random walk, and the point estimates of the other foundation models are also above parity (Figure~\ref{fig:domains}), and in
+probe neither resolves a difference nor identifies an effect of memorisation. In the two sealed prospective weeks the
+quantile-loss advantage over the ensemble holds, but on load, prices and river flow the point-forecast advantage does not, because
+of electricity prices, and no difference from Chronos-2 or TimesFM~2.5 is resolved. On exchange rates, interest rates and oil prices it is worse than the random walk, and the point estimates of the other foundation models are also above parity (Figure~\ref{fig:domains}), and in
 synthetic data it fails on a saturating process (about four times the error of the best classical model) and after recent upward
 level shifts (in an exploratory grid of 16 settings of one process, worse in 12, and by 17\% to 194\% in the nine with a shift of two
 or more standard deviations at most 96 steps before the origin). In synthetic data,

@@ -405,6 +405,410 @@
      "n": 20
     }
    ]
+  },
+  "2026-11-02": {
+   "tasks_scored": 384,
+   "excluded_at_scoring": 1,
+   "groups": [
+    {
+     "group": "structured",
+     "b": "stat-ens",
+     "metric": "mase",
+     "ratio": 1.0788,
+     "ci95": [
+      0.9721,
+      1.1958
+     ],
+     "n": 43
+    },
+    {
+     "group": "structured",
+     "b": "stat-ens",
+     "metric": "sql",
+     "ratio": 0.7465,
+     "ci95": [
+      0.6376,
+      0.8715
+     ],
+     "n": 43
+    },
+    {
+     "group": "structured",
+     "b": "chronos2-uni",
+     "metric": "mase",
+     "ratio": 0.9707,
+     "ci95": [
+      0.874,
+      1.0751
+     ],
+     "n": 43
+    },
+    {
+     "group": "structured",
+     "b": "chronos2-uni",
+     "metric": "sql",
+     "ratio": 0.9365,
+     "ci95": [
+      0.8503,
+      1.0306
+     ],
+     "n": 43
+    },
+    {
+     "group": "structured",
+     "b": "tfm25",
+     "metric": "mase",
+     "ratio": 0.9811,
+     "ci95": [
+      0.8962,
+      1.0765
+     ],
+     "n": 43
+    },
+    {
+     "group": "structured",
+     "b": "tfm25",
+     "metric": "sql",
+     "ratio": 0.9686,
+     "ci95": [
+      0.888,
+      1.0555
+     ],
+     "n": 43
+    },
+    {
+     "group": "structured",
+     "b": "naive",
+     "metric": "mase",
+     "ratio": 0.7184,
+     "ci95": [
+      0.6066,
+      0.8487
+     ],
+     "n": 43
+    },
+    {
+     "group": "structured",
+     "b": "naive",
+     "metric": "sql",
+     "ratio": 0.4075,
+     "ci95": [
+      0.3312,
+      0.4968
+     ],
+     "n": 43
+    },
+    {
+     "group": "wiki",
+     "b": "stat-ens",
+     "metric": "mase",
+     "ratio": 0.7335,
+     "ci95": [
+      0.6867,
+      0.7815
+     ],
+     "n": 318
+    },
+    {
+     "group": "wiki",
+     "b": "stat-ens",
+     "metric": "sql",
+     "ratio": 0.4141,
+     "ci95": [
+      0.3758,
+      0.4553
+     ],
+     "n": 318
+    },
+    {
+     "group": "wiki",
+     "b": "chronos2-uni",
+     "metric": "mase",
+     "ratio": 0.9747,
+     "ci95": [
+      0.9466,
+      1.0035
+     ],
+     "n": 318
+    },
+    {
+     "group": "wiki",
+     "b": "chronos2-uni",
+     "metric": "sql",
+     "ratio": 0.9845,
+     "ci95": [
+      0.9605,
+      1.009
+     ],
+     "n": 318
+    },
+    {
+     "group": "wiki",
+     "b": "tfm25",
+     "metric": "mase",
+     "ratio": 0.9769,
+     "ci95": [
+      0.9586,
+      0.9957
+     ],
+     "n": 318
+    },
+    {
+     "group": "wiki",
+     "b": "tfm25",
+     "metric": "sql",
+     "ratio": 0.9719,
+     "ci95": [
+      0.9586,
+      0.9851
+     ],
+     "n": 318
+    },
+    {
+     "group": "wiki",
+     "b": "naive",
+     "metric": "mase",
+     "ratio": 0.6708,
+     "ci95": [
+      0.6298,
+      0.7104
+     ],
+     "n": 318
+    },
+    {
+     "group": "wiki",
+     "b": "naive",
+     "metric": "sql",
+     "ratio": 0.2572,
+     "ci95": [
+      0.2311,
+      0.2876
+     ],
+     "n": 318
+    }
+   ],
+   "domains": [
+    {
+     "domain": "fx",
+     "b": "stat-ens",
+     "metric": "mase",
+     "ratio": 1.2802,
+     "ci95": [
+      1.0563,
+      1.6584
+     ],
+     "n": 10
+    },
+    {
+     "domain": "fx",
+     "b": "stat-ens",
+     "metric": "sql",
+     "ratio": 1.0807,
+     "ci95": [
+      0.9981,
+      1.17
+     ],
+     "n": 10
+    },
+    {
+     "domain": "fx",
+     "b": "chronos2-uni",
+     "metric": "mase",
+     "ratio": 1.1392,
+     "ci95": [
+      0.9778,
+      1.3574
+     ],
+     "n": 10
+    },
+    {
+     "domain": "fx",
+     "b": "chronos2-uni",
+     "metric": "sql",
+     "ratio": 1.0479,
+     "ci95": [
+      0.9624,
+      1.147
+     ],
+     "n": 10
+    },
+    {
+     "domain": "load",
+     "b": "stat-ens",
+     "metric": "mase",
+     "ratio": 0.8033,
+     "ci95": [
+      0.6831,
+      0.9542
+     ],
+     "n": 12
+    },
+    {
+     "domain": "load",
+     "b": "stat-ens",
+     "metric": "sql",
+     "ratio": 0.7893,
+     "ci95": [
+      0.6821,
+      0.9164
+     ],
+     "n": 12
+    },
+    {
+     "domain": "load",
+     "b": "chronos2-uni",
+     "metric": "mase",
+     "ratio": 0.8001,
+     "ci95": [
+      0.6669,
+      0.9579
+     ],
+     "n": 12
+    },
+    {
+     "domain": "load",
+     "b": "chronos2-uni",
+     "metric": "sql",
+     "ratio": 0.7804,
+     "ci95": [
+      0.6402,
+      0.9506
+     ],
+     "n": 12
+    },
+    {
+     "domain": "price",
+     "b": "stat-ens",
+     "metric": "mase",
+     "ratio": 1.4667,
+     "ci95": [
+      1.2101,
+      1.7288
+     ],
+     "n": 12
+    },
+    {
+     "domain": "price",
+     "b": "stat-ens",
+     "metric": "sql",
+     "ratio": 1.1748,
+     "ci95": [
+      1.0034,
+      1.3669
+     ],
+     "n": 12
+    },
+    {
+     "domain": "price",
+     "b": "chronos2-uni",
+     "metric": "mase",
+     "ratio": 1.2213,
+     "ci95": [
+      1.0807,
+      1.3801
+     ],
+     "n": 12
+    },
+    {
+     "domain": "price",
+     "b": "chronos2-uni",
+     "metric": "sql",
+     "ratio": 1.1668,
+     "ci95": [
+      1.0427,
+      1.3027
+     ],
+     "n": 12
+    },
+    {
+     "domain": "rates",
+     "b": "stat-ens",
+     "metric": "mase",
+     "ratio": 1.1136,
+     "ci95": [
+      1.0104,
+      1.2333
+     ],
+     "n": 10
+    },
+    {
+     "domain": "rates",
+     "b": "stat-ens",
+     "metric": "sql",
+     "ratio": 1.11,
+     "ci95": [
+      0.9796,
+      1.2502
+     ],
+     "n": 10
+    },
+    {
+     "domain": "rates",
+     "b": "chronos2-uni",
+     "metric": "mase",
+     "ratio": 1.0262,
+     "ci95": [
+      0.9734,
+      1.0876
+     ],
+     "n": 10
+    },
+    {
+     "domain": "rates",
+     "b": "chronos2-uni",
+     "metric": "sql",
+     "ratio": 1.0119,
+     "ci95": [
+      0.9589,
+      1.0717
+     ],
+     "n": 10
+    },
+    {
+     "domain": "river",
+     "b": "stat-ens",
+     "metric": "mase",
+     "ratio": 1.0657,
+     "ci95": [
+      0.8872,
+      1.2961
+     ],
+     "n": 19
+    },
+    {
+     "domain": "river",
+     "b": "stat-ens",
+     "metric": "sql",
+     "ratio": 0.4485,
+     "ci95": [
+      0.2906,
+      0.6811
+     ],
+     "n": 19
+    },
+    {
+     "domain": "river",
+     "b": "chronos2-uni",
+     "metric": "mase",
+     "ratio": 0.9362,
+     "ci95": [
+      0.761,
+      1.1375
+     ],
+     "n": 19
+    },
+    {
+     "domain": "river",
+     "b": "chronos2-uni",
+     "metric": "sql",
+     "ratio": 0.902,
+     "ci95": [
+      0.7682,
+      1.0601
+     ],
+     "n": 19
+    }
+   ]
   }
  }
 }
