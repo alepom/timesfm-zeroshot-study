@@ -22,7 +22,7 @@ contribute (RQ6); and whether the model is worth its compute against classical m
 \paragraph{Contributions.}
 \begin{itemize}
 \item A \emph{leakage-aware design}: real data published after the release (six domains, 104 series, 4{,}068 series-windows), a
-Wikipedia probe that compares the same pages inside and outside the model's documented pageview corpus, a prospective check with
+Wikipedia probe that compares the same pages inside and outside the declared period of the model's pageview corpus, a prospective check with
 forecasts sealed by hash before their outcomes existed, and controlled synthetic data, all scored with paired contrasts, a two-way
 cluster bootstrap and Holm corrections within pre-declared families.
 \item A \emph{reproduction} of Google's per-task fev-bench results and an explanation of why our Chronos-2 results differ from the
@@ -46,9 +46,8 @@ synthetic data it fails on a saturating process (about four times the error of t
 times that of the naive forecast with 200) and after recent upward
 level shifts (in an exploratory grid of 16 settings of one process, worse in 12, and by 17\% to 194\% in the nine with a shift of two
 or more standard deviations at most 96 steps before the origin). In synthetic data,
-multivariate mode helps when there is a strong cross-series signal and is equivalent within $\pm$3\% in the two controls without
-one. The fixed inference steps matter little on
-average.
+multivariate mode helps when there is a strong cross-series signal and is equivalent within $\pm$3\% in two controls that add no information (independent series, a redundant noisy past covariate). The fixed inference steps matter little on
+average, partly because they act on few windows (the detrending on 3\% of the real ones, where it mostly hurts).
 
 The rest of the paper reviews related work (Section~\ref{sec:related}), explains how TimesFM~3 works (Section~\ref{sec:mechanism}),
 describes the protocol and data (Sections~\ref{sec:protocol}--\ref{sec:data}), reports the results

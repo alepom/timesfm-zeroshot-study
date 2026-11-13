@@ -22,10 +22,6 @@
 0.926 | lower CI of the above
 1.015 | upper CI of the above
 100000 | number of series in the Chronos Wiki Daily (100k) corpus (Ansari et al. 2024, App. B.8; HF autogluon/chronos_datasets wiki_daily_100k)
-0.57 | D8: geometric-mean MASE of the zero forecast, lowest cell (n48, h12); post hoc 2026-11-13
-0.65 | D8: zero forecast, highest cell (n48 h48 0.651)
-0.60 | D8: foundation models, lowest cell-level geometric-mean MASE (chronos2 n48 h12 0.601)
-0.69 | D8: foundation models, highest (tfm3 n48 h48 0.690)
 0.7 | D8 generator: demand occurs with probability 0.3 (synthetic.py), zero with probability 0.7
 365 | synthetic generator constant (long-period cell: sin(2 pi t/365)), tfmstudy/data/synthetic.py
 180 | synthetic generator constant (D7 logistic amplitude), tfmstudy/data/synthetic.py

@@ -3,8 +3,9 @@
 
 \paragraph{Where zero-shot forecasting wins and where it fails (RQ3).} Table~\ref{tab:tierc} gives, for each synthetic cell, the
 geometric-mean MASE of each foundation model relative to Seasonal Naive, next to the best classical model of that cell. This is a
-descriptive table: the classical model is chosen after seeing the results, which favours it. TimesFM~3 is better than the best
-classical model in 29 of the 38 cells, often by a wide margin where classical methods lack information: a context of 256 hourly
+descriptive table: the classical model is chosen after seeing the results, which favours it. TimesFM~3 is better than the best of the
+pre-specified classical baselines in 29 of the 38 cells (on the four intermittent-demand cells a zero forecast, which is not one of
+them, does better still; Table~\ref{tab:zerod8}), often by a wide margin where classical methods lack information: a context of 256 hourly
 points with weekly seasonality (0.371 against 0.914), a season longer than the context (0.519 against 0.956), two seasonalities
 with one week of context (0.620 against 0.886), and a target driven by a known future covariate (0.336 against 0.752). On long
 contexts and long horizons (up to 1{,}024 steps) the margin is a steady 6--8\%, and there TimesFM~3 and Chronos-2 are within 1\%
@@ -26,7 +27,8 @@ Section~\ref{sec:robustness} shows that the weakness recurs across sizes and tim
 only to the generator); no model does better. On intermittent demand (D8) the
 verdict depends on the metric. Every foundation model has about a 20\% lower MASE than the naive forecast, the best classical
 model on that metric. But demand is zero with probability 0.7, so the zero forecast is the true median, and it is at least as
-good on MASE (0.57--0.65 against 0.60--0.69 for the foundation models across the four cells; post hoc): the MASE advantage shows
+good on MASE in every cell (relative to Seasonal Naive, 0.72--0.76 against 0.76--0.81 for the foundation models;
+Table~\ref{tab:zerod8}, post hoc): the MASE advantage shows
 that the models forecast a median near zero, not that they forecast demand well. On the root mean squared scaled error, which
 rewards the conditional mean rather than the median, the historic mean and AutoETS are better than TimesFM~3 (0.709 against 0.811
 with 200 points and $H = 48$). On the quantile loss the foundation models are better than the probabilistic classical baselines
@@ -36,8 +38,8 @@ added after the freeze, not pre-specified).
 
 \begin{table}[!htbp]
 \centering
-\caption{Tier C (descriptive): geometric-mean MASE relative to Seasonal Naive over 200 replications per cell, and the best
-classical model of the cell chosen after the fact. Last column: TimesFM~3 over the best classical model (bold: TimesFM~3
+\caption{Tier C (descriptive): geometric-mean MASE relative to Seasonal Naive over 200 replications per cell, and the best of the
+pre-specified classical baselines in each cell, chosen after the fact (on D8 the zero forecast is better; Table~\ref{tab:zerod8}). Last column: TimesFM~3 over the best classical model (bold: TimesFM~3
 worse). TiRex-2 is not run beyond 320 steps.}
 \label{tab:tierc}
 \scriptsize
@@ -45,22 +47,33 @@ worse). TiRex-2 is not run beyond 320 steps.}
 \input{generated/table_tier_c.tex}
 \end{table}
 
+\begin{table}[!htbp]
+\centering
+\caption{Intermittent demand (D8, descriptive, not pre-specified): geometric-mean MASE relative to Seasonal Naive (the naive forecast
+here) of the zero forecast, which is the true median (demand is zero with probability 0.7), and of the foundation models and the
+historic mean, on the replications with a positive error for every model.}
+\label{tab:zerod8}
+\scriptsize
+\input{generated/table_zero_d8.tex}
+\end{table}
+
 \paragraph{H3: the detrending stage.} The pre-specified test (\texttt{tfm3-nodetrend} against \texttt{tfm3}, D7, 200 points,
 $H = 48$, steps 25--48) gives a ratio of exactly \Hthree{}: the two configurations produce identical forecasts on all 200
-replications, and H3 is not supported. The reason is a design error of the protocol. The detrending gate opens only when a line
+replications, so H3 is uninformative (formally not supported). The reason is a design error of the protocol. The detrending gate opens only when a line
 explains more than 75\% of the context's variance, and in this cell the 200-point context is a long flat start followed by the
 rise, which a line fits with $R^2 < 0.75$ in all 200 contexts. The gate opens in every context of the other three D7 cells. There,
 in an exploratory analysis without multiplicity adjustment, switching the detrending off lowers MASE over steps 25--48 by 13\%
 (0.873, 0.810--0.941) and over the whole 48-step horizon by 17\% (0.830) with 48 points of context, and by 7\% at $H = 12$ with 200
-points (0.930), but almost doubles it at $H = 12$ with 48 points (1.888). On this process the fixed linear extrapolation therefore helps only with a short context and a short horizon, and hurts otherwise; we did not
-analyse the forecasts further. It is not the cause of the largest D7 failure: in the 200-point cell, where TimesFM~3 forecasts
+points (0.930), but almost doubles it at $H = 12$ with 48 points (1.888). Across these configurations, disabling the detrending helps in some settings and hurts in others; the design does not isolate
+horizon length from the position of the logistic transition, whose inflection point is at $0.6(n + H)$, so a longer horizon also
+changes the observed part of the curve. We did not analyse the forecasts further. It is not the cause of the largest D7 failure: in the 200-point cell, where TimesFM~3 forecasts
 the spurious decline, the gate is closed and the forecast comes from the network alone.
 
 \paragraph{Multivariate mode (H4, RQ5).} Joint forecasting helps when there is something to learn across variates: for the
 follower of a lead-lag pair with lag 24, MASE falls to \Hfoura{} (\HfouraLo--\HfouraHi) of the univariate forecast, and with a known
-future covariate (signal-to-noise 2) to \Hfourb{} (\HfourbLo--\HfourbHi). In the two controls without a cross-series signal it costs no accuracy
-beyond the $\pm$3\% margin: with eight independent series stacked as variates the ratio is \Hfourc{} and with a spurious past
-covariate \Hfourd{}, both equivalent within $\pm$3\% (Table~\ref{tab:familyh}); other processes without a signal were not tested. On a lead-lag pair with lag 24, Chronos-2 reaches a lower MASE than
+future covariate (signal-to-noise 2) to \Hfourb{} (\HfourbLo--\HfourbHi). In two controls that add no predictive information it costs no accuracy
+beyond the $\pm$3\% margin: with eight independent series stacked as variates the ratio is \Hfourc{}, and with a redundant noisy
+past covariate (a noisy copy of the target over the context, called spurious in the protocol) \Hfourd{}, both equivalent within $\pm$3\% (Table~\ref{tab:familyh}); the result is limited to these two kinds of uninformative input; other processes without a signal were not tested. On a lead-lag pair with lag 24, Chronos-2 reaches a lower MASE than
 TimesFM~3 (Table~\ref{tab:tierc}); we did not measure its multivariate gain separately. On real data the gain is about 3\% lower SQL on the group tasks (P4a), a decision that does not survive the small-cluster and
 non-overlapping-window checks, and no gain from oracle covariates is resolved (S3; the interval includes both gains and losses);
 their relation to the target is weaker and less direct than in the synthetic cells.
@@ -85,14 +98,21 @@ Each ablation changes one fixed step or option of \texttt{tfm3} and is compared 
 padding future covariates by repetition (\texttt{tfm3-edge}) by 0.7\%; clipping at zero lowers it by 0.05\%; all three differences
 are resolved but too small to matter in practice. Switching off the CPM refinement or the stitching, or adding symmetric averaging or
 z-normalisation, changes MASE by less than 0.3\% and none of these differences is resolved. On the 20\% sample of Tier B series no
-ablation has a resolved effect. Averages hide where a step acts (descriptive, not pre-specified; a window counts as active when the
-change moves the median forecast by more than $10^{-4}$ of its level). The detrending gate opens on 11\% of the Tier B windows and
-9\% of the synthetic ones; there, switching it off lowers MASE by 3.3\% on Tier B and raises it by 8.1\% on Tier C, and it helps
-in about half of the active windows and hurts in the other half. Clipping at zero acts on 4--9\% of the windows (on the active
-synthetic windows it lowers MASE by 1.1\%). CPM and iterative RevIN, stitching, symmetric averaging and covariate edge handling act on (nearly) every window where they can
-act, with effects below 0.7\%; z-normalisation moves the forecast beyond numerical noise on 2--18\% of the windows, without effect. The fixed steps of the inference path therefore matter in specific situations (the detrending gate,
-H3) but, among the tasks and losses analysed, change average accuracy little, partly because gains and losses on the windows
-where a step acts cancel; an unresolved difference is not shown to be
+ablation has a resolved effect. Averages hide where a step acts (descriptive, not pre-specified). We measure a change as the largest absolute difference between
+the median forecasts, divided by the MASE scale of the context; numerical noise, measured the same way between two runs of the
+identical computation (the invalid ablation of deviation 2), is zero on most windows but reaches 1.9\% of the scale on Tier B
+($9 \cdot 10^{-6}$ on Tier C), and a window counts as changed only above that maximum. The detrending gate, computed from each context with
+the model's own rule, opens on 2.8\% of the Tier B windows and 8.9\% of the synthetic ones, and the forecasts change on the same
+windows (plus four on Tier B). Where it opens, switching it off lowers MASE by 12.8\% on Tier B, raising it in only 21\% of those
+windows, and raises MASE by 8.1\% on Tier C, in 47\% of them: on the real windows where it acts the fixed linear extrapolation
+mostly hurts, on the synthetic ones it helps on average but in barely half of the windows. Clipping at zero changes 0.6\% of the
+Tier B and 4.2\% of the synthetic forecasts (on the latter it lowers MASE by 1.1\%). Symmetric averaging, stitching and covariate
+edge handling change (nearly) every forecast they can act on, CPM and iterative RevIN 14\% of the Tier B ones beyond the noise,
+and their per-window effects stay below 0.7\%; z-normalisation changes 0.9\% of the Tier B forecasts and 12\% of the synthetic ones,
+without effect on the latter; under the pre-specified estimator of Table~\ref{tab:ablations} the estimates reach
+$-3.4\%$ for covariate edge handling and $-1.2\%$ for the detrending on Tier B, neither resolved. The fixed steps of the inference path therefore matter in specific situations (the detrending gate,
+H3) but, among the tasks and losses analysed, change average accuracy little, partly because they act on few windows and their
+effects there differ by setting; an unresolved difference is not shown to be
 small, and equivalence was not tested. A reading, not a result: the network does most of the work. Switching off the
 variate attention is different in kind (re-run after a software error, Appendix~\ref{app:deviations}): it removes a trained sublayer
 from all 20 layers, and the forecasts become unusable, with MASE 795 times that of \texttt{tfm3} on Tier C and 10{,}881

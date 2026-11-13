@@ -470,9 +470,11 @@ EXTRA_METHODS = {
             "with a published outcome only; ratios are geometric means over series; descriptive"),
     "R21": ("Tier B, univariate 168-hour tasks of price and load: ratio of mean absolute errors of tfm3-uni to stat-ens on "
             "steps 1-48 and 49-168, geometric mean over series-windows; descriptive, to compare with Tier P's 49-216 h steps"),
-    "R22": ("ablations: a window is active when switching the step changes TimesFM-3's median forecast by more than 1e-4 "
-            "of its mean absolute level at some step (GPU noise between runs is below 1e-5 for most windows); share of "
-            "active windows and simple geometric-mean MASE ratio to tfm3 on all and on active windows; descriptive"),
+    "R22": ("ablations: change = max over steps of |median(ablation) - median(tfm3)| divided by the seasonal-naive (MASE) "
+            "scale of the context; numerical noise = the same between tfm3 and the invalid tfm3-novarattn run, which "
+            "repeated the default computation; a window is changed when its change exceeds the largest noise of its tier; "
+            "detrending gate computed from the context with the model's rule (std of OLS residual < 0.5 std); simple "
+            "geometric-mean MASE ratios to tfm3 per task (not the S5 estimator); descriptive"),
     "R12": ("tasks resampled by source family (22 families in order of first appearance), simple mean of log skill "
             "ratios, 10,000 draws, seed 17"),
 }
@@ -513,8 +515,11 @@ def zero_intermittent() -> list[dict]:
     out = []
     for cell, g in z.groupby("cell"):
         g = g.replace([np.inf, -np.inf], np.nan)
-        g = g[(g[cols] > 0).all(axis=1)]
-        out.append({"cell": cell, "n": int(len(g)), **{c: round(float(np.exp(np.log(g[c]).mean())), 4) for c in cols}})
+        g = g[(g[cols + ["snaive"]] > 0).all(axis=1)]
+        rec = {"cell": cell, "n": int(len(g)), **{c: round(float(np.exp(np.log(g[c]).mean())), 4) for c in cols}}
+        # relative to Seasonal Naive, as in the Tier C table (season 1 here, so Seasonal Naive is the naive forecast)
+        rec["relative_to_snaive"] = {c: round(float(np.exp(np.log(g[c] / g["snaive"]).mean())), 4) for c in cols}
+        out.append(rec)
     return out
 
 
@@ -604,33 +609,79 @@ def tier_b_price_by_lead(tree: Path) -> list[dict]:
             for (d, band), g in df.groupby(["domain", "band"])]
 
 
-def ablation_activity(tree: Path, tol: float = 1e-4) -> list[dict]:
-    """R22: where each ablation changes the forecast, and its effect there (Tier B and Tier C)."""
+def _gate_open(target: np.ndarray, threshold: float = 0.5) -> bool:
+    """TimesFM-3's linear-detrending gate (timesfm3 model.py, decode): OLS line over the valid context points with
+    t in [-(C-1)/C, 0]; the detrended series is used when std(residual) < threshold * std(original), i.e. R^2 > 0.75.
+    True when the gate opens for at least one variate."""
+    for y in np.atleast_2d(target):
+        y = np.asarray(y, dtype=float)
+        ok = np.isfinite(y)
+        c = len(y)
+        t = (np.arange(c) - (c - 1)) / c
+        if ok.sum() < 3 or np.std(y[ok]) == 0:
+            continue
+        m, k = np.polyfit(t[ok], y[ok], 1)
+        if np.std(y[ok] - (m * t[ok] + k)) < threshold * np.std(y[ok]):
+            return True
+    return False
+
+
+def ablation_activity(tree: Path) -> dict:
+    """R22: where each ablation changes the forecast, and its effect there (Tier B and Tier C).
+
+    Changes are measured as max |delta median| over steps and variates, divided by the seasonal-naive scale of the context
+    (the MASE scale). Numerical noise is the same quantity between tfm3 and the invalid tfm3-novarattn run of bundle 0.5.4,
+    which repeated the default computation (deviation 2); a window counts as changed when its change exceeds the largest
+    noise of its tier. For the detrending, the gate is also computed from the context with the model's own rule."""
+    from . import metrics
     from .evaluate import read_forecasts
-    out = []
+    from .forecast import load_tasks
+    out = {"noise": {}, "ablations": []}
     for tier in ("B", "synthetic"):
         base = tree / "main" / tier
         ref = read_forecasts(base / "tfm3")
+        tasks, make = load_tasks(tier, "main", ROOT / "data" / "processed")
+        tasks = tasks[tasks.task_id.isin(ref.keys())]
+        scale, gate = {}, {}
+        for t in tasks.itertuples():
+            task, _, season = make(t)
+            scale[t.task_id] = metrics.seasonal_naive_scale(task.target, season)
+            gate[t.task_id] = _gate_open(task.target)
+
+        def change(fc):
+            res = {}
+            for k, q in fc.items():
+                r = ref.get(k)
+                if r is not None and r.shape == q.shape and k in scale:
+                    sc = np.where(scale[k] > 0, scale[k], np.nan)[:, None]
+                    res[k] = float(np.nanmax(np.abs(q[..., 4] - r[..., 4]) / sc))
+            return res
+        noise = change(read_forecasts(base / "tfm3-novarattn_INVALID_v054"))
+        nmax = max(noise.values())
+        label = "B" if tier == "B" else "C"
+        out["noise"][label] = {"windows": len(noise), "median": float(np.median(list(noise.values()))),
+                               "p99": float(np.quantile(list(noise.values()), 0.99)), "max": nmax}
         met = pd.read_parquet(MAIN / tier / "metrics.parquet")
-        mase = met[met.model.eq("tfm3")].groupby("task_id").mase.apply(lambda x: np.exp(np.mean(np.log(x[x > 0]))))
+        gm = lambda m: met[met.model.eq(m)].groupby("task_id").mase.apply(lambda x: np.exp(np.mean(np.log(x[x > 0]))))
+        base_mase = gm("tfm3")
         for m in ("tfm3-nodetrend", "tfm3-nocpmrevin", "tfm3-nostitch", "tfm3-sym", "tfm3-pos", "tfm3-znorm", "tfm3-edge"):
             if not (base / m).exists():
                 continue
-            fc = read_forecasts(base / m)
-            act = {}
-            for k, q in fc.items():
-                r = ref.get(k)
-                if r is not None and r.shape == q.shape:
-                    act[k] = bool(np.nanmax(np.abs(q[..., 4] - r[..., 4])) / (np.nanmean(np.abs(r[..., 4])) + 1e-9) > tol)
-            mm = met[met.model.eq(m)].groupby("task_id").mase.apply(lambda x: np.exp(np.mean(np.log(x[x > 0]))))
-            lr = np.log(mm / mase.reindex(mm.index)).replace([np.inf, -np.inf], np.nan).dropna()
-            lr = lr[lr.index.isin(act)]
-            on = lr[[act[k] for k in lr.index]]
-            out.append({"tier": "B" if tier == "B" else "C", "config": m, "windows": int(len(lr)),
-                        "active_share": round(float(np.mean([act[k] for k in lr.index])), 3),
-                        "ratio_all": round(float(np.exp(lr.mean())), 4),
-                        "ratio_active": round(float(np.exp(on.mean())), 4) if len(on) else None,
-                        "worse_share_active": round(float((on > 0).mean()), 3) if len(on) else None})
+            ch = change(read_forecasts(base / m))
+            lr = np.log(gm(m) / base_mase.reindex(gm(m).index)).replace([np.inf, -np.inf], np.nan).dropna()
+            lr = lr[lr.index.isin(ch)]
+            changed = np.array([ch[k] > nmax for k in lr.index])
+            rec = {"tier": label, "config": m, "windows": int(len(lr)), "changed_share": round(float(changed.mean()), 3),
+                   "ratio_all": round(float(np.exp(lr.mean())), 4),
+                   "ratio_changed": round(float(np.exp(lr[changed].mean())), 4) if changed.any() else None,
+                   "worse_share_changed": round(float((lr[changed] > 0).mean()), 3) if changed.any() else None}
+            if m == "tfm3-nodetrend":
+                g = np.array([gate[k] for k in lr.index])
+                rec.update(gate_open_share=round(float(g.mean()), 3),
+                           ratio_gate_open=round(float(np.exp(lr[g].mean())), 4) if g.any() else None,
+                           worse_share_gate_open=round(float((lr[g] > 0).mean()), 3) if g.any() else None,
+                           changed_when_gate_closed=int((changed & ~g).sum()), unchanged_when_gate_open=int((~changed & g).sum()))
+            out["ablations"].append(rec)
     return out
 
 

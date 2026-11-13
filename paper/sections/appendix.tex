@@ -215,7 +215,7 @@ Lead--lag, $k \in \{1, 5, 24\}$ & two variates: $10 + x_t$ with $x$ an AR(1), $\
 $e_t \sim N(0, 0.3^2)$ & 512 & 24 & 1 \\
 Known covariate, $\mathrm{SNR} \in \{0.5, 2\}$ & $50 + \beta c_t + u_t$, $c_t \sim N(0, 1)$ i.i.d.\ and known over the horizon, $u_t$ with
 $\phi = 0.5$, $\sigma = 1$, $\beta = \mathrm{SNR} \times \mathrm{sd}(u)$ & 512 & 24 & 1 \\
-Spurious past covariate & $50 + u_t$, $\phi = 0.7$, $\sigma = 1$; covariate equal to the target plus $N(0, 0.2^2)$ noise, given
+Redundant noisy past covariate (\emph{spurious}) & $50 + u_t$, $\phi = 0.7$, $\sigma = 1$; covariate equal to the target plus $N(0, 0.2^2)$ noise, given
 over the context only & 512 & 24 & 1 \\
 Independent, 8 variates & eight independent $10 + u_t$, $\phi = 0.7$, $\sigma = 1$ & 512 & 24 & 1 \\
 D6 level shift & local level $100 + \sum_{s \le t} N(0, 0.5^2)$ plus $N(0, 2^2)$ noise, jump of $+20$ (10 noise standard deviations)

@@ -940,7 +940,7 @@
   "R19": "H2 difference in differences without the probe pages present in Chronos-2's Wiki corpus (Chronos Wiki Daily 100k, 2015-07-01 to 2022-12-31, page names from autogluon/chronos_datasets on 2026-11-13; list in data/manifests/tierW_chronos_wiki100k_overlap.csv); same estimator and bootstrap as H2, 10,000 draws, seed 17",
   "R20": "Tier P, both issues, univariate tasks of load, price, river and Wikipedia: 80% coverage and the ratio of mean absolute errors of tfm3-uni to stat-ens by lead band (days after the origin: up to 4, 4-6, over 6); window steps with a published outcome only; ratios are geometric means over series; descriptive",
   "R21": "Tier B, univariate 168-hour tasks of price and load: ratio of mean absolute errors of tfm3-uni to stat-ens on steps 1-48 and 49-168, geometric mean over series-windows; descriptive, to compare with Tier P's 49-216 h steps",
-  "R22": "ablations: a window is active when switching the step changes TimesFM-3's median forecast by more than 1e-4 of its mean absolute level at some step (GPU noise between runs is below 1e-5 for most windows); share of active windows and simple geometric-mean MASE ratio to tfm3 on all and on active windows; descriptive",
+  "R22": "ablations: change = max over steps of |median(ablation) - median(tfm3)| divided by the seasonal-naive (MASE) scale of the context; numerical noise = the same between tfm3 and the invalid tfm3-novarattn run, which repeated the default computation; a window is changed when its change exceeds the largest noise of its tier; detrending gate computed from the context with the model's rule (std of OLS residual < 0.5 std); simple geometric-mean MASE ratios to tfm3 per task (not the S5 estimator); descriptive",
   "R12": "tasks resampled by source family (22 families in order of first appearance), simple mean of log skill ratios, 10,000 draws, seed 17"
  },
  "R13_non_overlap": {
@@ -2560,7 +2560,16 @@
    "tirex2": 0.6645,
    "tfm25": 0.657,
    "naive": 0.8569,
-   "mean": 0.9244
+   "mean": 0.9244,
+   "relative_to_snaive": {
+    "zero": 0.757,
+    "tfm3": 0.7667,
+    "chronos2": 0.7685,
+    "tirex2": 0.7754,
+    "tfm25": 0.7667,
+    "naive": 1.0,
+    "mean": 1.0788
+   }
   },
   {
    "cell": "rep:D8:n200:h12",
@@ -2571,7 +2580,16 @@
    "tirex2": 0.6391,
    "tfm25": 0.624,
    "naive": 0.8118,
-   "mean": 0.9236
+   "mean": 0.9236,
+   "relative_to_snaive": {
+    "zero": 0.7588,
+    "tfm3": 0.7733,
+    "chronos2": 0.7741,
+    "tirex2": 0.7873,
+    "tfm25": 0.7687,
+    "naive": 1.0,
+    "mean": 1.1377
+   }
   },
   {
    "cell": "rep:D8:n48",
@@ -2582,7 +2600,16 @@
    "tirex2": 0.6801,
    "tfm25": 0.679,
    "naive": 0.8546,
-   "mean": 0.9394
+   "mean": 0.9394,
+   "relative_to_snaive": {
+    "zero": 0.7617,
+    "tfm3": 0.8073,
+    "chronos2": 0.7827,
+    "tirex2": 0.7958,
+    "tfm25": 0.7946,
+    "naive": 1.0,
+    "mean": 1.0993
+   }
   },
   {
    "cell": "rep:D8:n48:h12",
@@ -2593,7 +2620,16 @@
    "tirex2": 0.6171,
    "tfm25": 0.6031,
    "naive": 0.7915,
-   "mean": 0.9175
+   "mean": 0.9175,
+   "relative_to_snaive": {
+    "zero": 0.722,
+    "tfm3": 0.7685,
+    "chronos2": 0.7591,
+    "tirex2": 0.7796,
+    "tfm25": 0.7619,
+    "naive": 1.0,
+    "mean": 1.1591
+   }
   }
  ],
  "R19_did_without_chronos_pages": {
@@ -2777,132 +2813,158 @@
    "mae_ratio_tfm3_vs_statens": 0.865
   }
  ],
- "R22_ablation_activity": [
-  {
-   "tier": "B",
-   "config": "tfm3-nodetrend",
-   "windows": 683,
-   "active_share": 0.113,
-   "ratio_all": 0.9962,
-   "ratio_active": 0.9669,
-   "worse_share_active": 0.429
+ "R22_ablation_activity": {
+  "noise": {
+   "B": {
+    "windows": 224,
+    "median": 0.0,
+    "p99": 0.009460021127015357,
+    "max": 0.018906377255916595
+   },
+   "C": {
+    "windows": 2200,
+    "median": 0.0,
+    "p99": 4.5205395190350825e-06,
+    "max": 8.590244760853238e-06
+   }
   },
-  {
-   "tier": "B",
-   "config": "tfm3-nocpmrevin",
-   "windows": 70,
-   "active_share": 1.0,
-   "ratio_all": 0.9992,
-   "ratio_active": 0.9992,
-   "worse_share_active": 0.4
-  },
-  {
-   "tier": "B",
-   "config": "tfm3-nostitch",
-   "windows": 70,
-   "active_share": 1.0,
-   "ratio_all": 1.0045,
-   "ratio_active": 1.0045,
-   "worse_share_active": 0.643
-  },
-  {
-   "tier": "B",
-   "config": "tfm3-sym",
-   "windows": 683,
-   "active_share": 0.993,
-   "ratio_all": 0.9975,
-   "ratio_active": 0.9974,
-   "worse_share_active": 0.501
-  },
-  {
-   "tier": "B",
-   "config": "tfm3-pos",
-   "windows": 683,
-   "active_share": 0.085,
-   "ratio_all": 1.0,
-   "ratio_active": 1.0002,
-   "worse_share_active": 0.5
-  },
-  {
-   "tier": "B",
-   "config": "tfm3-znorm",
-   "windows": 683,
-   "active_share": 0.176,
-   "ratio_all": 1.0002,
-   "ratio_active": 1.0012,
-   "worse_share_active": 0.483
-  },
-  {
-   "tier": "B",
-   "config": "tfm3-edge",
-   "windows": 147,
-   "active_share": 1.0,
-   "ratio_all": 0.9996,
-   "ratio_active": 0.9996,
-   "worse_share_active": 0.544
-  },
-  {
-   "tier": "C",
-   "config": "tfm3-nodetrend",
-   "windows": 7600,
-   "active_share": 0.089,
-   "ratio_all": 1.0069,
-   "ratio_active": 1.0808,
-   "worse_share_active": 0.473
-  },
-  {
-   "tier": "C",
-   "config": "tfm3-nocpmrevin",
-   "windows": 2000,
-   "active_share": 1.0,
-   "ratio_all": 0.9999,
-   "ratio_active": 0.9999,
-   "worse_share_active": 0.497
-  },
-  {
-   "tier": "C",
-   "config": "tfm3-nostitch",
-   "windows": 2000,
-   "active_share": 1.0,
-   "ratio_all": 1.0004,
-   "ratio_active": 1.0004,
-   "worse_share_active": 0.494
-  },
-  {
-   "tier": "C",
-   "config": "tfm3-sym",
-   "windows": 7600,
-   "active_share": 1.0,
-   "ratio_all": 1.0023,
-   "ratio_active": 1.0023,
-   "worse_share_active": 0.462
-  },
-  {
-   "tier": "C",
-   "config": "tfm3-pos",
-   "windows": 7600,
-   "active_share": 0.042,
-   "ratio_all": 0.9995,
-   "ratio_active": 0.9887,
-   "worse_share_active": 0.0
-  },
-  {
-   "tier": "C",
-   "config": "tfm3-znorm",
-   "windows": 7600,
-   "active_share": 0.021,
-   "ratio_all": 1.0,
-   "ratio_active": 1.0,
-   "worse_share_active": 0.253
-  },
-  {
-   "tier": "C",
-   "config": "tfm3-edge",
-   "windows": 400,
-   "active_share": 1.0,
-   "ratio_all": 1.0069,
-   "ratio_active": 1.0069,
-   "worse_share_active": 0.573
-  }
- ]
+  "ablations": [
+   {
+    "tier": "B",
+    "config": "tfm3-nodetrend",
+    "windows": 683,
+    "changed_share": 0.034,
+    "ratio_all": 0.9962,
+    "ratio_changed": 0.8924,
+    "worse_share_changed": 0.217,
+    "gate_open_share": 0.028,
+    "ratio_gate_open": 0.872,
+    "worse_share_gate_open": 0.211,
+    "changed_when_gate_closed": 4,
+    "unchanged_when_gate_open": 0
+   },
+   {
+    "tier": "B",
+    "config": "tfm3-nocpmrevin",
+    "windows": 70,
+    "changed_share": 0.143,
+    "ratio_all": 0.9992,
+    "ratio_changed": 0.9946,
+    "worse_share_changed": 0.3
+   },
+   {
+    "tier": "B",
+    "config": "tfm3-nostitch",
+    "windows": 70,
+    "changed_share": 1.0,
+    "ratio_all": 1.0045,
+    "ratio_changed": 1.0045,
+    "worse_share_changed": 0.643
+   },
+   {
+    "tier": "B",
+    "config": "tfm3-sym",
+    "windows": 683,
+    "changed_share": 0.963,
+    "ratio_all": 0.9975,
+    "ratio_changed": 0.9974,
+    "worse_share_changed": 0.503
+   },
+   {
+    "tier": "B",
+    "config": "tfm3-pos",
+    "windows": 683,
+    "changed_share": 0.006,
+    "ratio_all": 1.0,
+    "ratio_changed": 0.9959,
+    "worse_share_changed": 0.25
+   },
+   {
+    "tier": "B",
+    "config": "tfm3-znorm",
+    "windows": 683,
+    "changed_share": 0.009,
+    "ratio_all": 1.0002,
+    "ratio_changed": 1.0131,
+    "worse_share_changed": 0.5
+   },
+   {
+    "tier": "B",
+    "config": "tfm3-edge",
+    "windows": 147,
+    "changed_share": 0.925,
+    "ratio_all": 0.9996,
+    "ratio_changed": 1.0043,
+    "worse_share_changed": 0.566
+   },
+   {
+    "tier": "C",
+    "config": "tfm3-nodetrend",
+    "windows": 7600,
+    "changed_share": 0.089,
+    "ratio_all": 1.0069,
+    "ratio_changed": 1.0808,
+    "worse_share_changed": 0.473,
+    "gate_open_share": 0.089,
+    "ratio_gate_open": 1.0808,
+    "worse_share_gate_open": 0.473,
+    "changed_when_gate_closed": 0,
+    "unchanged_when_gate_open": 0
+   },
+   {
+    "tier": "C",
+    "config": "tfm3-nocpmrevin",
+    "windows": 2000,
+    "changed_share": 1.0,
+    "ratio_all": 0.9999,
+    "ratio_changed": 0.9999,
+    "worse_share_changed": 0.497
+   },
+   {
+    "tier": "C",
+    "config": "tfm3-nostitch",
+    "windows": 2000,
+    "changed_share": 1.0,
+    "ratio_all": 1.0004,
+    "ratio_changed": 1.0004,
+    "worse_share_changed": 0.494
+   },
+   {
+    "tier": "C",
+    "config": "tfm3-sym",
+    "windows": 7600,
+    "changed_share": 1.0,
+    "ratio_all": 1.0023,
+    "ratio_changed": 1.0023,
+    "worse_share_changed": 0.462
+   },
+   {
+    "tier": "C",
+    "config": "tfm3-pos",
+    "windows": 7600,
+    "changed_share": 0.042,
+    "ratio_all": 0.9995,
+    "ratio_changed": 0.9887,
+    "worse_share_changed": 0.0
+   },
+   {
+    "tier": "C",
+    "config": "tfm3-znorm",
+    "windows": 7600,
+    "changed_share": 0.118,
+    "ratio_all": 1.0,
+    "ratio_changed": 1.0,
+    "worse_share_changed": 0.497
+   },
+   {
+    "tier": "C",
+    "config": "tfm3-edge",
+    "windows": 400,
+    "changed_share": 1.0,
+    "ratio_all": 1.0069,
+    "ratio_changed": 1.0069,
+    "worse_share_changed": 0.573
+   }
+  ]
+ }
 }

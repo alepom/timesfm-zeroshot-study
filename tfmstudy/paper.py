@@ -192,7 +192,7 @@ def table_family_p(conf: dict) -> None:
 
 H_TEXT = {"H2": "W-seen vs W-post DiD, TimesFM-3 vs Chronos-2", "H3": "no detrending vs default, D7, steps 25--48",
           "H4a": "multivariate vs univariate, lead-lag 24", "H4b": "multivariate vs univariate, known covariate",
-          "H4c": "multivariate vs univariate, independent series", "H4d": "multivariate vs univariate, spurious covariate",
+          "H4c": "multivariate vs univariate, independent series", "H4d": "multivariate vs univariate, redundant covariate",
           "H5": "TimesFM-3 uni vs Naive, FX and FRED"}
 H_FORM = {"negative": "ratio $<$ 1", "equivalence": "within $\\pm$3\\%", "nonsuperiority": "not $<$ 0.90"}
 
@@ -268,6 +268,17 @@ def tier_p_issues(reps: int = DESCRIPTIVE_REPS) -> dict | None:
     return out
 
 
+def table_zero_d8() -> None:
+    """R18: the always-zero forecast on the four D8 cells, MASE relative to Seasonal Naive as in the Tier C table."""
+    ext = json.loads((ROOT / "reports" / "robustness_extra.json").read_text())
+    rows = []
+    for r in ext.get("R18_zero_intermittent", []):
+        rel = r["relative_to_snaive"]
+        rows.append([_cell_label(r["cell"]), str(r["n"])] + [r3(rel[m]) for m in ("zero", "tfm3", "chronos2", "tirex2", "tfm25", "mean")])
+    write("table_zero_d8.tex", tabular("lrrrrrrr", ["Cell", "Reps", "Zero", "TimesFM-3", "Chronos-2", "TiRex-2", "TimesFM-2.5",
+                                                     "Mean"], rows))
+
+
 def table_tier_p_lead() -> None:
     """Tier P by lead band (R20, descriptive): 80% coverage of each model and tfm3-uni / stat-ens error."""
     ext = json.loads((ROOT / "reports" / "robustness_extra.json").read_text())
@@ -322,7 +333,7 @@ def table_secondary(conf: dict) -> None:
         rows.append([labels[r["test"]], f"{name(r['a'])} vs {name(r['ref'])}", r3(r["ratio"]), ci(r["ci95"]),
                      pval(r["p_holm"]), "yes" if r["resolved"] else "no"])
     rows.append("\\midrule")
-    rows.append("\\multicolumn{6}{l}{\\textit{S3: oracle covariates, load and river (upper bound); S4: classical context}} \\\\")
+    rows.append("\\multicolumn{6}{l}{\\textit{S3: oracle covariates, load and river (oracle information condition); S4: classical context}} \\\\")
     for fam, label in (("family_S3", None), ("family_S4", None)):
         for r in conf[fam]:
             lab = {"P4b": "P4b", "chronos2-cov": "Chronos-2 covariates", "c2016": "S4, hourly domains"}[r["test"]]
@@ -672,6 +683,7 @@ def main() -> None:
     table_family_s6(json.loads(S6.read_text()) if S6.exists() else None)
     table_tier_p_issues(tier_p_issues())
     table_tier_p_lead()
+    table_zero_d8()
     numbers(conf, desc)
     forest(conf)
     fig_domains()
