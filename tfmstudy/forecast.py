@@ -37,7 +37,7 @@ CONFIGS = {
     "tfm3-uni": ("timesfm-3.0", {"mode": "univariate"}),
     # Secondary: same as tfm3-uni with the classical models' context length (protocol section 2).
     "tfm3-c2016": ("timesfm-3.0", {"mode": "univariate", "context": 2016}),
-    # Review-requested (not pre-registered): equal-context comparison with Chronos-2, which truncates at 8,192.
+    # Added after the freeze (not pre-registered): equal-context comparison with Chronos-2, which truncates at 8,192.
     "tfm3-c8192": ("timesfm-3.0", {"mode": "univariate", "context": 8192}),
     "chronos2-c2016": ("chronos-2", {"inputs": "uni", "context": 2016}),
     # Ablations (protocol section 3.6): one inference flag or one module attribute changed from tfm3.

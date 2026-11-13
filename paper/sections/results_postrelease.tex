@@ -5,11 +5,14 @@
 
 \paragraph{Primary contrasts (family P).} On the four structured domains of Tier B, with no covariates for any model (P1--P3), TimesFM~3 in
 univariate mode has a MASE \PoneMase{} times that of the statistical ensemble (95\% CI \PoneMaseLo--\PoneMaseHi) and an SQL
-\PoneSql{} times (\PoneSqlLo--\PoneSqlHi); both differences are resolved (Table~\ref{tab:familyp}, Figure~\ref{fig:forest}). Against
+\PoneSql{} times (\PoneSqlLo--\PoneSqlHi); both differences are resolved (Table~\ref{tab:familyp}, Figure~\ref{fig:forest}).
+Their size depends on the baseline and on the weighting (Section~\ref{sec:robustness}, not pre-specified): with every window
+weighted equally the SQL ratio is 0.797, as a ratio of mean losses 0.807, and with a re-specified classical ensemble for river flow
+the ratios are 0.854 in MASE and 0.782 in SQL; every variant still favours TimesFM~3. Against
 the other foundation models the margins are an order of magnitude smaller: \PtwoMase{} (MASE) and \PtwoSql{} (SQL) against
 Chronos-2, both resolved, and \PthreeSql{} (SQL, resolved) and \PthreeMase{} (MASE, not resolved after Holm correction) against its
 predecessor TimesFM~2.5. The last decision is close to the threshold: re-run with 20 bootstrap seeds, its Holm-adjusted $p$ ranges
-from 0.042 to 0.073 (0.066 with the pre-registered seed) and falls below 0.05 for 3 of the 20; every other decision of family P is
+from 0.042 to 0.073 (0.066 with the pre-specified seed) and falls below 0.05 for 3 of the 20; every other decision of family P is
 the same under all 20 seeds. Joint forecasting of the real group tasks (P4a: price, FX, FRED) lowers SQL by about 3\% (resolved; the
 MASE difference is not resolved; the SQL decision does not survive the small-cluster and non-overlapping-window checks of
 Section~\ref{sec:robustness}). The flags of Google's benchmark runners (P5) change neither metric by more than about 1\%, at
@@ -62,8 +65,14 @@ only a small part of the gap to the classical ensemble on hourly series (11--13\
 same pages in 2026; the difference in differences is \Htwo{} (\HtwoLo--\HtwoHi), not resolved (Table~\ref{tab:familyh}). The estimate points
 in the predicted direction but is not resolved. With the realised standard error the test had 80\% power only for a difference of
 about \HtwoMde\% (the pilot suggested 5\%), and the interval is compatible with an advantage of that size; a null difference does not
-show that the pages were not memorised. The probe assumes that Chronos-2's training data contain Wikipedia pageviews only from
-before 2018 (the Kaggle web-traffic data \citep{kaggle2017webtraffic}), as their published descriptions state. The secondary contrasts agree
+show that the pages were not memorised. The probe assumes that Chronos-2's training data do not contain the 2023 test windows. Its declared
+corpus includes the \emph{Wiki} pageview series of the first Chronos models \citep{ansari2025chronos2}: daily views of 100{,}000
+English pages from 2015-07-01 to 2022-12-31 \citep{ansari2024chronos}. The protocol stated instead that Chronos-2 had seen pageviews
+only from before 2018; that premise was wrong (Appendix~\ref{app:deviations}). The declared corpus ends before the W-seen windows,
+but it contains 16 of the 190 probe pages and, for them, up to the first five months of the 400-day W-seen contexts; none of the W-new
+pages. Without those 16 pages the difference in differences is 0.972 (0.926--1.015; post hoc). Conversely, the TimesFM~3 model card
+lists pageviews up to November 2023 but not the pages or windows used, so W-seen marks windows inside the declared period of the
+corpus, a plausible exposure rather than a verified one. The secondary contrasts agree
 (Table~\ref{tab:secondary}): with the statistical ensemble or TiRex-2 as the reference, and for TimesFM~2.5, the difference is not
 resolved. TimesFM~2.5 gives the same difference in differences as TimesFM~3 (0.980), which is consistent both with no memorisation by
 either model and with a period effect specific to Chronos-2. On pages born after 2023 (W-new), TimesFM~3's advantage over Chronos-2 is smaller than on W-post (0.984 against 0.959); the
@@ -111,22 +120,22 @@ oracle future covariates; S4: TimesFM~3 restricted to the classical models' cont
 \input{generated/table_secondary.tex}
 \end{table}
 
-\subsection{Robustness (added after the freeze; not pre-registered)}
+\subsection{Robustness (added after the freeze; not pre-specified)}
 \label{sec:robustness}
 
 After the confirmatory analysis we added checks that the protocol did not plan;
 two of them needed new GPU runs, made on 2026-11-02 with bundle 0.5.6, and the others reuse the existing forecasts. They do not change
-any pre-registered decision; they show which conclusions depend on choices of aggregation, inference, baseline and context. Their
-intervals and $p$-values are unadjusted unless a Holm adjustment is stated, and none has the status of a pre-registered test. Code and results are released
+any pre-specified decision; they show which conclusions depend on choices of aggregation, inference, baseline and context. Their
+intervals and $p$-values are unadjusted unless a Holm adjustment is stated, and none has the status of a pre-specified test. Code and results are released
 (\texttt{tfmstudy/robustness.py}, \texttt{tfmstudy/alt\_baseline.py}, \texttt{reports/robustness\_extra.json}).
 
 \paragraph{Aggregation.} Table~\ref{tab:robustness} recomputes family P with other averaging schemes. The MASE contrasts are stable:
 P1 lies between 0.824 and 0.872 and P2 and P3 between 0.94 and 0.98 under every scheme. The SQL advantage over the ensemble is not:
-0.707 with the pre-registered nested equal weights, 0.797 when every window counts equally, 0.807 as a ratio of mean losses and
+0.707 with the pre-specified nested equal weights, 0.797 when every window counts equally, 0.807 as a ratio of mean losses and
 0.832 as a median. River flow drives the difference: it has a quarter of the weight but 207 of the 3{,}855 windows, and without it
 P1 on SQL is 0.797.
 
-\paragraph{A re-specified classical baseline.} The pre-registered ensemble fits AutoETS, AutoARIMA and AutoTheta with a weekly
+\paragraph{A re-specified classical baseline.} The pre-specified ensemble fits AutoETS, AutoARIMA and AutoTheta with a weekly
 season to daily river flow and to business-daily FX and rates, none of which has a weekly cycle, and fits raw, skewed flows. With
 the same models without a season, fitted to $\log(1+y)$ for river flow, the ensemble's SQL on rivers falls to 0.665 of its value
 (MASE 0.920) and its 80\% coverage moves from 0.891 to 0.798. TimesFM~3 still leads on rivers in SQL (0.742, 0.604--0.897); in MASE the estimate is 0.844 (0.684--1.004), not resolved, and P1 with the re-specified river ensemble is 0.854 (0.804--0.900) in MASE and 0.782 (0.737--0.824) in SQL. On FX and
@@ -179,7 +188,7 @@ it by 2\% on load; elsewhere every ablation changes MASE by less than 2.5\% in e
 differences are not interpretable.
 
 \paragraph{Level shifts.} A grid of 16 synthetic cells extends the single regime-change cell of Table~\ref{tab:tierc}, which
-is kept, as are the pre-registered tests (Figure~\ref{fig:regime}; exploratory). The process is that of the original cell (two
+is kept, as are the pre-specified tests (Figure~\ref{fig:regime}; exploratory). The process is that of the original cell (two
 seasons of 24 and 168 steps plus AR(1) noise, 1{,}024 points, horizon 48) with an upward level shift of 1, 2, 3 or 5 marginal
 standard deviations of the noise, starting 6, 24, 96 or 336 steps before the origin; each cell has 100 replications drawn
 independently (seed 2026), plus a no-shift control. Without a shift TimesFM~3 is 8\% better than the best classical model. In each
@@ -210,7 +219,7 @@ tasks move together) gives intervals close to the task bootstrap: 0.924--0.982 f
 
 \begin{table}[!htbp]
 \centering
-\caption{Robustness of family P (added after the freeze; not pre-registered). Ratios under the pre-registered nested equal weights,
+\caption{Robustness of family P (added after the freeze; not pre-specified). Ratios under the pre-specified nested equal weights,
 pooled over windows, per series, as a ratio of mean errors, as the median log ratio, and without river flow; Holm-adjusted $p$ and
 decision under a delete-one-cluster jackknife with $t_7$ critical values and under the two-way bootstrap with two-week time blocks.}
 \label{tab:robustness}

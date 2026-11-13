@@ -1,5 +1,5 @@
 {
- "label": "review-requested analyses of the second and third rounds; not pre-registered",
+ "label": "analyses added after the freeze; not pre-registered",
  "R9_regime_grid": [
   {
    "cell": "regime:shift0",
@@ -936,6 +936,11 @@
   "R9": "DGP: 10 + 3 sin(2 pi t/24) + 2 sin(2 pi t/168) + AR(1) noise (phi 0.5, innovation sd 0.5), 1,024 points, H 48; upward level shift of size x the marginal noise sd (0.577) starting `lag` steps before the origin; 100 replications per cell, seed 2026, independent draws per cell (no common random numbers); intervals over replications; the best classical model is selected per cell after seeing the results, stat-ens is fixed",
   "R10": "hourly Tier B windows (load, price, weather) with all five configurations; interaction resampled jointly",
   "R17": "per Tier B domain, univariate configurations, complete cases over tfm3-uni, stat-ens, chronos2-uni and naive; two-way bootstrap within the domain, 2,000 draws; descriptive, no multiplicity adjustment",
+  "R18": "D8 intermittent demand: MASE of the always-zero forecast (the true median: demand occurs with probability 0.3) against the models, geometric mean over replications per cell, same scale as the stored metrics",
+  "R19": "H2 difference in differences without the probe pages present in Chronos-2's Wiki corpus (Chronos Wiki Daily 100k, 2015-07-01 to 2022-12-31, page names from autogluon/chronos_datasets on 2026-11-13; list in data/manifests/tierW_chronos_wiki100k_overlap.csv); same estimator and bootstrap as H2, 10,000 draws, seed 17",
+  "R20": "Tier P, both issues, univariate tasks of load, price, river and Wikipedia: 80% coverage and the ratio of mean absolute errors of tfm3-uni to stat-ens by lead band (days after the origin: up to 4, 4-6, over 6); window steps with a published outcome only; ratios are geometric means over series; descriptive",
+  "R21": "Tier B, univariate 168-hour tasks of price and load: ratio of mean absolute errors of tfm3-uni to stat-ens on steps 1-48 and 49-168, geometric mean over series-windows; descriptive, to compare with Tier P's 49-216 h steps",
+  "R22": "ablations: a window is active when switching the step changes TimesFM-3's median forecast by more than 1e-4 of its mean absolute level at some step (GPU noise between runs is below 1e-5 for most windows); share of active windows and simple geometric-mean MASE ratio to tfm3 on all and on active windows; descriptive",
   "R12": "tasks resampled by source family (22 families in order of first appearance), simple mean of log skill ratios, 10,000 draws, seed 17"
  },
  "R13_non_overlap": {
@@ -2543,6 +2548,361 @@
    "n": 2280,
    "series": 20,
    "weeks": 8
+  }
+ ],
+ "R18_zero_intermittent": [
+  {
+   "cell": "rep:D8:n200",
+   "n": 200,
+   "zero": 0.6487,
+   "tfm3": 0.657,
+   "chronos2": 0.6586,
+   "tirex2": 0.6645,
+   "tfm25": 0.657,
+   "naive": 0.8569,
+   "mean": 0.9244
+  },
+  {
+   "cell": "rep:D8:n200:h12",
+   "n": 197,
+   "zero": 0.616,
+   "tfm3": 0.6278,
+   "chronos2": 0.6284,
+   "tirex2": 0.6391,
+   "tfm25": 0.624,
+   "naive": 0.8118,
+   "mean": 0.9236
+  },
+  {
+   "cell": "rep:D8:n48",
+   "n": 200,
+   "zero": 0.6509,
+   "tfm3": 0.69,
+   "chronos2": 0.6689,
+   "tirex2": 0.6801,
+   "tfm25": 0.679,
+   "naive": 0.8546,
+   "mean": 0.9394
+  },
+  {
+   "cell": "rep:D8:n48:h12",
+   "n": 197,
+   "zero": 0.5715,
+   "tfm3": 0.6083,
+   "chronos2": 0.6008,
+   "tirex2": 0.6171,
+   "tfm25": 0.6031,
+   "naive": 0.7915,
+   "mean": 0.9175
+  }
+ ],
+ "R19_did_without_chronos_pages": {
+  "all": {
+   "ratio": 0.9799,
+   "ci95": [
+    0.9362,
+    1.0207
+   ],
+   "p": 0.3568,
+   "n": 4180
+  },
+  "without_overlap": {
+   "ratio": 0.9718,
+   "ci95": [
+    0.9256,
+    1.0146
+   ],
+   "p": 0.2036,
+   "n": 3828
+  },
+  "pages_removed": 16
+ },
+ "R20_tier_p_by_lead": [
+  {
+   "domain": "load",
+   "band": "up to 4 days",
+   "series": 12,
+   "coverage80_tfm3-uni": 0.696,
+   "coverage80_chronos2-uni": 0.553,
+   "coverage80_tfm25": 0.657,
+   "coverage80_stat-ens": 0.776,
+   "coverage80_naive": 0.964,
+   "mae_ratio_tfm3_vs_statens": 0.816
+  },
+  {
+   "domain": "load",
+   "band": "4-6 days",
+   "series": 12,
+   "coverage80_tfm3-uni": 0.595,
+   "coverage80_chronos2-uni": 0.474,
+   "coverage80_tfm25": 0.609,
+   "coverage80_stat-ens": 0.775,
+   "coverage80_naive": 1.0,
+   "mae_ratio_tfm3_vs_statens": 0.84
+  },
+  {
+   "domain": "load",
+   "band": "over 6 days",
+   "series": 12,
+   "coverage80_tfm3-uni": 0.674,
+   "coverage80_chronos2-uni": 0.536,
+   "coverage80_tfm25": 0.694,
+   "coverage80_stat-ens": 0.824,
+   "coverage80_naive": 1.0,
+   "mae_ratio_tfm3_vs_statens": 0.806
+  },
+  {
+   "domain": "price",
+   "band": "up to 4 days",
+   "series": 12,
+   "coverage80_tfm3-uni": 0.81,
+   "coverage80_chronos2-uni": 0.818,
+   "coverage80_tfm25": 0.781,
+   "coverage80_stat-ens": 0.945,
+   "coverage80_naive": 0.99,
+   "mae_ratio_tfm3_vs_statens": 1.02
+  },
+  {
+   "domain": "price",
+   "band": "4-6 days",
+   "series": 12,
+   "coverage80_tfm3-uni": 0.724,
+   "coverage80_chronos2-uni": 0.838,
+   "coverage80_tfm25": 0.7,
+   "coverage80_stat-ens": 0.985,
+   "coverage80_naive": 0.997,
+   "mae_ratio_tfm3_vs_statens": 1.668
+  },
+  {
+   "domain": "price",
+   "band": "over 6 days",
+   "series": 12,
+   "coverage80_tfm3-uni": 0.562,
+   "coverage80_chronos2-uni": 0.705,
+   "coverage80_tfm25": 0.619,
+   "coverage80_stat-ens": 0.975,
+   "coverage80_naive": 0.998,
+   "mae_ratio_tfm3_vs_statens": 1.787
+  },
+  {
+   "domain": "river",
+   "band": "up to 4 days",
+   "series": 19,
+   "coverage80_tfm3-uni": 0.776,
+   "coverage80_chronos2-uni": 0.711,
+   "coverage80_tfm25": 0.855,
+   "coverage80_stat-ens": 0.947,
+   "coverage80_naive": 0.947,
+   "mae_ratio_tfm3_vs_statens": 0.913
+  },
+  {
+   "domain": "river",
+   "band": "4-6 days",
+   "series": 20,
+   "coverage80_tfm3-uni": 0.782,
+   "coverage80_chronos2-uni": 0.756,
+   "coverage80_tfm25": 0.782,
+   "coverage80_stat-ens": 0.91,
+   "coverage80_naive": 0.923,
+   "mae_ratio_tfm3_vs_statens": 0.833
+  },
+  {
+   "domain": "river",
+   "band": "over 6 days",
+   "series": 20,
+   "coverage80_tfm3-uni": 0.688,
+   "coverage80_chronos2-uni": 0.654,
+   "coverage80_tfm25": 0.692,
+   "coverage80_stat-ens": 0.821,
+   "coverage80_naive": 0.833,
+   "mae_ratio_tfm3_vs_statens": 1.038
+  },
+  {
+   "domain": "wiki",
+   "band": "up to 4 days",
+   "series": 318,
+   "coverage80_tfm3-uni": 0.66,
+   "coverage80_chronos2-uni": 0.657,
+   "coverage80_tfm25": 0.664,
+   "coverage80_stat-ens": 0.934,
+   "coverage80_naive": 0.94,
+   "mae_ratio_tfm3_vs_statens": 0.728
+  },
+  {
+   "domain": "wiki",
+   "band": "4-6 days",
+   "series": 318,
+   "coverage80_tfm3-uni": 0.657,
+   "coverage80_chronos2-uni": 0.638,
+   "coverage80_tfm25": 0.677,
+   "coverage80_stat-ens": 0.946,
+   "coverage80_naive": 0.967,
+   "mae_ratio_tfm3_vs_statens": 0.73
+  },
+  {
+   "domain": "wiki",
+   "band": "over 6 days",
+   "series": 318,
+   "coverage80_tfm3-uni": 0.726,
+   "coverage80_chronos2-uni": 0.701,
+   "coverage80_tfm25": 0.725,
+   "coverage80_stat-ens": 0.949,
+   "coverage80_naive": 0.969,
+   "mae_ratio_tfm3_vs_statens": 0.72
+  }
+ ],
+ "R21_tier_b_by_lead": [
+  {
+   "domain": "load",
+   "band": "steps 1-48",
+   "n": 84,
+   "mae_ratio_tfm3_vs_statens": 0.89
+  },
+  {
+   "domain": "load",
+   "band": "steps 49-168",
+   "n": 84,
+   "mae_ratio_tfm3_vs_statens": 0.903
+  },
+  {
+   "domain": "price",
+   "band": "steps 1-48",
+   "n": 84,
+   "mae_ratio_tfm3_vs_statens": 0.841
+  },
+  {
+   "domain": "price",
+   "band": "steps 49-168",
+   "n": 84,
+   "mae_ratio_tfm3_vs_statens": 0.865
+  }
+ ],
+ "R22_ablation_activity": [
+  {
+   "tier": "B",
+   "config": "tfm3-nodetrend",
+   "windows": 683,
+   "active_share": 0.113,
+   "ratio_all": 0.9962,
+   "ratio_active": 0.9669,
+   "worse_share_active": 0.429
+  },
+  {
+   "tier": "B",
+   "config": "tfm3-nocpmrevin",
+   "windows": 70,
+   "active_share": 1.0,
+   "ratio_all": 0.9992,
+   "ratio_active": 0.9992,
+   "worse_share_active": 0.4
+  },
+  {
+   "tier": "B",
+   "config": "tfm3-nostitch",
+   "windows": 70,
+   "active_share": 1.0,
+   "ratio_all": 1.0045,
+   "ratio_active": 1.0045,
+   "worse_share_active": 0.643
+  },
+  {
+   "tier": "B",
+   "config": "tfm3-sym",
+   "windows": 683,
+   "active_share": 0.993,
+   "ratio_all": 0.9975,
+   "ratio_active": 0.9974,
+   "worse_share_active": 0.501
+  },
+  {
+   "tier": "B",
+   "config": "tfm3-pos",
+   "windows": 683,
+   "active_share": 0.085,
+   "ratio_all": 1.0,
+   "ratio_active": 1.0002,
+   "worse_share_active": 0.5
+  },
+  {
+   "tier": "B",
+   "config": "tfm3-znorm",
+   "windows": 683,
+   "active_share": 0.176,
+   "ratio_all": 1.0002,
+   "ratio_active": 1.0012,
+   "worse_share_active": 0.483
+  },
+  {
+   "tier": "B",
+   "config": "tfm3-edge",
+   "windows": 147,
+   "active_share": 1.0,
+   "ratio_all": 0.9996,
+   "ratio_active": 0.9996,
+   "worse_share_active": 0.544
+  },
+  {
+   "tier": "C",
+   "config": "tfm3-nodetrend",
+   "windows": 7600,
+   "active_share": 0.089,
+   "ratio_all": 1.0069,
+   "ratio_active": 1.0808,
+   "worse_share_active": 0.473
+  },
+  {
+   "tier": "C",
+   "config": "tfm3-nocpmrevin",
+   "windows": 2000,
+   "active_share": 1.0,
+   "ratio_all": 0.9999,
+   "ratio_active": 0.9999,
+   "worse_share_active": 0.497
+  },
+  {
+   "tier": "C",
+   "config": "tfm3-nostitch",
+   "windows": 2000,
+   "active_share": 1.0,
+   "ratio_all": 1.0004,
+   "ratio_active": 1.0004,
+   "worse_share_active": 0.494
+  },
+  {
+   "tier": "C",
+   "config": "tfm3-sym",
+   "windows": 7600,
+   "active_share": 1.0,
+   "ratio_all": 1.0023,
+   "ratio_active": 1.0023,
+   "worse_share_active": 0.462
+  },
+  {
+   "tier": "C",
+   "config": "tfm3-pos",
+   "windows": 7600,
+   "active_share": 0.042,
+   "ratio_all": 0.9995,
+   "ratio_active": 0.9887,
+   "worse_share_active": 0.0
+  },
+  {
+   "tier": "C",
+   "config": "tfm3-znorm",
+   "windows": 7600,
+   "active_share": 0.021,
+   "ratio_all": 1.0,
+   "ratio_active": 1.0,
+   "worse_share_active": 0.253
+  },
+  {
+   "tier": "C",
+   "config": "tfm3-edge",
+   "windows": 400,
+   "active_share": 1.0,
+   "ratio_all": 1.0069,
+   "ratio_active": 1.0069,
+   "worse_share_active": 0.573
   }
  ]
 }

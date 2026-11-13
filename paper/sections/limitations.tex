@@ -23,7 +23,7 @@ weeks.
 families P and H. The equivalence margin $\log 1.03$ corresponds to ratios from 0.971 to 1.030.
 \item \textbf{Context lengths.} On hourly data the foundation models see about 15{,}000 points and the classical models 2{,}016, so
 the contrasts without covariates match the inputs but not the context length (S4 measures the effect for TimesFM~3).
-\item \textbf{Baselines.} The pre-registered classical ensemble uses a weekly season on daily river flow and on business-daily
+\item \textbf{Baselines.} The pre-specified classical ensemble uses a weekly season on daily river flow and on business-daily
 FX and rates and is fitted to raw flows; a re-specified ensemble improves the river results markedly (Section~\ref{sec:robustness}).
 Croston-type methods were added for intermittent demand only after the freeze and give point forecasts only; no
 probabilistic baseline designed for intermittent demand was run.
@@ -33,11 +33,11 @@ and the differences in coverage between models are not tested.
 \item \textbf{Data vintages.} Tier B data were downloaded after the test windows ended. Some sources revise recent values (provisional
 river flows, for example), so the contexts may differ from what was available at each origin; Tier B is a retrospective
 evaluation, not a real-time simulation. Tier P is the real-time check.
-\item \textbf{Oracle covariates.} The real covariates (temperature, precipitation) are observed values, an upper bound on what a
-forecast could use.
+\item \textbf{Oracle covariates.} The real covariates (temperature, precipitation) are observed values: an ideal information condition, not a
+real forecast, and not a guaranteed upper bound on what a fixed model achieves with real covariates.
 \item \textbf{Our ensemble is not fev's.} H1 compares TimesFM~3 with fev's ensemble on Tier A and with ours on Tier B, so it is
 descriptive.
-\item \textbf{Design error in H3.} The pre-registered cell never activates the mechanism it tests; the exploratory results on the
+\item \textbf{Design error in H3.} The pre-specified cell never activates the mechanism it tests; the exploratory results on the
 other cells are not adjusted for multiplicity.
 \item \textbf{A software error in one ablation} (variate attention) was found after the confirmatory analysis; the ablation was
 re-run with the corrected code and family S5 recomputed (Appendix~\ref{app:deviations}).

@@ -15,7 +15,7 @@ series lists fixed by rules on 2025 data: hourly electricity load in 12 European
 \citep{hersbach2020era5,zippenfenig2023openmeteo}), daily flow at 20 river gauges (USGS \citep{usgs2026nwis}), ten business-daily exchange rates
 against the euro (ECB \citep{ecb2026dataportal}), and eight Treasury yields with WTI and Brent prices (FRED \citep{fred2026}). Horizons are 24 and
 168 hours, 7 and 28 days, 5 and 20 business days. Load and river flow have a covariate whose \emph{observed} future values are
-supplied (temperature, precipitation): it is an oracle, an upper bound on any real forecast, and enters only the configurations with covariates (\texttt{tfm3}, \texttt{tfm3-eval}, \texttt{chronos2}, \texttt{tirex2}): P5, H1, S3 and the Tier B ablations (S5). Price, FX and FRED also
+supplied (temperature, precipitation): it is an oracle, an ideal information condition rather than a guaranteed upper bound on a fixed model's accuracy, and enters only the configurations with covariates (\texttt{tfm3}, \texttt{tfm3-eval}, \texttt{chronos2}, \texttt{tirex2}): P5, H1, S3 and the Tier B ablations (S5). Price, FX and FRED also
 form one group task each, in which all series of the domain are forecast jointly. The denominators differ by analysis and are
 not interchangeable: 4{,}136 forecast tasks produce 4{,}943 series-task evaluations (4{,}059 univariate and 884 in group mode),
 which cover 4{,}068 distinct series-windows. P1--P3 and P5 use the 3{,}855 univariate evaluations on the four structured domains
@@ -28,8 +28,9 @@ datasets that overlap fev-bench, Wikipedia pageviews to November 2023, Google Tr
 that the \emph{test windows} are new, not that the series are.
 
 \paragraph{Tier W: memorisation probe.} English Wikipedia daily user pageviews \citep{wikimedia2026pageviews}, horizons 7 and 28 days,
-400-day contexts. \emph{W-seen}: 200 popular pages (seed 17) with test windows from 2023-09-01 to 2023-10-20, inside the pageview
-corpus that the TimesFM~3 model card lists up to November 2023 \citep{timesfm2026hf}. \emph{W-post}: the same pages, same calendar span in
+400-day contexts. \emph{W-seen}: 200 popular pages (seed 17) with test windows from 2023-09-01 to 2023-10-20, inside the period of the
+pageview corpus that the TimesFM~3 model card lists up to November 2023 \citep{timesfm2026hf} (the card does not list pages, so
+exposure of each page and window is plausible, not verified). \emph{W-post}: the same pages, same calendar span in
 2026. \emph{W-new}: pages that first entered the top-1000 lists in 2024--2025, with no views at all before December 2023, matched to
 W-seen/W-post on quintiles of median views. Pages that became redirects are excluded (190 and 128 pages remain).
 
@@ -40,7 +41,7 @@ horizons 12 and 48; (ii) univariate stress cells: two seasonalities with one or 
 context, a context ladder from 64 to 15{,}360 points, horizons up to 1{,}024, a regime change near the origin, outliers in the last
 5\% of the context, a random walk and white noise; (iii) multivariate cells: VAR(1) systems of 2 to 64 variates, lead-lag pairs
 (lags 1, 5, 24), a target driven by a known future covariate (signal-to-noise 0.5 and 2), a spurious past covariate, and independent
-series stacked as variates.
+series stacked as variates. Equations and parameters are in Appendix~\ref{app:generators}.
 
 \paragraph{Tier P: prospective check.} On the morning of each issue day (2026-10-30 and 2026-11-02) the data published up to the
 previous day are downloaded for the load, price, river, FX, FRED and Wikipedia series, every series is forecast from its last

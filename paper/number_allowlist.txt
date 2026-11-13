@@ -18,3 +18,16 @@
 2.51 | Tier P issue 2, price: geometric-mean MASE of tfm25
 2.52 | Tier P issue 2, price: geometric-mean MASE of tfm3-uni
 3161 | RFC 3161, the IETF time-stamp protocol (name of the standard)
+0.972 | H2 DiD without the 16 probe pages in Chronos-2's Wiki corpus (post hoc, 10,000 reps, seed 17; 2026-11-13)
+0.926 | lower CI of the above
+1.015 | upper CI of the above
+100000 | number of series in the Chronos Wiki Daily (100k) corpus (Ansari et al. 2024, App. B.8; HF autogluon/chronos_datasets wiki_daily_100k)
+0.57 | D8: geometric-mean MASE of the zero forecast, lowest cell (n48, h12); post hoc 2026-11-13
+0.65 | D8: zero forecast, highest cell (n48 h48 0.651)
+0.60 | D8: foundation models, lowest cell-level geometric-mean MASE (chronos2 n48 h12 0.601)
+0.69 | D8: foundation models, highest (tfm3 n48 h48 0.690)
+0.7 | D8 generator: demand occurs with probability 0.3 (synthetic.py), zero with probability 0.7
+365 | synthetic generator constant (long-period cell: sin(2 pi t/365)), tfmstudy/data/synthetic.py
+180 | synthetic generator constant (D7 logistic amplitude), tfmstudy/data/synthetic.py
+7.17 | Tier A fred_md_2025/macro: our Seasonal Naive MASE 7.169 (results/tiera/A/snaive/metrics.csv)
+11.27 | Tier A fred_md_2025/macro: fev's published Seasonal Naive MASE 11.273 (fev seasonal_naive.csv, fev 0.8.0)

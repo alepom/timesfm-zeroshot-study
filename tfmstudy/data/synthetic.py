@@ -74,7 +74,7 @@ def _long_period(n: int, h: int, rng) -> np.ndarray:
 
 def _regime_change(n: int, h: int, rng) -> np.ndarray:
     y = _two_seasons(n, h, rng)[0]
-    y[n - 24:] += 5 * 0.5 / np.sqrt(1 - 0.25)  # 5 innovation-scale sd of the AR(1) noise, 24 steps before the origin
+    y[n - 24:] += 5 * 0.5 / np.sqrt(1 - 0.25)  # 5 marginal sd of the AR(1) noise (0.577 each), 24 steps before the origin
     return y[None]
 
 
@@ -158,7 +158,7 @@ CELLS: dict[str, tuple] = {
 # so the main Tier C series stay unseen until the protocol is frozen.
 VARIANTS = {"synthetic": {"reps": REPS, "seed": SEED, "rep_offset": 0},
             "synthetic_pilot": {"reps": 5, "seed": 99, "rep_offset": 900},
-            # Review-requested grid of level shifts (not pre-registered), own seeds: period "regime".
+            # Grid of level shifts added after the freeze (not pre-registered), own seeds: period "regime".
             "synthetic_regime": {"reps": 100, "seed": 2026, "rep_offset": 0, "regime_grid": True}}
 
 

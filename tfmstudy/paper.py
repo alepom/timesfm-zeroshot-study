@@ -202,7 +202,9 @@ def table_family_h(conf: dict) -> None:
     for r in conf["family_H"]:
         band = ci(r["ci90"], r4) + "$^{90}$" if r["direction"] == "equivalence" else ci(r.get("ci95"), r4)
         rows.append([r["test"], H_TEXT[r["test"]], H_FORM[r["direction"]], r4(r["ratio"]), band,
-                     pval(r["p_family_holm"]), "supported" if r["supported"] else "not supported"])
+                     pval(r["p_family_holm"]),
+                     "uninformative" if r["test"] == "H3" else
+                     "supported" if r["supported"] else "not supported"])
     write("table_family_h.tex", tabular("lllrlll", ["", "Contrast", "Prediction", "Ratio", "95\\% CI",
                                                       "$p_{\\mathrm{Holm}}$", "Decision"], rows))
 
@@ -236,7 +238,7 @@ def tier_p_issues(reps: int = DESCRIPTIVE_REPS) -> dict | None:
     paths = sorted(METRICS.parent.glob("prospective-*/P/metrics.parquet"))
     if not paths:
         return None
-    out = {"label": "Tier P per issue, descriptive (the pre-registered S6 pools both issues)", "reps": reps, "issues": {}}
+    out = {"label": "Tier P per issue, descriptive (the pre-specified S6 pools both issues)", "reps": reps, "issues": {}}
     for path in paths:
         p = pd.read_parquet(path)
         day = str(p.issue.iloc[0])
@@ -264,6 +266,24 @@ def tier_p_issues(reps: int = DESCRIPTIVE_REPS) -> dict | None:
         out["issues"][day] = rec
     TIER_P.write_text(json.dumps(out, indent=1))
     return out
+
+
+def table_tier_p_lead() -> None:
+    """Tier P by lead band (R20, descriptive): 80% coverage of each model and tfm3-uni / stat-ens error."""
+    ext = json.loads((ROOT / "reports" / "robustness_extra.json").read_text())
+    r20 = ext.get("R20_tier_p_by_lead")
+    if not r20:
+        write("table_tier_p_lead.tex", "\\textit{[Not computed.]}")
+        return
+    label = {"load": "Load", "price": "Price", "river": "River flow", "wiki": "Wikipedia"}
+    rows, dom = [], None
+    for r in r20:
+        rows.append([label[r["domain"]] if r["domain"] != dom else "", r["band"].replace("-", "--"), str(r["series"]),
+                     f"{r['coverage80_tfm3-uni']:.2f}", f"{r['coverage80_chronos2-uni']:.2f}", f"{r['coverage80_tfm25']:.2f}",
+                     f"{r['coverage80_stat-ens']:.2f}", f"{r['mae_ratio_tfm3_vs_statens']:.2f}"])
+        dom = r["domain"]
+    write("table_tier_p_lead.tex", tabular("llrrrrrr", ["Domain", "Lead", "Series", "TimesFM-3", "Chronos-2", "TimesFM-2.5",
+                                                        "Stat.\\ ens.", "MAE ratio"], rows))
 
 
 def table_tier_p_issues(tp: dict | None) -> None:
@@ -336,7 +356,7 @@ def table_ablations(conf: dict) -> None:
 
 
 def table_robustness() -> None:
-    """Review-requested sensitivity of family P: other aggregations and small-cluster inference (not pre-registered)."""
+    """Sensitivity of family P added after the freeze: other aggregations and small-cluster inference (not pre-specified)."""
     path = ROOT / "reports" / "robustness.json"
     if not path.exists():
         return
@@ -356,7 +376,7 @@ def table_robustness() -> None:
 
 
 def table_regime() -> None:
-    """Review-requested level-shift grid: TimesFM-3 MASE relative to the best classical model and to Chronos-2."""
+    """Level-shift grid added after the freeze: TimesFM-3 MASE relative to the best classical model and to Chronos-2."""
     path = ROOT / "reports" / "robustness_extra.json"
     if not path.exists():
         return
@@ -628,7 +648,7 @@ def meta() -> None:
           "(commit \\texttt{ce1c1e5}; \\texttt{9f15b38} before the history was rewritten to remove a private contact address) before any "
           "post-release data were downloaded; the two prospective issues were sealed "
           "by SHA-256 hashes before their outcomes existed (Section~\\ref{sec:prospective}); every sealed file is released except the "
-          "code bundle, which contains the same private address, and each released file can be checked against the digests in the "
+          "code bundle, which contains the same private address and otherwise equals the repository at commit \\texttt{8c9df44}, and each released file can be checked against the digests in the "
           "seal records. TimesFM~3 weights are not "
           "redistributed (non-commercial licence); every run records the Hugging Face revision of each model.\n")
 
@@ -651,6 +671,7 @@ def main() -> None:
     table_tier_c(desc)
     table_family_s6(json.loads(S6.read_text()) if S6.exists() else None)
     table_tier_p_issues(tier_p_issues())
+    table_tier_p_lead()
     numbers(conf, desc)
     forest(conf)
     fig_domains()

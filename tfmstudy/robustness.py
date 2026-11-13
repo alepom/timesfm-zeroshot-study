@@ -460,6 +460,19 @@ EXTRA_METHODS = {
     "R10": "hourly Tier B windows (load, price, weather) with all five configurations; interaction resampled jointly",
     "R17": ("per Tier B domain, univariate configurations, complete cases over tfm3-uni, stat-ens, chronos2-uni and naive; "
             "two-way bootstrap within the domain, 2,000 draws; descriptive, no multiplicity adjustment"),
+    "R18": ("D8 intermittent demand: MASE of the always-zero forecast (the true median: demand occurs with probability 0.3) "
+            "against the models, geometric mean over replications per cell, same scale as the stored metrics"),
+    "R19": ("H2 difference in differences without the probe pages present in Chronos-2's Wiki corpus (Chronos Wiki Daily "
+            "100k, 2015-07-01 to 2022-12-31, page names from autogluon/chronos_datasets on 2026-11-13; list in "
+            "data/manifests/tierW_chronos_wiki100k_overlap.csv); same estimator and bootstrap as H2, 10,000 draws, seed 17"),
+    "R20": ("Tier P, both issues, univariate tasks of load, price, river and Wikipedia: 80% coverage and the ratio of mean "
+            "absolute errors of tfm3-uni to stat-ens by lead band (days after the origin: up to 4, 4-6, over 6); window steps "
+            "with a published outcome only; ratios are geometric means over series; descriptive"),
+    "R21": ("Tier B, univariate 168-hour tasks of price and load: ratio of mean absolute errors of tfm3-uni to stat-ens on "
+            "steps 1-48 and 49-168, geometric mean over series-windows; descriptive, to compare with Tier P's 49-216 h steps"),
+    "R22": ("ablations: a window is active when switching the step changes TimesFM-3's median forecast by more than 1e-4 "
+            "of its mean absolute level at some step (GPU noise between runs is below 1e-5 for most windows); share of "
+            "active windows and simple geometric-mean MASE ratio to tfm3 on all and on active windows; descriptive"),
     "R12": ("tasks resampled by source family (22 families in order of first appearance), simple mean of log skill "
             "ratios, 10,000 draws, seed 17"),
 }
@@ -481,17 +494,160 @@ def by_domain(b: pd.DataFrame, reps: int = 2_000) -> list[dict]:
     return out
 
 
+def zero_intermittent() -> list[dict]:
+    """R18: the always-zero forecast on the D8 cells (true median), against the stored model metrics."""
+    from .data.synthetic import load_arrays
+    tasks = pd.read_parquet(ROOT / "data" / "processed" / "synthetic" / "tasks.parquet")
+    tasks = tasks[tasks.cell.str.contains("D8")]
+    arrays = load_arrays(ROOT / "data" / "processed" / "synthetic" / "arrays.parquet")
+    rows = []
+    for t in tasks.itertuples():
+        y = arrays[t.array_id]["target"][0].astype(float)
+        ctx, fut = y[:t.context_len], y[t.context_len:t.context_len + t.horizon]
+        scale = np.mean(np.abs(np.diff(ctx)))
+        rows.append({"task_id": t.task_id, "cell": t.cell, "zero": np.mean(np.abs(fut)) / scale if scale > 0 else np.nan})
+    z = pd.DataFrame(rows).set_index("task_id")
+    m = pd.read_parquet(MAIN / "synthetic" / "metrics.parquet")
+    z = z.join(m[m.task_id.isin(z.index)].pivot_table(index="task_id", columns="model", values="mase"))
+    cols = ["zero", "tfm3", "chronos2", "tirex2", "tfm25", "naive", "mean"]
+    out = []
+    for cell, g in z.groupby("cell"):
+        g = g.replace([np.inf, -np.inf], np.nan)
+        g = g[(g[cols] > 0).all(axis=1)]
+        out.append({"cell": cell, "n": int(len(g)), **{c: round(float(np.exp(np.log(g[c]).mean())), 4) for c in cols}})
+    return out
+
+
+def did_without_chronos_pages(reps: int = 10_000) -> dict:
+    """R19: H2 without the probe pages that appear in Chronos-2's declared Wiki corpus."""
+    w = pd.read_parquet(MAIN / "W" / "metrics.parquet")
+    pages = set("wiki:" + pd.read_csv(ROOT / "data" / "manifests" / "tierW_chronos_wiki100k_overlap.csv").title)
+    out = {}
+    for label, keep in (("all", w["mode"] == "uni"), ("without_overlap", (w["mode"] == "uni") & ~w.series_id.isin(pages))):
+        rows = A.complete_cases(w, ["tfm3", "chronos2"], ["mase"], keep)
+        r = A.did(w, "tfm3", "chronos2", "mase", rows, "W-seen", "W-post", ["horizon", "qgroup"], reps=reps)
+        out[label] = {"ratio": round(r["ratio"], 4), "ci95": [round(x, 4) for x in r["ci95"]], "p": r["p"], "n": r["n"]}
+    out["pages_removed"] = len(pages)
+    return out
+
+
+LEAD_BANDS = ((0, 4, "up to 4 days"), (4, 6, "4-6 days"), (6, 99, "over 6 days"))
+
+
+def tier_p_by_lead() -> list[dict]:
+    """R20: Tier P coverage and tfm3-uni / stat-ens error by lead band (both issues, S6 domains)."""
+    import json as _json
+    from .data import catalog
+    from .data import prospective as P
+    from .evaluate import read_forecasts, stat_ensemble
+    models = ["tfm3-uni", "chronos2-uni", "tfm25", "stat-ens", "naive"]
+    rows = []
+    for issue in ("2026-10-30", "2026-11-02"):
+        period = P.period_name(issue)
+        tasks = pd.read_parquet(P.PROCESSED / period / "tasks.parquet")
+        tasks = tasks[tasks["mode"].eq("uni") & tasks.domain.isin(["load", "price", "river", "wiki"])]
+        scored = set(pd.read_parquet(ROOT / "results" / "forecast" / period / "P" / "metrics.parquet").task_id)
+        tasks = tasks[tasks.task_id.isin(scored)]
+        run = ROOT / "results" / "forecast" / period / "P"
+        fc = {m: read_forecasts(run / m) for m in ("tfm3-uni", "chronos2-uni", "tfm25", "naive", "mstl", "mstl-theta",
+                                                   "mstl-arima", "ets", "arima", "theta")}
+        fc["stat-ens"] = stat_ensemble(tasks, fc)
+        out = pd.read_parquet(P.PROCESSED / period / "outcomes.parquet")
+        by_id = {sid: g.set_index("timestamp")["value"] for sid, g in out.groupby("series_id")}
+        for t in tasks.itertuples():
+            sid = _json.loads(t.targets)[0]
+            val, win = P.truth_for(t, None, by_id[sid])
+            hourly = catalog.DOMAINS[t.domain]["freq"] == "h"
+            lead = (np.arange(1, t.horizon + 1) / (24.0 if hourly else 1.0))
+            for lo, hi, band in LEAD_BANDS:
+                k = win & np.isfinite(val) & (lead > lo) & (lead <= hi)
+                if not k.any():
+                    continue
+                rec = {"domain": t.domain, "band": band, "series": sid}
+                for m in models:
+                    q = fc[m][t.task_id][0]
+                    rec[f"cov_{m}"] = float(np.mean((val[k] >= q[k, 0]) & (val[k] <= q[k, 8])))
+                    rec[f"mae_{m}"] = float(np.mean(np.abs(val[k] - q[k, 4])))
+                rows.append(rec)
+    df = pd.DataFrame(rows)
+    res = []
+    for (dom, band), g in df.groupby(["domain", "band"], sort=False):
+        ok = (g["mae_tfm3-uni"] > 0) & (g["mae_stat-ens"] > 0)
+        res.append({"domain": dom, "band": band, "series": int(g.series.nunique()),
+                    **{f"coverage80_{m}": round(float(g[f"cov_{m}"].mean()), 3) for m in models},
+                    "mae_ratio_tfm3_vs_statens": round(float(np.exp(np.mean(np.log(g.loc[ok, "mae_tfm3-uni"] / g.loc[ok, "mae_stat-ens"])))), 3)})
+    return res
+
+
+def tier_b_price_by_lead(tree: Path) -> list[dict]:
+    """R21: Tier B 168-hour univariate tasks of price and load: tfm3-uni / stat-ens error on steps 1-48 and 49-168."""
+    from .evaluate import read_forecasts, stat_ensemble
+    from .forecast import load_tasks
+    tasks, make = load_tasks("B", "main", ROOT / "data" / "processed")
+    tasks = tasks[tasks["mode"].eq("uni") & tasks.domain.isin(["price", "load"]) & tasks.horizon.eq(168)]
+    run = tree / "main" / "B"
+    fc = {m: read_forecasts(run / m) for m in ("tfm3-uni", "mstl", "mstl-theta", "mstl-arima")}
+    fc["stat-ens"] = stat_ensemble(tasks, fc)
+    rows = []
+    for t in tasks.itertuples():
+        _, truth, _ = make(t)
+        a, b = fc["tfm3-uni"].get(t.task_id), fc["stat-ens"].get(t.task_id)
+        if a is None or b is None:
+            continue
+        for lo, hi, band in ((0, 48, "steps 1-48"), (48, 168, "steps 49-168")):
+            ea = np.nanmean(np.abs(truth[0, lo:hi] - a[0, lo:hi, 4]))
+            eb = np.nanmean(np.abs(truth[0, lo:hi] - b[0, lo:hi, 4]))
+            if ea > 0 and eb > 0:
+                rows.append({"domain": t.domain, "band": band, "lr": np.log(ea / eb)})
+    df = pd.DataFrame(rows)
+    return [{"domain": d, "band": band, "n": int(len(g)), "mae_ratio_tfm3_vs_statens": round(float(np.exp(g.lr.mean())), 3)}
+            for (d, band), g in df.groupby(["domain", "band"])]
+
+
+def ablation_activity(tree: Path, tol: float = 1e-4) -> list[dict]:
+    """R22: where each ablation changes the forecast, and its effect there (Tier B and Tier C)."""
+    from .evaluate import read_forecasts
+    out = []
+    for tier in ("B", "synthetic"):
+        base = tree / "main" / tier
+        ref = read_forecasts(base / "tfm3")
+        met = pd.read_parquet(MAIN / tier / "metrics.parquet")
+        mase = met[met.model.eq("tfm3")].groupby("task_id").mase.apply(lambda x: np.exp(np.mean(np.log(x[x > 0]))))
+        for m in ("tfm3-nodetrend", "tfm3-nocpmrevin", "tfm3-nostitch", "tfm3-sym", "tfm3-pos", "tfm3-znorm", "tfm3-edge"):
+            if not (base / m).exists():
+                continue
+            fc = read_forecasts(base / m)
+            act = {}
+            for k, q in fc.items():
+                r = ref.get(k)
+                if r is not None and r.shape == q.shape:
+                    act[k] = bool(np.nanmax(np.abs(q[..., 4] - r[..., 4])) / (np.nanmean(np.abs(r[..., 4])) + 1e-9) > tol)
+            mm = met[met.model.eq(m)].groupby("task_id").mase.apply(lambda x: np.exp(np.mean(np.log(x[x > 0]))))
+            lr = np.log(mm / mase.reindex(mm.index)).replace([np.inf, -np.inf], np.nan).dropna()
+            lr = lr[lr.index.isin(act)]
+            on = lr[[act[k] for k in lr.index]]
+            out.append({"tier": "B" if tier == "B" else "C", "config": m, "windows": int(len(lr)),
+                        "active_share": round(float(np.mean([act[k] for k in lr.index])), 3),
+                        "ratio_all": round(float(np.exp(lr.mean())), 4),
+                        "ratio_active": round(float(np.exp(on.mean())), 4) if len(on) else None,
+                        "worse_share_active": round(float((on > 0).mean()), 3) if len(on) else None})
+    return out
+
+
 def main_extra(tree: Path, parts: list[str] | None = None) -> None:
     path = ROOT / "reports" / "robustness_extra.json"
     report = json.loads(path.read_text()) if path.exists() else {}
-    report["label"] = "review-requested analyses of the second and third rounds; not pre-registered"
+    report["label"] = "analyses added after the freeze; not pre-registered"
     report["methods"] = EXTRA_METHODS
     b = pd.read_parquet(MAIN / "B" / "metrics.parquet")
     jobs = {"R9_regime_grid": lambda: regime_grid(), "R10_equal_context": lambda: equal_context(tree),
             "R11_croston": lambda: croston(pd.read_parquet(MAIN / "synthetic" / "metrics.parquet")),
             "R12_tier_a_families": lambda: tier_a_families(), "R13_non_overlap": lambda: non_overlap(b),
             "R14_loss_dependence": lambda: loss_dependence(b), "R15_sql_tails": lambda: sql_tails(b),
-            "R16_exclusions": exclusions, "R17_by_domain": lambda: by_domain(b)}
+            "R16_exclusions": exclusions, "R17_by_domain": lambda: by_domain(b),
+            "R18_zero_intermittent": zero_intermittent, "R19_did_without_chronos_pages": did_without_chronos_pages,
+            "R20_tier_p_by_lead": tier_p_by_lead, "R21_tier_b_by_lead": lambda: tier_b_price_by_lead(tree),
+            "R22_ablation_activity": lambda: ablation_activity(tree)}
     for key, job in jobs.items():
         if not parts or key.split("_")[0] in parts:
             report[key] = job()

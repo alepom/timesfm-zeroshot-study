@@ -10,12 +10,16 @@ weeks the probabilistic part of this advantage was confirmed and the point-forec
 (Section~\ref{sec:prospective}). The SQL margin depends on how windows
 are weighted and on the river baseline (Section~\ref{sec:robustness}): with every window weighted equally it is 20\%, and with a
 re-specified ensemble for river flow 22\%. Third, the advantage over the strongest other
-foundation models is small: about 5\% over Chronos-2 on post-release data, and over TimesFM~2.5 resolved only in SQL. On the
+foundation models is small: about 5\% over Chronos-2 on post-release data, a lead that on hourly data is not resolved when both models see
+2{,}016 points and is about 2\% when both see 8{,}192, and over TimesFM~2.5 resolved only in SQL. On the
 benchmark the published lead over Chronos-2 holds; it comes from the 18 tasks where a pipeline control fails, which include those where cross-learning matters, while on the
 other tasks the two are close (descriptive). Published comparisons among foundation models should state the inference options (cross-learning, symmetric
-averaging) each model was run with.
+averaging) each model was run with. Accuracy and reliability also need separate checks: in the prospective weeks the nominal
+80\% intervals of TimesFM~3 covered about 70\% of the outcomes, against about 80\% on Tier B, so a lower quantile loss than a
+baseline can coexist with intervals that are too narrow. Taken together, the zero-shot advantage depends on the structure of the
+series, on the information given to the model and on the loss.
 
-\paragraph{Exposure and memorisation.} We find no resolved difference between pages and windows inside the documented pageview corpus
+\paragraph{Exposure and memorisation.} We find no resolved difference between pages and windows inside the declared period of the pageview corpus
 and the same pages three years later; the estimate (\Htwo) points in the predicted direction and the interval
 (\HtwoLo--\HtwoHi) includes both no difference and an advantage of several per cent; because the design does not identify
 memorisation (below), the interval is not a bound on it. The probe is narrow (one source, one model family, a corpus
@@ -34,8 +38,8 @@ TimesFM~2.5's, Section~\ref{sec:prospective}); the gain over the long context is
 other foundation models were 7--10\% higher; use a random walk as the benchmark.
 \item \emph{Recent regime changes and saturating growth}: check the forecast against a simple baseline; in our synthetic tests
 (upward level shifts of two or more noise standard deviations a few steps to a few days before the origin, and a logistic curve near
-saturation) TimesFM~3 was 17\% to 194\% worse than the best classical model after the shifts and about four times worse on the
-logistic curve.
+saturation) TimesFM~3 was 17\% to 194\% worse than the best classical model after the shifts and on the
+logistic curve about four times worse with 48 points of context and 6.3 times worse than the naive forecast with 200.
 \item \emph{Covariates}: in synthetic data, useful when the covariate drives the target strongly and its future is known; with the real
 covariates we tested (temperature for load, precipitation for river flow) no gain is resolved even with their observed future values,
 and the interval (0.904--1.060) includes both a gain of about 10\% and a loss of 6\%.
@@ -44,13 +48,14 @@ On compute (Tier B, 4{,}136 forecast tasks in univariate and group mode, run rec
 Chronos-2 about 5, TimesFM~2.5 and TiRex-2 about 20, and the benchmark flags of TimesFM~3 about 35; the three MSTL members of the
 hourly classical ensemble took about an hour on eight CPU cores. These are wall-clock times from the run records, including model
 loading, on one shared free GPU; they show that zero-shot forecasting is not expensive at this scale, not a cost comparison in
-general. The costs that matter in practice are the GPU dependency and the licence (TimesFM~3's weights are licensed for non-commercial
-use only). Latency at batch sizes 1, 32 and 256 is reported in Appendix~\ref{app:hardware}.
+general. The costs that matter in practice are the GPU dependency and the licence (the downloadable TimesFM~3 weights are licensed for non-commercial,
+non-production use; Google offers commercial use through its authorised cloud services, such as BigQuery ML). Latency at batch sizes 1, 32 and 256 is reported in Appendix~\ref{app:hardware}.
 
 \paragraph{Practical implications for digital marketing and demand planning.} We did not evaluate marketing or sales data. The
 following are hypotheses that our results suggest for common use cases, to be validated on the user's own data with a loss that
 reflects the decision. (i) \emph{Demand and inventory}: for intermittent demand the foundation models' quantiles were more
-accurate than those of the probabilistic classical baselines we ran, their point forecasts were not better on squared error, and
+accurate than those of the probabilistic classical baselines we ran (none designed for intermittent demand), their median was no
+better than always forecasting zero, their point forecasts were not better on squared error, and
 Croston-type methods (point forecasts only) did not improve on the historic mean in squared error; short histories, where classical methods lack data to estimate seasonality, were the clearest case for zero-shot
 forecasting in our synthetic cells. (ii) \emph{Sales with promotions or advertising}: in our data, observed future temperature
 for load and precipitation for rivers gave no resolved gain, and the interval is compatible with gains and losses; whether a
@@ -60,4 +65,5 @@ often than intended; in an exploratory analysis their upper quantile rarely reac
 of such windows for TimesFM~3), which is not a test of spike detection. (iv) \emph{Prices and financial series}: on the exchange
 rates, yields and oil prices we evaluated, a random walk was the better benchmark. (v) \emph{Product launches and growth curves}:
 the spurious decline on a saturating synthetic process and the failures after recent synthetic level shifts suggest running a naive
-or damped-trend baseline alongside. The non-commercial licence of TimesFM~3 matters for any business use.
+or damped-trend baseline alongside. For business use the downloadable TimesFM~3 weights are not licensed; Google offers commercial use through its authorised
+cloud services.

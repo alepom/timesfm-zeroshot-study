@@ -30,5 +30,6 @@ What remains verifiable:
   so the combined hash in each manifest can be recomputed from the seal record, and every released file (contexts, tasks, issue
   record, run records, forecasts; Zenodo data record) can be checked against its digest.
 - The code bundle listed in the seals (`tfmstudy-0.5.4-…zip`) contains the same private address and is not released; its digest
-  cannot be checked by third parties.
+  cannot be checked by third parties. Its 29 files are byte-identical to the same paths at commit `8c9df44` ("Tier P issue 1
+  (2026-10-30): issued and sealed") except for the contact address in `tfmstudy/data/sources.py` (checked on 2026-11-13).
 

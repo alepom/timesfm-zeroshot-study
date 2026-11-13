@@ -1,21 +1,16 @@
-TimesFM~3, released by Google in August 2026, is reported to lead the public forecasting benchmarks. Benchmark data are old and
-public, so part of such a lead may reflect exposure during pre-training. We evaluate TimesFM~3 zero-shot under a protocol frozen
-before the post-release test data were downloaded, on real data published after the model's release (electricity load and prices, weather, river
-flow, exchange and interest rates), on a Wikipedia probe that compares the same pages inside and outside the model's documented
-training corpus, on two prospective issues sealed by hash before their outcomes existed, and on 7{,}600 controlled synthetic tasks.
-We also reproduce Google's published fev-bench results and read the model's inference code, which has no technical report. On a 30-task sample the
-published results largely reproduce. On the four structured post-release domains (load, prices, weather, river flow) TimesFM~3 has a 16\% lower MASE and a 29\% lower scaled quantile loss than a
-classical ensemble (15\% and 22\% with a re-specified ensemble for river flow), about 5\% lower errors than Chronos-2 (on hourly data no difference is resolved when both models see 2{,}016 points, and the lead
-is about 2\% when both see 8{,}192), and a lower probabilistic error than TimesFM~2.5; its published benchmark lead over Chronos-2 also
-reproduces, and is slightly larger when neither model shares information across series, an option the published Chronos-2 results
-use. In two overlapping, sealed prospective weeks the quantile-loss advantage over the ensemble is confirmed (25\% on load, prices and
-river flow, 58\% on Wikipedia), but on those three domains the point-forecast advantage is not (MASE ratio 1.07, not resolved),
-driven mainly by electricity prices after a rise in level (descriptively), and no difference from Chronos-2 or TimesFM~2.5 is
-resolved. The Wikipedia probe finds no resolved difference but does not identify an effect of memorisation. On exchange
-rates, interest rates and oil prices TimesFM~3 is worse than the random walk (11\% higher MASE, interval above parity), and so are the
-point estimates of the other foundation models. In synthetic data it forecasts a spurious decline on a saturating
-process and, in an exploratory grid of upward level shifts, is worse than the best classical method in all nine settings with a shift of two or
-more standard deviations 6 to 96 steps before the origin. In synthetic data, multivariate mode helps when a strong cross-series
-signal exists and is equivalent within 3\% in two controls without one; on real group tasks its gain (about 3\% in quantile loss)
-does not survive stricter treatments of time dependence. The fixed steps of the inference path contribute little
-on average.
+TimesFM~3, released by Google in August 2026, is reported to lead the public forecasting benchmarks, whose data are old and
+public. We evaluate it zero-shot under a protocol frozen before the post-release test data were downloaded: on real data published
+after its release (electricity load and prices, weather, river flow, exchange and interest rates), on a Wikipedia probe that
+compares the same pages inside and outside the declared period of its training corpus, on two prospective issues sealed by hash
+before their outcomes existed, and on 7{,}600 controlled synthetic tasks; we also reproduce Google's fev-bench results and read the
+inference code. On a 30-task sample the published results largely reproduce. On the four structured post-release domains
+TimesFM~3 has a 16\% lower MASE and a 29\% lower scaled quantile loss than a pre-specified classical ensemble; the size depends on
+the baseline and the weighting (20\% in quantile loss with every window weighted equally, 15\% and 22\% with a re-specified
+ensemble for river flow). Its lead over Chronos-2, about 5\%, depends on context: on hourly data it is not resolved when both
+models see 2{,}016 points. Over TimesFM~2.5 the lead is resolved only in quantile loss. In two overlapping prospective weeks the
+quantile-loss advantage over the ensemble is confirmed, but on load, prices and river flow the point-forecast advantage is not
+(MASE ratio 1.07, not resolved), and the nominal 80\% intervals cover about 70\% of the outcomes. On exchange rates, interest rates
+and oil prices TimesFM~3 is worse than the random walk. In synthetic data it forecasts a spurious decline on a saturating process
+and is worse than the best classical method after recent upward level shifts. The Wikipedia probe does not identify an effect of
+memorisation. The zero-shot advantage depends on the structure of the series, the information given and the loss, and the
+reliability of the quantiles needs checking separately from their average accuracy.

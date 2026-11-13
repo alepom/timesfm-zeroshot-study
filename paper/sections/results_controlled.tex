@@ -25,10 +25,14 @@ Section~\ref{sec:robustness} shows that the weakness recurs across sizes and tim
 \emph{random walk}: TimesFM~3 is 1--5\% worse than the best classical model. (iv) On \emph{white noise} all models match the historic mean, which is close to the optimal forecast (the true mean is known
 only to the generator); no model does better. On intermittent demand (D8) the
 verdict depends on the metric. Every foundation model has about a 20\% lower MASE than the naive forecast, the best classical
-model on that metric, but MASE rewards a median forecast near zero; on the root mean squared scaled error the historic mean and
-AutoETS are better than TimesFM~3 (0.709 against 0.811 with 200 points and $H = 48$), while on the quantile loss the foundation
-models are better (0.567 against 0.674). For intermittent demand the foundation models' quantiles, not their point forecasts,
-are the useful output (analysis added after the freeze, not pre-registered).
+model on that metric. But demand is zero with probability 0.7, so the zero forecast is the true median, and it is at least as
+good on MASE (0.57--0.65 against 0.60--0.69 for the foundation models across the four cells; post hoc): the MASE advantage shows
+that the models forecast a median near zero, not that they forecast demand well. On the root mean squared scaled error, which
+rewards the conditional mean rather than the median, the historic mean and AutoETS are better than TimesFM~3 (0.709 against 0.811
+with 200 points and $H = 48$). On the quantile loss the foundation models are better than the probabilistic classical baselines
+we ran (0.567 against 0.674), none of which is designed for intermittent demand. Their quantiles therefore look promising against
+these baselines, while the returned median is not an appropriate forecast for decisions governed by squared error (analysis
+added after the freeze, not pre-specified).
 
 \begin{table}[!htbp]
 \centering
@@ -41,7 +45,7 @@ worse). TiRex-2 is not run beyond 320 steps.}
 \input{generated/table_tier_c.tex}
 \end{table}
 
-\paragraph{H3: the detrending stage.} The pre-registered test (\texttt{tfm3-nodetrend} against \texttt{tfm3}, D7, 200 points,
+\paragraph{H3: the detrending stage.} The pre-specified test (\texttt{tfm3-nodetrend} against \texttt{tfm3}, D7, 200 points,
 $H = 48$, steps 25--48) gives a ratio of exactly \Hthree{}: the two configurations produce identical forecasts on all 200
 replications, and H3 is not supported. The reason is a design error of the protocol. The detrending gate opens only when a line
 explains more than 75\% of the context's variance, and in this cell the 200-point context is a long flat start followed by the
@@ -65,7 +69,8 @@ their relation to the target is weaker and less direct than in the synthetic cel
 \centering
 \caption{Family H: primary tests of the pre-declared hypotheses (Holm over seven tests). H4c and H4d are equivalence tests with a
 $\pm$3\% margin (two one-sided tests): for them the table gives the 90\% interval (marked $^{90}$), and $p_{\mathrm{Holm}}$ adjusts the TOST $p$; H5 is a
-non-superiority test with floor 0.90 and a one-sided $p$. Ratios to four decimals.}
+non-superiority test with floor 0.90 and a one-sided $p$. H3 is uninformative: its cell never activates the mechanism it tests
+(ratio exactly 1). Ratios to four decimals.}
 \label{tab:familyh}
 \scriptsize
 \setlength{\tabcolsep}{3pt}
@@ -80,8 +85,14 @@ Each ablation changes one fixed step or option of \texttt{tfm3} and is compared 
 padding future covariates by repetition (\texttt{tfm3-edge}) by 0.7\%; clipping at zero lowers it by 0.05\%; all three differences
 are resolved but too small to matter in practice. Switching off the CPM refinement or the stitching, or adding symmetric averaging or
 z-normalisation, changes MASE by less than 0.3\% and none of these differences is resolved. On the 20\% sample of Tier B series no
-ablation has a resolved effect. The fixed steps of the inference path therefore matter in specific situations (the detrending gate,
-H3) but, among the tasks and losses analysed, change average accuracy little; an unresolved difference is not shown to be
+ablation has a resolved effect. Averages hide where a step acts (descriptive, not pre-specified; a window counts as active when the
+change moves the median forecast by more than $10^{-4}$ of its level). The detrending gate opens on 11\% of the Tier B windows and
+9\% of the synthetic ones; there, switching it off lowers MASE by 3.3\% on Tier B and raises it by 8.1\% on Tier C, and it helps
+in about half of the active windows and hurts in the other half. Clipping at zero acts on 4--9\% of the windows (on the active
+synthetic windows it lowers MASE by 1.1\%). CPM and iterative RevIN, stitching, symmetric averaging and covariate edge handling act on (nearly) every window where they can
+act, with effects below 0.7\%; z-normalisation moves the forecast beyond numerical noise on 2--18\% of the windows, without effect. The fixed steps of the inference path therefore matter in specific situations (the detrending gate,
+H3) but, among the tasks and losses analysed, change average accuracy little, partly because gains and losses on the windows
+where a step acts cancel; an unresolved difference is not shown to be
 small, and equivalence was not tested. A reading, not a result: the network does most of the work. Switching off the
 variate attention is different in kind (re-run after a software error, Appendix~\ref{app:deviations}): it removes a trained sublayer
 from all 20 layers, and the forecasts become unusable, with MASE 795 times that of \texttt{tfm3} on Tier C and 10{,}881

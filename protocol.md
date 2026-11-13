@@ -325,4 +325,9 @@ the User-Agent line of `tfmstudy/data/sources.py` in every commit, and two inter
 `reports/SCHEDULE.md`) and two later working notes were removed from every commit. Commit dates and all other file content are unchanged
 and a few commit messages were reworded, but every commit hash changed: the freeze commit, publicly timestamped on 2026-10-30 as 9f15b38, is now ce1c1e5. The
 protocol file at the freeze is unchanged; its SHA-256 (45d7078f…) is in the timestamped manifest. The code bundles hashed in the
-Tier P seals contain the same address and are not released.
+Tier P seals contain the same address and are not released; the bundle of both issues (0.5.4) equals the repository at commit
+8c9df44 except for that address.
+
+Correction of a premise (2026-11-13, no analysis changed): H2 states that Chronos-2's corpus contains Wikipedia pageviews only from
+before 2018. The Chronos-2 report lists the "Wiki" series of the first Chronos models (100,000 English pages, 2015-07-01 to
+2022-12-31). The corpus still ends before the W-seen windows; it contains 16 of the 190 probe pages and none of the W-new pages.

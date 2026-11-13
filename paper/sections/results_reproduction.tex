@@ -23,8 +23,7 @@ SQL(Chronos-2), with our Chronos-2 (``ours'', no cross-learning) or fev's publis
 \end{table}
 
 \paragraph{The claim against Chronos-2.} Google's comparison sets its TimesFM~3 results against the Chronos-2 results published by
-fev. Our Chronos-2 failed the pipeline control on 16 of the 28 tasks (two further tasks failed the Seasonal Naive control: \texttt{fred\_md\_2025/macro} by a large margin and
-\texttt{restaurant} marginally; we did not diagnose them), with a
+fev. Our Chronos-2 failed the pipeline control on 16 of the 28 tasks, with a
 higher SQL than published on 12 of them, so we traced the cause. fev's
 published Chronos-2 results were produced with \emph{cross-learning} switched on: the series of a batch of up to 100 share
 information through Chronos-2's group attention. Running fev's own evaluation script on five failing tasks reproduces the published
@@ -42,7 +41,10 @@ UCI air quality) are treated as independent. The cross-learning diagnosis was co
 that it explains all 16 is an inference. The split by control outcome conditions on Chronos-2's own discrepancy from fev and is a
 diagnostic, not a moderator analysis. The published claim therefore holds on this
 sample; what a leaderboard does not show is that the two result sets were produced with different inference options, one of which
-favours Chronos-2 on four of the five tasks where we tested it.
+favours Chronos-2 on four of the five tasks where we tested it. Two further tasks failed the Seasonal Naive control: \texttt{fred\_md\_2025/macro}, MASE 7.17 against 11.27 published, and
+\texttt{restaurant}, by 0.03\%. Both datasets are unchanged on Hugging Face since 2025-09-05, before the published results; on
+\texttt{fred\_md\_2025/macro} our naive forecast gives the same MASE under Google's and fev's imputation of missing values. The published
+values were produced with fev 0.8.0 and ours with fev 0.9.0; we did not install the older version, so the cause is not traced.
 
 \paragraph{Against classical methods (H1, Tier A side).} With Google's inputs, TimesFM~3 (\texttt{tfm3}) has a geometric-mean
 MASE of \HoneAMase{} and SQL of \HoneASql{} relative to fev's published statistical ensemble over the \HoneATasks{} tasks for which fev reports the ensemble, and a lower

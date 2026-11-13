@@ -41,8 +41,8 @@ scored: one univariate river task (USGS gauge 09380000, whose values after 2026-
 window days observed and was excluded. S6 therefore uses 44 structured tasks of issue 1 and 43 of issue 2, on 44 series.
 
 \paragraph{Pooled decision (S6).} With both issues pooled (Table~\ref{tab:familys6}), on Wikipedia TimesFM~3 is ahead of the
-statistical ensemble (MASE 0.743, 0.703--0.783; SQL 0.419, 0.382--0.458) and of the naive forecast, all resolved, and level with
-Chronos-2 and TimesFM~2.5 (ratios 0.984 to 0.991, none resolved). On load, price and river flow its quantile loss is lower than the
+statistical ensemble (MASE 0.743, 0.703--0.783; SQL 0.419, 0.382--0.458) and of the naive forecast, all resolved; against
+Chronos-2 and TimesFM~2.5 no difference is resolved (ratios 0.984 to 0.991). On load, price and river flow its quantile loss is lower than the
 ensemble's (SQL 0.750, 0.648--0.861, resolved) but its absolute error is not (MASE 1.073, 0.977--1.175, not resolved); against
 Chronos-2 and TimesFM~2.5 no difference is resolved (ratios 0.978 to 1.001), and against the naive forecast both metrics are
 resolved in its favour. Read as the protocol intends, as a check of the direction of Tiers B and W, the two prospective weeks confirm the
@@ -57,16 +57,26 @@ every contrast against the ensemble and the naive forecast. The MASE result on t
 prices in both issues: there TimesFM~3's MASE is 1.609 (1.347--1.944) and 1.467 (1.210--1.729) times the ensemble's and 1.374 and
 1.221 times Chronos-2's, against 0.846 and 0.803 on load and 0.891 and 1.066 on river flow (in SQL, 0.469 and 0.449 on river flow).
 In Tier B, price horizons were 24 and 168 hours; in Tier P the scored steps lie between 49 and 216 hours after the origin, mostly
-beyond the 64 steps of a single output patch. Before issue 1 the mean price of the last day before the origin was above that of the week before in all twelve
+beyond the 64 steps of a single output patch. Period, domain mix and lead time change together, so the level-shift reading below
+cannot be separated from a horizon effect with these data. Two descriptive checks bound the horizon effect (Table~\ref{tab:tierplead};
+not pre-specified): in Tier B, on the 49--168-hour leads of the 168-hour price tasks, TimesFM~3's mean absolute error was 0.865 of
+the ensemble's (0.841 on steps 1--48), so longer leads alone did not reverse the result there; in Tier P its price error was level
+with the ensemble's up to four days after the origin (ratio 1.02) and 1.67 and 1.79 times it at 4--6 and over 6 days. Before issue 1 the mean price of the last day before the origin was above that of the week before in all twelve
 markets (by 40\% to 194\% in ten), and the window stayed high; TimesFM~3's median was below the window mean in all twelve and lay
 between the two levels, nearer the earlier one in nine. During the window of issue 2 prices rose further: the window mean was above the last day before
 the origin in all twelve markets, and TimesFM~3's median was below it in eleven. In both issues forecasts that follow the latest
 level (the naive forecast, MSTL) were closer on average, and TimesFM~2.5 erred as much as TimesFM~3 (geometric-mean MASE on
 prices 2.23 and 2.51, against 2.36 and 2.52). This resembles the weakness after recent level shifts in the synthetic
 grid (Figure~\ref{fig:regime}); it is a reading of twelve series in two overlapping weeks, not a test, and the per-domain results
-were not pre-registered. On Wikipedia the second issue favours TimesFM~3 slightly against TimesFM~2.5 (MASE 0.977, 0.959--0.996), a
+were not pre-specified. On Wikipedia the second issue favours TimesFM~3 slightly against TimesFM~2.5 (MASE 0.977, 0.959--0.996), a
 difference that the pooled, Holm-adjusted test does not resolve. Two overlapping weeks and 44 structured series are a check of
 direction, not an estimate.
+
+\paragraph{Coverage by lead (descriptive).} The nominal 80\% intervals of the foundation models under-cover in almost every
+domain and lead band (Table~\ref{tab:tierplead}): for TimesFM~3 coverage falls with lead on prices, from 0.81 to 0.56, and lies
+between 0.59 and 0.78 elsewhere, while the ensemble covers 0.78 to 0.98. A lower quantile loss than the ensemble therefore coexists
+with intervals that are too narrow for decisions that rely on them.
+
 
 \begin{table}[!htbp]
 \centering
@@ -86,3 +96,12 @@ intervals; the S6 decision is made on the pooled issues (Table~\ref{tab:familys6
 \input{generated/table_tier_p_issues.tex}
 \end{table}
 
+\begin{table}[!htbp]
+\centering
+\caption{Tier P by lead band (both issues, univariate tasks; descriptive, not pre-specified): empirical coverage of the nominal 80\%
+interval for each model, and TimesFM~3's mean absolute error relative to the statistical ensemble (geometric mean over series).
+Lead is counted in days after the origin; only window steps with a published outcome enter.}
+\label{tab:tierplead}
+\scriptsize
+\input{generated/table_tier_p_lead.tex}
+\end{table}
