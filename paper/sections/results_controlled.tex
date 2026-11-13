@@ -108,7 +108,8 @@ windows, and raises MASE by 8.1\% on Tier C, in 47\% of them: on the real window
 mostly hurts, on the synthetic ones it helps on average but in barely half of the windows. Clipping at zero changes 0.6\% of the
 Tier B and 4.2\% of the synthetic forecasts (on the latter it lowers MASE by 1.1\%). Symmetric averaging, stitching and covariate
 edge handling change (nearly) every forecast they can act on, CPM and iterative RevIN 14\% of the Tier B ones beyond the noise,
-and their per-window effects stay below 0.7\%; z-normalisation changes 0.9\% of the Tier B forecasts and 12\% of the synthetic ones,
+and their effects stay below 0.7\% in absolute value as the geometric mean, with equal weight per window, of the ratio of MASE to
+that of \texttt{tfm3} over the windows they change; z-normalisation changes 0.9\% of the Tier B forecasts and 12\% of the synthetic ones,
 without effect on the latter; under the pre-specified estimator of Table~\ref{tab:ablations} the estimates reach
 $-3.4\%$ for covariate edge handling and $-1.2\%$ for the detrending on Tier B, neither resolved. The fixed steps of the inference path therefore matter in specific situations (the detrending gate,
 H3) but, among the tasks and losses analysed, change average accuracy little, partly because they act on few windows and their

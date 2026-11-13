@@ -208,8 +208,8 @@ median forecast (0.811 with 200 points and $H = 48$); with 48 points and $H = 12
 it (0.693). In MASE the foundation models are well ahead in every cell (TimesFM~3 0.657 against 0.920--0.937 with 200 points and
 $H = 48$; with 48 points Chronos-2 is slightly lower than TimesFM~3). These methods give point forecasts only, so they extend the
 point comparison; the probabilistic comparison is still against the classical baselines of Table~\ref{tab:tierc}. The conclusion on
-intermittent demand is unchanged: the foundation models' median forecasts win on absolute error and lose on squared error, and their
-quantiles are better than those of the probabilistic baselines we ran.
+intermittent demand is unchanged: the foundation models' median forecasts outperform the evaluated Croston-type methods on absolute error, while the zero forecast
+performs better still (Table~\ref{tab:zerod8}), and lose on squared error; their quantiles are better than those of the probabilistic baselines we ran.
 
 \paragraph{Tier A by source family.} Resampling the 28 Tier A tasks by source family (22 families; for example the three ERCOT
 tasks move together) gives intervals close to the task bootstrap: 0.924--0.982 for our ratio of TimesFM~3 to Chronos-2,
