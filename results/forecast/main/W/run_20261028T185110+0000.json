@@ -1,0 +1,172 @@
+{
+ "environment": {
+  "tfmstudy": {
+   "version": "0.5.1",
+   "code_sha256": "2d02b03489e7"
+  },
+  "utc": "2026-10-28T18:51:10+00:00",
+  "python": "3.12.8",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+  "packages": {
+   "tfmstudy": null,
+   "timesfm": "3.0.2",
+   "chronos-forecasting": null,
+   "tirex-2": null,
+   "torch": "2.14.1+cpu",
+   "numpy": "2.5.4",
+   "pandas": "2.3.3",
+   "statsforecast": "2.1.1"
+  },
+  "gpu": {
+   "cuda_available": false
+  }
+ },
+ "tier": "W",
+ "period": "main",
+ "runs": [
+  {
+   "model_key": "mean",
+   "adapter": "classical",
+   "options": {
+    "method": "mean"
+   },
+   "tasks_total": 5588,
+   "already_done": 0,
+   "to_run": 5588,
+   "adapter_info": {
+    "name": "mean",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "mean"
+    },
+    "load_seconds": 0.2228955359896645,
+    "workers": 8
+   },
+   "seconds": 12.6,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "snaive",
+   "adapter": "classical",
+   "options": {
+    "method": "snaive"
+   },
+   "tasks_total": 5588,
+   "already_done": 0,
+   "to_run": 5588,
+   "adapter_info": {
+    "name": "snaive",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "snaive"
+    },
+    "load_seconds": 2.2498017642647028e-05,
+    "workers": 8
+   },
+   "seconds": 8.9,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "naive",
+   "adapter": "classical",
+   "options": {
+    "method": "naive"
+   },
+   "tasks_total": 5588,
+   "already_done": 0,
+   "to_run": 5588,
+   "adapter_info": {
+    "name": "naive",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "naive"
+    },
+    "load_seconds": 2.5708985049277544e-05,
+    "workers": 8
+   },
+   "seconds": 8.2,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "ets",
+   "adapter": "classical",
+   "options": {
+    "method": "ets"
+   },
+   "tasks_total": 5588,
+   "already_done": 0,
+   "to_run": 5588,
+   "adapter_info": {
+    "name": "ets",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "ets"
+    },
+    "load_seconds": 2.1059997379779816e-05,
+    "workers": 8
+   },
+   "seconds": 455.9,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "theta",
+   "adapter": "classical",
+   "options": {
+    "method": "theta"
+   },
+   "tasks_total": 5588,
+   "already_done": 0,
+   "to_run": 5588,
+   "adapter_info": {
+    "name": "theta",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "theta"
+    },
+    "load_seconds": 2.0459003280848265e-05,
+    "workers": 8
+   },
+   "seconds": 118.0,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "arima",
+   "adapter": "classical",
+   "options": {
+    "method": "arima"
+   },
+   "tasks_total": 5588,
+   "already_done": 0,
+   "to_run": 5588,
+   "adapter_info": {
+    "name": "arima",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "arima"
+    },
+    "load_seconds": 2.9752030968666077e-05,
+    "workers": 8
+   },
+   "seconds": 4090.6,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  }
+ ]
+}

@@ -1,0 +1,154 @@
+{
+ "environment": {
+  "tfmstudy": {
+   "version": "0.3.2",
+   "code_sha256": "2845acda6a75"
+  },
+  "utc": "2026-10-28T15:13:26+00:00",
+  "python": "3.12.8",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+  "packages": {
+   "tfmstudy": null,
+   "timesfm": "3.0.2",
+   "chronos-forecasting": null,
+   "tirex-2": null,
+   "torch": "2.14.1+cpu",
+   "numpy": "2.5.4",
+   "pandas": "2.3.3",
+   "statsforecast": "2.1.1"
+  },
+  "gpu": {
+   "cuda_available": false
+  }
+ },
+ "tier": "B",
+ "period": "pilot",
+ "runs": [
+  {
+   "model_key": "ets",
+   "adapter": "classical",
+   "options": {
+    "method": "ets"
+   },
+   "tasks_total": 5132,
+   "already_done": 1024,
+   "to_run": 4108,
+   "adapter_info": {
+    "name": "ets",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "ets"
+    },
+    "load_seconds": 0.1393827089923434,
+    "workers": 8
+   },
+   "seconds": 1269.5,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "arima",
+   "adapter": "classical",
+   "options": {
+    "method": "arima"
+   },
+   "tasks_total": 452,
+   "already_done": 0,
+   "to_run": 452,
+   "adapter_info": {
+    "name": "arima",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "arima"
+    },
+    "load_seconds": 2.769700950011611e-05,
+    "workers": 8
+   },
+   "seconds": 202.6,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "theta",
+   "adapter": "classical",
+   "options": {
+    "method": "theta"
+   },
+   "tasks_total": 5132,
+   "already_done": 0,
+   "to_run": 5132,
+   "adapter_info": {
+    "name": "theta",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "theta"
+    },
+    "load_seconds": 2.7451023925095797e-05,
+    "workers": 8
+   },
+   "seconds": 590.2,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "mstl",
+   "adapter": "classical",
+   "options": {
+    "method": "mstl"
+   },
+   "tasks_total": 4680,
+   "already_done": 0,
+   "to_run": 4680,
+   "adapter_info": {
+    "name": "mstl",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "mstl"
+    },
+    "load_seconds": 2.033001510426402e-05,
+    "workers": 8
+   },
+   "seconds": 544.8,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "mean",
+   "adapter": "classical",
+   "options": {
+    "method": "mean"
+   },
+   "tasks_total": 5132,
+   "already_done": 5132,
+   "to_run": 0
+  },
+  {
+   "model_key": "snaive",
+   "adapter": "classical",
+   "options": {
+    "method": "snaive"
+   },
+   "tasks_total": 5132,
+   "already_done": 5132,
+   "to_run": 0
+  },
+  {
+   "model_key": "naive",
+   "adapter": "classical",
+   "options": {
+    "method": "naive"
+   },
+   "tasks_total": 5132,
+   "already_done": 5132,
+   "to_run": 0
+  }
+ ]
+}

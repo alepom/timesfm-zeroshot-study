@@ -1,0 +1,146 @@
+{
+ "environment": {
+  "tfmstudy": {
+   "version": "0.5.1",
+   "code_sha256": "2d02b03489e7"
+  },
+  "utc": "2026-10-28T20:04:53+00:00",
+  "python": "3.13.16",
+  "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+  "packages": {
+   "tfmstudy": null,
+   "timesfm": "3.0.2",
+   "chronos-forecasting": "2.3.2",
+   "tirex-2": "0.4.0",
+   "torch": "2.11.0+cu130",
+   "numpy": "2.1.3",
+   "pandas": "2.2.3",
+   "statsforecast": "2.1.1"
+  },
+  "gpu": {
+   "cuda_available": true,
+   "name": "Tesla T4",
+   "total_memory_gb": 14.56,
+   "capability": "7.5",
+   "cuda": "13.0",
+   "nvidia_smi": "Tesla T4, 580.82.07, 15360 MiB"
+  }
+ },
+ "tier": "B",
+ "period": "main",
+ "runs": [
+  {
+   "model_key": "tfm3-uni",
+   "adapter": "timesfm-3.0",
+   "options": {
+    "mode": "univariate"
+   },
+   "tasks_total": 4136,
+   "already_done": 0,
+   "to_run": 4136,
+   "adapter_info": {
+    "name": "timesfm-3.0",
+    "hf_repo": "google/timesfm-3.0-pytorch",
+    "revision": "43046b85ec22d584a13f8098c2ed39c889e129c2",
+    "options": {
+     "mode": "univariate"
+    },
+    "load_seconds": 4.031510967000031
+   },
+   "seconds": 1001.0,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "chronos2-uni",
+   "adapter": "chronos-2",
+   "options": {
+    "inputs": "uni"
+   },
+   "tasks_total": 4136,
+   "already_done": 0,
+   "to_run": 4136,
+   "adapter_info": {
+    "name": "chronos-2",
+    "hf_repo": "amazon/chronos-2",
+    "revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+    "options": {},
+    "load_seconds": 6.460510014999272
+   },
+   "seconds": 319.9,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "tfm25",
+   "adapter": "timesfm-2.5",
+   "options": {},
+   "tasks_total": 4136,
+   "already_done": 0,
+   "to_run": 4136,
+   "adapter_info": {
+    "name": "timesfm-2.5",
+    "hf_repo": "google/timesfm-2.5-200m-pytorch",
+    "revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+    "options": {},
+    "load_seconds": 4.12854898400019
+   },
+   "seconds": 1280.0,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "tfm3-eval",
+   "adapter": "timesfm-3.0",
+   "options": {
+    "mode": "multivariate",
+    "use_symmetric_averaging": true,
+    "make_positive": true
+   },
+   "tasks_total": 4136,
+   "already_done": 0,
+   "to_run": 4136,
+   "adapter_info": {
+    "name": "timesfm-3.0",
+    "hf_repo": "google/timesfm-3.0-pytorch",
+    "revision": "43046b85ec22d584a13f8098c2ed39c889e129c2",
+    "options": {
+     "mode": "multivariate",
+     "use_symmetric_averaging": true,
+     "make_positive": true
+    },
+    "load_seconds": 3.6398987829998077
+   },
+   "seconds": 2091.3,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "tfm3",
+   "adapter": "timesfm-3.0",
+   "options": {
+    "mode": "multivariate"
+   },
+   "tasks_total": 4136,
+   "already_done": 0,
+   "to_run": 4136,
+   "adapter_info": {
+    "name": "timesfm-3.0",
+    "hf_repo": "google/timesfm-3.0-pytorch",
+    "revision": "43046b85ec22d584a13f8098c2ed39c889e129c2",
+    "options": {
+     "mode": "multivariate"
+    },
+    "load_seconds": 3.4231372390004253
+   },
+   "seconds": 1107.9,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  }
+ ]
+}

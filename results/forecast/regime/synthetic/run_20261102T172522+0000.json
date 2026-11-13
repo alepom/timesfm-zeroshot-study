@@ -1,0 +1,114 @@
+{
+ "environment": {
+  "tfmstudy": {
+   "version": "0.5.6",
+   "code_sha256": "08ebb705667f"
+  },
+  "utc": "2026-11-02T17:25:22+00:00",
+  "python": "3.13.16",
+  "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+  "packages": {
+   "tfmstudy": null,
+   "timesfm": "3.0.2",
+   "chronos-forecasting": "2.3.2",
+   "tirex-2": "0.4.0",
+   "torch": "2.11.0+cu130",
+   "numpy": "2.1.3",
+   "pandas": "2.2.3",
+   "statsforecast": "2.1.1"
+  },
+  "gpu": {
+   "cuda_available": true,
+   "name": "Tesla T4",
+   "total_memory_gb": 14.56,
+   "capability": "7.5",
+   "cuda": "13.0",
+   "nvidia_smi": "Tesla T4, 580.82.07, 15360 MiB"
+  }
+ },
+ "tier": "synthetic",
+ "period": "regime",
+ "runs": [
+  {
+   "model_key": "tfm3",
+   "adapter": "timesfm-3.0",
+   "options": {
+    "mode": "multivariate"
+   },
+   "tasks_total": 1700,
+   "already_done": 0,
+   "to_run": 1700,
+   "adapter_info": {
+    "name": "timesfm-3.0",
+    "hf_repo": "google/timesfm-3.0-pytorch",
+    "revision": "43046b85ec22d584a13f8098c2ed39c889e129c2",
+    "options": {
+     "mode": "multivariate"
+    },
+    "load_seconds": 3.9919686589998946
+   },
+   "seconds": 23.6,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "chronos2",
+   "adapter": "chronos-2",
+   "options": {},
+   "tasks_total": 1700,
+   "already_done": 0,
+   "to_run": 1700,
+   "adapter_info": {
+    "name": "chronos-2",
+    "hf_repo": "amazon/chronos-2",
+    "revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+    "options": {},
+    "load_seconds": 6.159516107000172
+   },
+   "seconds": 77.8,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "tfm25",
+   "adapter": "timesfm-2.5",
+   "options": {},
+   "tasks_total": 1700,
+   "already_done": 0,
+   "to_run": 1700,
+   "adapter_info": {
+    "name": "timesfm-2.5",
+    "hf_repo": "google/timesfm-2.5-200m-pytorch",
+    "revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+    "options": {},
+    "load_seconds": 12.210724307999953
+   },
+   "seconds": 19.8,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "tirex2",
+   "adapter": "tirex-2",
+   "options": {},
+   "tasks_total": 1700,
+   "already_done": 0,
+   "to_run": 1700,
+   "adapter_info": {
+    "name": "tirex-2",
+    "hf_repo": "NX-AI/TiRex-2",
+    "revision": "30788a311699acba7e6393ad9700ea7b7cb9bb2d",
+    "options": {},
+    "load_seconds": 8.198718930999803,
+    "slstm_backend": "vanilla"
+   },
+   "seconds": 445.2,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  }
+ ]
+}

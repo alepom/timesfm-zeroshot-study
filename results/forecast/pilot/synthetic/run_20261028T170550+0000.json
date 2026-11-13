@@ -1,0 +1,100 @@
+{
+ "environment": {
+  "tfmstudy": {
+   "version": "0.4.0",
+   "code_sha256": "8bd130dddf39"
+  },
+  "utc": "2026-10-28T17:05:50+00:00",
+  "python": "3.12.8",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+  "packages": {
+   "tfmstudy": null,
+   "timesfm": "3.0.2",
+   "chronos-forecasting": null,
+   "tirex-2": null,
+   "torch": "2.14.1+cpu",
+   "numpy": "2.5.4",
+   "pandas": "2.3.3",
+   "statsforecast": "2.1.1"
+  },
+  "gpu": {
+   "cuda_available": false
+  }
+ },
+ "tier": "synthetic",
+ "period": "pilot",
+ "runs": [
+  {
+   "model_key": "mstl",
+   "adapter": "classical",
+   "options": {
+    "method": "mstl"
+   },
+   "tasks_total": 60,
+   "already_done": 0,
+   "to_run": 60,
+   "adapter_info": {
+    "name": "mstl",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "mstl"
+    },
+    "load_seconds": 0.06789149902760983,
+    "workers": 8
+   },
+   "seconds": 6.0,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "mstl-theta",
+   "adapter": "classical",
+   "options": {
+    "method": "mstl-theta"
+   },
+   "tasks_total": 60,
+   "already_done": 0,
+   "to_run": 60,
+   "adapter_info": {
+    "name": "mstl-theta",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "mstl-theta"
+    },
+    "load_seconds": 1.466099638491869e-05,
+    "workers": 8
+   },
+   "seconds": 10.3,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "mstl-arima",
+   "adapter": "classical",
+   "options": {
+    "method": "mstl-arima"
+   },
+   "tasks_total": 60,
+   "already_done": 0,
+   "to_run": 60,
+   "adapter_info": {
+    "name": "mstl-arima",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "mstl-arima"
+    },
+    "load_seconds": 1.4648016076534986e-05,
+    "workers": 8
+   },
+   "seconds": 13.5,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software or its outputs, please cite the paper (preferred citation)."
+title: "tfmstudy: code, frozen protocol, metrics and seals for the TimesFM 3 zero-shot study"
+type: software
+version: "1.0.0"
+date-released: "2026-11-13"
+license: MIT
+authors:
+  - family-names: "Pomaro"
+    given-names: "Alessio"
+    affiliation: "Independent Researcher"
+    email: "info@alessiopomaro.it"
+    orcid: "https://orcid.org/0009-0008-6975-996X"
+repository-code: "https://github.com/alepom/timesfm-zeroshot-study"
+preferred-citation:
+  type: report
+  title: "How Far Does Zero-Shot Go? A Leakage-Aware Evaluation of TimesFM 3 on Post-Release, Multivariate and Controlled Data"
+  authors:
+    - family-names: "Pomaro"
+      given-names: "Alessio"
+      orcid: "https://orcid.org/0009-0008-6975-996X"
+  year: 2026
+  publisher:
+    name: "Zenodo"

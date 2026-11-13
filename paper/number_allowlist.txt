@@ -17,3 +17,4 @@
 2.23 | Tier P issue 1, price, univariate tasks: geometric-mean MASE of tfm25 (metrics.parquet, 2026-11-13)
 2.51 | Tier P issue 2, price: geometric-mean MASE of tfm25
 2.52 | Tier P issue 2, price: geometric-mean MASE of tfm3-uni
+3161 | RFC 3161, the IETF time-stamp protocol (name of the standard)

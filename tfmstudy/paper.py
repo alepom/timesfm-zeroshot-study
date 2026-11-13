@@ -603,6 +603,7 @@ def fig_regime() -> None:
 
 VERSION = "1.0.0"
 DOI = None  # assigned by Zenodo at publication
+DATA_DOI = None  # Zenodo data record (forecasts and downloaded data)
 
 
 def meta() -> None:
@@ -619,7 +620,8 @@ def meta() -> None:
           "Code, the frozen protocol, data manifests, the post-release data where licences allow (otherwise the download code "
           "with request timestamps and hashes), per-series and per-window quantile forecasts of every configuration, metrics and "
           "analysis outputs are released under the licences listed in the repository (MIT for code; CC BY 4.0 for the paper, "
-          "documentation and the forecasts of the other models). Forecasts produced by TimesFM~3 are Outputs under the TimesFM "
+          "documentation and the forecasts of the other models); the quantile forecasts and the downloaded data are in a Zenodo "
+          f"data record ({'doi:' + DATA_DOI if DATA_DOI else 'DOI to be assigned'}), the rest in the repository. Forecasts produced by TimesFM~3 are Outputs under the TimesFM "
           "Non-Commercial License v1.0, which does not permit their use for commercial or production purposes; they are released "
           "under CC BY-NC 4.0, and their use remains subject to Google's licence. Repository: \\url{https://github.com/alepom/timesfm-zeroshot-study} "
           f"(tag \\texttt{{v{VERSION}}}). The protocol was frozen by the git tag \\texttt{{protocol-frozen-v1}} "

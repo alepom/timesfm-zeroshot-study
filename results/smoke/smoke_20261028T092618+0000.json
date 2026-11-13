@@ -1,0 +1,147 @@
+{
+ "environment": {
+  "tfmstudy": {
+   "version": "0.1.2",
+   "code_sha256": "e5b258b33417"
+  },
+  "utc": "2026-10-28T09:26:18+00:00",
+  "python": "3.13.16",
+  "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+  "packages": {
+   "tfmstudy": null,
+   "timesfm": "3.0.2",
+   "chronos-forecasting": "2.3.2",
+   "tirex-2": "0.4.0",
+   "torch": "2.11.0+cu130",
+   "numpy": "2.1.3",
+   "pandas": "2.2.3",
+   "statsforecast": "2.1.1"
+  },
+  "gpu": {
+   "cuda_available": true,
+   "name": "Tesla T4",
+   "total_memory_gb": 14.56,
+   "capability": "7.5",
+   "cuda": "13.0",
+   "nvidia_smi": "Tesla T4, 580.82.07, 15360 MiB"
+  }
+ },
+ "models": [
+  {
+   "model": "timesfm-2.5",
+   "options": {},
+   "hf_revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+   "adapter": {
+    "name": "timesfm-2.5",
+    "hf_repo": "google/timesfm-2.5-200m-pytorch",
+    "revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+    "options": {},
+    "load_seconds": 2.2240466990000414
+   },
+   "tasks": {
+    "sine24": {
+     "seconds": 0.6413,
+     "shape": [
+      1,
+      64,
+      9
+     ],
+     "quantile_crossing": false,
+     "mase": [
+      0.810568378155706
+     ],
+     "wql": [
+      0.03479540260832213
+     ],
+     "coverage80": [
+      0.78125
+     ]
+    },
+    "random_walk": {
+     "seconds": 0.2981,
+     "shape": [
+      1,
+      32,
+      9
+     ],
+     "quantile_crossing": false,
+     "mase": [
+      3.4017703243170434
+     ],
+     "wql": [
+      0.020235759989683702
+     ],
+     "coverage80": [
+      0.65625
+     ]
+    },
+    "lead_lag": {
+     "seconds": 0.2972,
+     "shape": [
+      2,
+      24,
+      9
+     ],
+     "quantile_crossing": false,
+     "mase": [
+      1.587487705321799,
+      1.7248733599697625
+     ],
+     "wql": [
+      0.5734189278215881,
+      0.6937693491086422
+     ],
+     "coverage80": [
+      0.875,
+      0.7916666666666666
+     ]
+    },
+    "known_covariate": {
+     "seconds": 0.3119,
+     "shape": [
+      1,
+      24,
+      9
+     ],
+     "quantile_crossing": false,
+     "mase": [
+      0.659103992606414
+     ],
+     "wql": [
+      0.024777808258131494
+     ],
+     "coverage80": [
+      0.875
+     ]
+    },
+    "de_load_2025_temp": {
+     "seconds": 0.6284,
+     "shape": [
+      1,
+      24,
+      9
+     ],
+     "quantile_crossing": false,
+     "mase": [
+      0.6345930832437094
+     ],
+     "wql": [
+      0.03200518816441418
+     ],
+     "coverage80": [
+      0.5416666666666666
+     ]
+    }
+   },
+   "throughput": {
+    "n_series": 256,
+    "context": 2048,
+    "horizon": 64,
+    "seconds": 5.46,
+    "series_per_second": 46.89,
+    "peak_gpu_memory_gb": 1.614
+   }
+  }
+ ],
+ "real_task_context_len": 1198
+}

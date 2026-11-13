@@ -1,0 +1,329 @@
+{
+ "issues": [
+  "2026-10-30",
+  "2026-11-02"
+ ],
+ "reps": 10000,
+ "family_S6": [
+  {
+   "test": "P:structured:stat-ens:mase",
+   "a": "tfm3-uni",
+   "b": "stat-ens",
+   "metric": "mase",
+   "n": 87,
+   "clusters": 44,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": 0.07006533276983842,
+   "ratio": 1.0725782534733534,
+   "ci95": [
+    0.97674951603406,
+    1.1750161823176386
+   ],
+   "p": 0.1402,
+   "reps": 10000,
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "P:structured:stat-ens:sql",
+   "a": "tfm3-uni",
+   "b": "stat-ens",
+   "metric": "sql",
+   "n": 87,
+   "clusters": 44,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.287633082362439,
+   "ratio": 0.750036743467032,
+   "ci95": [
+    0.6483345470954051,
+    0.8612418567946636
+   ],
+   "p": 0.0001,
+   "reps": 10000,
+   "p_holm": 0.0016,
+   "resolved": true
+  },
+  {
+   "test": "P:structured:chronos2-uni:mase",
+   "a": "tfm3-uni",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "n": 87,
+   "clusters": 44,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": 0.0011861843529603951,
+   "ratio": 1.0011868881478694,
+   "ci95": [
+    0.918986825296906,
+    1.087286564446722
+   ],
+   "p": 0.9712,
+   "reps": 10000,
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "P:structured:chronos2-uni:sql",
+   "a": "tfm3-uni",
+   "b": "chronos2-uni",
+   "metric": "sql",
+   "n": 87,
+   "clusters": 44,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.019805069381040104,
+   "ratio": 0.980389762664825,
+   "ci95": [
+    0.9060737408004247,
+    1.0586410785583737
+   ],
+   "p": 0.6068,
+   "reps": 10000,
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "P:structured:tfm25:mase",
+   "a": "tfm3-uni",
+   "b": "tfm25",
+   "metric": "mase",
+   "n": 87,
+   "clusters": 44,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.011592772617627214,
+   "ratio": 0.98847416465829,
+   "ci95": [
+    0.9147488910941454,
+    1.0662368794332922
+   ],
+   "p": 0.7852,
+   "reps": 10000,
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "P:structured:tfm25:sql",
+   "a": "tfm3-uni",
+   "b": "tfm25",
+   "metric": "sql",
+   "n": 87,
+   "clusters": 44,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.02244244588662066,
+   "ratio": 0.9778075124183184,
+   "ci95": [
+    0.9101394429394525,
+    1.046132520702915
+   ],
+   "p": 0.54,
+   "reps": 10000,
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "P:structured:naive:mase",
+   "a": "tfm3-uni",
+   "b": "naive",
+   "metric": "mase",
+   "n": 87,
+   "clusters": 44,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.2787470670572348,
+   "ratio": 0.7567312812809753,
+   "ci95": [
+    0.6518470118700325,
+    0.8795644141327563
+   ],
+   "p": 0.0002,
+   "reps": 10000,
+   "p_holm": 0.002,
+   "resolved": true
+  },
+  {
+   "test": "P:structured:naive:sql",
+   "a": "tfm3-uni",
+   "b": "naive",
+   "metric": "sql",
+   "n": 87,
+   "clusters": 44,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.9011195790868474,
+   "ratio": 0.40611472756600103,
+   "ci95": [
+    0.337225704723743,
+    0.49049338899880995
+   ],
+   "p": 0.0001,
+   "reps": 10000,
+   "p_holm": 0.0016,
+   "resolved": true
+  },
+  {
+   "test": "P:wiki:stat-ens:mase",
+   "a": "tfm3-uni",
+   "b": "stat-ens",
+   "metric": "mase",
+   "n": 636,
+   "clusters": 318,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.29731418067682214,
+   "ratio": 0.7428105989601376,
+   "ci95": [
+    0.7031593422208365,
+    0.7829940281238582
+   ],
+   "p": 0.0001,
+   "reps": 10000,
+   "p_holm": 0.0016,
+   "resolved": true
+  },
+  {
+   "test": "P:wiki:stat-ens:sql",
+   "a": "tfm3-uni",
+   "b": "stat-ens",
+   "metric": "sql",
+   "n": 636,
+   "clusters": 318,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.870282102948153,
+   "ratio": 0.41883337844941193,
+   "ci95": [
+    0.38160740685618083,
+    0.4576070010344998
+   ],
+   "p": 0.0001,
+   "reps": 10000,
+   "p_holm": 0.0016,
+   "resolved": true
+  },
+  {
+   "test": "P:wiki:chronos2-uni:mase",
+   "a": "tfm3-uni",
+   "b": "chronos2-uni",
+   "metric": "mase",
+   "n": 636,
+   "clusters": 318,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.01600720974342939,
+   "ratio": 0.9841202247753833,
+   "ci95": [
+    0.9632269803213107,
+    1.0050676227823858
+   ],
+   "p": 0.1394,
+   "reps": 10000,
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "P:wiki:chronos2-uni:sql",
+   "a": "tfm3-uni",
+   "b": "chronos2-uni",
+   "metric": "sql",
+   "n": 636,
+   "clusters": 318,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.009778539999315114,
+   "ratio": 0.9902691144660859,
+   "ci95": [
+    0.9706323656236071,
+    1.0102209333496124
+   ],
+   "p": 0.3376,
+   "reps": 10000,
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "P:wiki:tfm25:mase",
+   "a": "tfm3-uni",
+   "b": "tfm25",
+   "metric": "mase",
+   "n": 636,
+   "clusters": 318,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.008857600904451953,
+   "ratio": 0.9911815120748613,
+   "ci95": [
+    0.9756256801645715,
+    1.006328801049483
+   ],
+   "p": 0.2558,
+   "reps": 10000,
+   "p_holm": 1.0,
+   "resolved": false
+  },
+  {
+   "test": "P:wiki:tfm25:sql",
+   "a": "tfm3-uni",
+   "b": "tfm25",
+   "metric": "sql",
+   "n": 636,
+   "clusters": 318,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.014033111705116045,
+   "ratio": 0.986064893432326,
+   "ci95": [
+    0.9736865395110106,
+    0.9981982579835458
+   ],
+   "p": 0.0238,
+   "reps": 10000,
+   "p_holm": 0.2142,
+   "resolved": false
+  },
+  {
+   "test": "P:wiki:naive:mase",
+   "a": "tfm3-uni",
+   "b": "naive",
+   "metric": "mase",
+   "n": 636,
+   "clusters": 318,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -0.30971700710922423,
+   "ratio": 0.7336545458704735,
+   "ci95": [
+    0.7038772553900119,
+    0.7645121184504867
+   ],
+   "p": 0.0001,
+   "reps": 10000,
+   "p_holm": 0.0016,
+   "resolved": true
+  },
+  {
+   "test": "P:wiki:naive:sql",
+   "a": "tfm3-uni",
+   "b": "naive",
+   "metric": "sql",
+   "n": 636,
+   "clusters": 318,
+   "weeks": 2,
+   "empty_cell_share": 0.0,
+   "estimate": -1.3298546166524088,
+   "ratio": 0.26451571468460666,
+   "ci95": [
+    0.23806260917786615,
+    0.29342665729725775
+   ],
+   "p": 0.0001,
+   "reps": 10000,
+   "p_holm": 0.0016,
+   "resolved": true
+  }
+ ]
+}

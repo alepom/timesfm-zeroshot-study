@@ -1,0 +1,230 @@
+{
+ "environment": {
+  "tfmstudy": {
+   "version": "0.5.6",
+   "code_sha256": "08ebb705667f"
+  },
+  "utc": "2026-11-02T17:02:27+00:00",
+  "python": "3.12.8",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+  "packages": {
+   "tfmstudy": null,
+   "timesfm": "3.0.2",
+   "chronos-forecasting": null,
+   "tirex-2": null,
+   "torch": "2.14.1+cpu",
+   "numpy": "2.5.4",
+   "pandas": "2.3.3",
+   "statsforecast": "2.1.1"
+  },
+  "gpu": {
+   "cuda_available": false
+  }
+ },
+ "tier": "synthetic",
+ "period": "regime",
+ "runs": [
+  {
+   "model_key": "mean",
+   "adapter": "classical",
+   "options": {
+    "method": "mean"
+   },
+   "tasks_total": 1700,
+   "already_done": 0,
+   "to_run": 1700,
+   "adapter_info": {
+    "name": "mean",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "mean"
+    },
+    "load_seconds": 0.14471486990805715,
+    "workers": 8
+   },
+   "seconds": 2.6,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "snaive",
+   "adapter": "classical",
+   "options": {
+    "method": "snaive"
+   },
+   "tasks_total": 1700,
+   "already_done": 0,
+   "to_run": 1700,
+   "adapter_info": {
+    "name": "snaive",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "snaive"
+    },
+    "load_seconds": 1.3254000805318356e-05,
+    "workers": 8
+   },
+   "seconds": 1.1,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "naive",
+   "adapter": "classical",
+   "options": {
+    "method": "naive"
+   },
+   "tasks_total": 1700,
+   "already_done": 0,
+   "to_run": 1700,
+   "adapter_info": {
+    "name": "naive",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "naive"
+    },
+    "load_seconds": 1.0899035260081291e-05,
+    "workers": 8
+   },
+   "seconds": 1.3,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "ets",
+   "adapter": "classical",
+   "options": {
+    "method": "ets"
+   },
+   "tasks_total": 1700,
+   "already_done": 0,
+   "to_run": 1700,
+   "adapter_info": {
+    "name": "ets",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "ets"
+    },
+    "load_seconds": 1.0941061191260815e-05,
+    "workers": 8
+   },
+   "seconds": 284.0,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "theta",
+   "adapter": "classical",
+   "options": {
+    "method": "theta"
+   },
+   "tasks_total": 1700,
+   "already_done": 0,
+   "to_run": 1700,
+   "adapter_info": {
+    "name": "theta",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "theta"
+    },
+    "load_seconds": 1.8137041479349136e-05,
+    "workers": 8
+   },
+   "seconds": 60.0,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "arima",
+   "adapter": "classical",
+   "options": {
+    "method": "arima"
+   },
+   "tasks_total": 0,
+   "already_done": 0,
+   "to_run": 0
+  },
+  {
+   "model_key": "mstl",
+   "adapter": "classical",
+   "options": {
+    "method": "mstl"
+   },
+   "tasks_total": 1700,
+   "already_done": 0,
+   "to_run": 1700,
+   "adapter_info": {
+    "name": "mstl",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "mstl"
+    },
+    "load_seconds": 1.322000753134489e-05,
+    "workers": 8
+   },
+   "seconds": 81.2,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "mstl-theta",
+   "adapter": "classical",
+   "options": {
+    "method": "mstl-theta"
+   },
+   "tasks_total": 1700,
+   "already_done": 0,
+   "to_run": 1700,
+   "adapter_info": {
+    "name": "mstl-theta",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "mstl-theta"
+    },
+    "load_seconds": 1.6305013559758663e-05,
+    "workers": 8
+   },
+   "seconds": 113.8,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  },
+  {
+   "model_key": "mstl-arima",
+   "adapter": "classical",
+   "options": {
+    "method": "mstl-arima"
+   },
+   "tasks_total": 1700,
+   "already_done": 0,
+   "to_run": 1700,
+   "adapter_info": {
+    "name": "mstl-arima",
+    "hf_repo": null,
+    "revision": null,
+    "options": {
+     "method": "mstl-arima"
+    },
+    "load_seconds": 2.0567094907164574e-05,
+    "workers": 8
+   },
+   "seconds": 244.6,
+   "failures": 0,
+   "failure_examples": [],
+   "fallbacks": 0
+  }
+ ]
+}

@@ -1,6 +1,6 @@
 # Seals and public timestamps
 
-- `SEAL_*.json`, `ISSUE_*.json`: Tier P seals written by `python -m tfmstudy.prospective seal` (never re-run: it overwrites).
+- `SEAL_*.json`, `ISSUE_*.json`: Tier P seals written by `python -m tfmstudy.data.prospective seal` (never re-run: it overwrites).
 - `TIMESTAMP_MANIFEST_<date>.txt`: plain-text list of the hashes to be timestamped (protocol commit, protocol file, combined seal,
   seal and issue files). Only the manifest's sha256 left the machine.
 - `*.tsq` / `*.tsr`: RFC 3161 request and reply from FreeTSA (https://freetsa.org); certificates in `freetsa/`. Verify with
