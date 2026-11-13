@@ -633,8 +633,8 @@ def fig_regime() -> None:
     write("fig_regime_data.tex", "".join(out))
 
 VERSION = "1.0.0"
-DOI = None  # assigned by Zenodo at publication
-DATA_DOI = None  # Zenodo data record (forecasts and downloaded data)
+DOI = "10.5281/zenodo.24194671"  # Zenodo preprint record
+DATA_DOI = "10.5281/zenodo.24194745"  # Zenodo data record (forecasts and downloaded data)
 
 
 def meta() -> None:
@@ -643,7 +643,7 @@ def meta() -> None:
         _macro("PaperAuthors", "Alessio Pomaro\\\\[2pt] {\\normalsize Independent Researcher}\\\\ "
                "{\\normalsize\\texttt{info@alessiopomaro.it}}\\\\ {\\normalsize ORCID: "
                "\\href{https://orcid.org/0009-0008-6975-996X}{0009-0008-6975-996X}}"),
-        _macro("PaperVersionLine", f"Preprint, version {VERSION} --- {doi} --- \\today"),
+        _macro("PaperVersionLine", f"Preprint, version {VERSION} --- {doi} --- 13 November 2026"),
         _macro("PaperStatus", "Preprint. Not peer reviewed." + ("" if S6.exists() else
               " Draft: the second prospective issue and the pooled Tier P test (S6) are not yet scored.")),
     ]) + "\n")

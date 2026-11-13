@@ -12,6 +12,7 @@ authors:
     email: "info@alessiopomaro.it"
     orcid: "https://orcid.org/0009-0008-6975-996X"
 repository-code: "https://github.com/alepom/timesfm-zeroshot-study"
+doi: "10.5281/zenodo.24194745"
 preferred-citation:
   type: report
   title: "How Far Does Zero-Shot Go? A Leakage-Aware Evaluation of TimesFM 3 on Post-Release, Multivariate and Controlled Data"
@@ -22,3 +23,4 @@ preferred-citation:
   year: 2026
   publisher:
     name: "Zenodo"
+  doi: "10.5281/zenodo.24194671"

@@ -3,7 +3,8 @@
 **A leakage-aware evaluation of TimesFM 3 on post-release, multivariate and controlled data.**
 Alessio Pomaro, 2026. Preprint, not peer reviewed.
 
-> Paper: DOI to be assigned · Forecasts and data: DOI to be assigned · How to cite: `CITATION.cff`
+> Paper: [doi:10.5281/zenodo.24194671](https://doi.org/10.5281/zenodo.24194671) ·
+> Code, forecasts and data: [doi:10.5281/zenodo.24194745](https://doi.org/10.5281/zenodo.24194745) · How to cite: `CITATION.cff`
 >
 > This repository contains the code, the frozen protocol, the data manifests, the metrics of every configuration and the Tier P
 > seals needed to check every number in the paper. Quantile forecasts and downloaded data are in the Zenodo data record.

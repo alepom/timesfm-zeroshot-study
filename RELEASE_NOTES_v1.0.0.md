@@ -1,7 +1,8 @@
 # v1.0.0 — TimesFM 3 zero-shot study
 
 First public release accompanying the preprint *How Far Does Zero-Shot Go? A Leakage-Aware Evaluation of TimesFM 3 on
-Post-Release, Multivariate and Controlled Data* (Alessio Pomaro, 2026).
+Post-Release, Multivariate and Controlled Data* (Alessio Pomaro, 2026), doi:10.5281/zenodo.24194671. Code, forecasts and data:
+doi:10.5281/zenodo.24194745.
 
 ## Contents
 - `tfmstudy/`: data download and task building for every tier, model adapters (TimesFM 3 and 2.5, Chronos-2, TiRex-2, classical
