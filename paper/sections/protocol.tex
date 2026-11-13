@@ -5,10 +5,14 @@
 \input{sections/fig_timeline}
 
 \paragraph{Freeze.} Research questions, hypotheses, series lists, metrics, contrasts, families and decision rules were written in a
-protocol and frozen by the git tag \texttt{protocol-frozen-v1} (commit \texttt{9f15b38}, 2026-10-28 17:59 UTC) before any data of
+protocol and frozen by the git tag \texttt{protocol-frozen-v1} (commit \texttt{ce1c1e5}, 2026-10-28 17:59 UTC) before any data of
 the post-release test windows were downloaded; the download code refuses earlier dates (its guard was moved by one day for deviation 1). The freeze is internal: the hash of the
 frozen commit received its first public timestamp on 2026-10-30, after the download, so the order of freeze and download rests
-on the repository history, not on an external record (Figure~\ref{fig:timeline}). The protocol incorporates an independent
+on the repository history, not on an external record (Figure~\ref{fig:timeline}). Before release the history was rewritten to
+replace a private contact address in the commit metadata and in one line of the download code, and to remove two internal
+planning notes; this changed every commit hash, so the timestamped manifest names the freeze commit by its earlier hash
+(\texttt{9f15b38}). The manifest also holds the SHA-256 of the frozen protocol file, which the rewrite did not change and which can be
+checked against the tag. The protocol incorporates an independent
 adversarial review of its draft and a pilot on pre-release data (one year earlier) and on a separate synthetic set; the pilot is not
 part of the results. Three deviations occurred (Appendix~\ref{app:deviations}): the post-release data were downloaded on the evening of
 the freeze day instead of the next day, a software error voided one ablation, which was re-run, and the Tier P scoring code did

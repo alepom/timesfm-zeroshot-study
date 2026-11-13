@@ -296,7 +296,7 @@ The smoke test and the pilot used synthetic data and pre-release data only; they
 
 1. **2026-10-28, download date.** The main Tier B and W data were downloaded on 2026-10-28 from 18:23 UTC (logs/download_main.log), instead of "on or
    after 2026-10-29" (§3.2), because the author was unavailable on 2026-10-29 and the GPU runs had to start the same evening. The
-   freeze (commit 9f15b38, 17:59:59 UTC) precedes the download; ERA5 already covered the test windows (last ERA5 value available
+   freeze (commit ce1c1e5, 9f15b38 before the history rewrite noted below; 17:59:59 UTC) precedes the download; ERA5 already covered the test windows (last ERA5 value available
    2026-10-22 23:00 UTC, test windows end 2026-10-20); nothing else changed. The earliest-download guard in `catalog.py` was moved
    accordingly in the commit that records this deviation.
 2. **2026-10-30, variate-attention ablation not applied.** `tfm3-novarattn` set `use_variate_attention = False` on the top
@@ -311,11 +311,18 @@ The smoke test and the pilot used synthetic data and pre-release data only; they
 3. **2026-11-10, Tier P exclusion rule on business-day calendars.** §3.4 excludes a task with fewer than 80% of its window steps
    observed. For the ECB and FRED series the scoring code counted only the window steps that had a published row, so the share was
    100% by construction and the rule could not apply. Found after the issue-1 outcomes were downloaded, by a re-implementation of
-   the scoring written from this protocol. Fix (commit f44df4d): the denominator is the number of forecast steps inside the window
+   the scoring written from this protocol. Fix (commit 1f00545): the denominator is the number of forecast steps inside the window
    on every calendar (business days for ECB and FRED); a step without a published value is unobserved. On issue 1 the two
    univariate oil-price tasks (2 of 5 window business days published) are excluded; no other score changes. Family S6 does not use
    FX or FRED series.
 
-Correction of the frozen code that is not a deviation: on 2026-10-31 (commit 88f9f68), before any Tier P outcome existed, a test
+Correction of the frozen code that is not a deviation: on 2026-10-31 (commit 5e84d2d), before any Tier P outcome existed, a test
 on synthetic outcomes showed that `prospective score` stopped with an error when a series had no published outcome at all; it now
 excludes such a task and lists it, as the 80% rule requires.
+
+Repository history rewritten before release (2026-11-13): a private contact address was replaced in the commit metadata and in
+the User-Agent line of `tfmstudy/data/sources.py` in every commit, and two internal planning notes (`PIANO_PAPER.md`,
+`reports/SCHEDULE.md`) and two later working notes were removed from every commit. Commit dates and all other file content are unchanged
+and a few commit messages were reworded, but every commit hash changed: the freeze commit, publicly timestamped on 2026-10-30 as 9f15b38, is now ce1c1e5. The
+protocol file at the freeze is unchanged; its SHA-256 (45d7078f…) is in the timestamped manifest. The code bundles hashed in the
+Tier P seals contain the same address and are not released.

@@ -16,3 +16,19 @@
 
 Without a local Bitcoin node, `ots verify` cannot run; the proof was checked on 2026-10-31 by recomputing each attestation's
 merkle root with the `opentimestamps` library and comparing it with the block header from blockstream.info (all three match).
+
+## History rewrite before release (2026-11-13)
+
+Before the repository was published its history was rewritten to replace a private contact address (commit metadata and the
+User-Agent line of `tfmstudy/data/sources.py`) and to remove internal planning notes. Every commit hash changed. The 2026-10-30
+manifest therefore names the freeze commit by its earlier hash, `9f15b38…`; the tag `protocol-frozen-v1` now points to `ce1c1e5`.
+What remains verifiable:
+
+- `protocol.md` at the tag has the SHA-256 listed in the 2026-10-30 manifest (`45d7078f…`):
+  `git show protocol-frozen-v1:protocol.md | sha256sum`.
+- Each Tier P seal record lists the SHA-256 of every sealed file and the combined hash is the SHA-256 of those `name:digest` lines,
+  so the combined hash in each manifest can be recomputed from the seal record, and every released file (contexts, tasks, issue
+  record, run records, forecasts; Zenodo data record) can be checked against its digest.
+- The code bundle listed in the seals (`tfmstudy-0.5.4-…zip`) contains the same private address and is not released; its digest
+  cannot be checked by third parties.
+

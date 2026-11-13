@@ -625,8 +625,11 @@ def meta() -> None:
           "Non-Commercial License v1.0, which does not permit their use for commercial or production purposes; they are released "
           "under CC BY-NC 4.0, and their use remains subject to Google's licence. Repository: \\url{https://github.com/alepom/timesfm-zeroshot-study} "
           f"(tag \\texttt{{v{VERSION}}}). The protocol was frozen by the git tag \\texttt{{protocol-frozen-v1}} "
-          "(commit \\texttt{9f15b38}) before any post-release data were downloaded; the two prospective issues were sealed "
-          "by SHA-256 hashes before their outcomes existed (Section~\\ref{sec:prospective}). TimesFM~3 weights are not "
+          "(commit \\texttt{ce1c1e5}; \\texttt{9f15b38} before the history was rewritten to remove a private contact address) before any "
+          "post-release data were downloaded; the two prospective issues were sealed "
+          "by SHA-256 hashes before their outcomes existed (Section~\\ref{sec:prospective}); every sealed file is released except the "
+          "code bundle, which contains the same private address, and each released file can be checked against the digests in the "
+          "seal records. TimesFM~3 weights are not "
           "redistributed (non-commercial licence); every run records the Hugging Face revision of each model.\n")
 
 
