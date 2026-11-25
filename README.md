@@ -3,8 +3,12 @@
 **A leakage-aware evaluation of TimesFM 3 on post-release, multivariate and controlled data.**
 Alessio Pomaro, 2026. Preprint, not peer reviewed.
 
-> Paper: [doi:10.5281/zenodo.24194671](https://doi.org/10.5281/zenodo.24194671) ·
+> Paper: [doi:10.5281/zenodo.24194671](https://doi.org/10.5281/zenodo.24194671) · also on
+> [SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7701102) ·
 > Code, forecasts and data: [doi:10.5281/zenodo.24194745](https://doi.org/10.5281/zenodo.24194745) · How to cite: `CITATION.cff`
+>
+> Plain-language article with figures and animations (in Italian):
+> [alessiopomaro.it](https://www.alessiopomaro.it/timesfm-3-previsione-zero-shot-paper/)
 >
 > This repository contains the code, the frozen protocol, the data manifests, the metrics of every configuration and the Tier P
 > seals needed to check every number in the paper. Quantile forecasts and downloaded data are in the Zenodo data record.
